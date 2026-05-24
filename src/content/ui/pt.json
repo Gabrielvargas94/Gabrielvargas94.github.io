@@ -88,9 +88,18 @@
     "lectures": {
       "kicker": "Palestras e Conferências",
       "title": "Falando sobre engenharia AI-first — além do demo",
-      "topics": [
-        "Harness + Workflows Agênticos: como compor tools, memória e o loop que entrega.",
-        "Management num mundo AI-first: code review com IA na sala, recuperação de incidentes quando o bug foi escrito pela IA, gestão de secrets, integração de harness, design de workflows agênticos."
+      "body": "Palestras voltadas a times de engenharia e management. Não só \"como ser AI-first\" — os problemas de management-scope mais difíceis dos quais ninguém fala: playbooks de incidentes, semântica de code review, gestão de secrets, composição de harness.",
+      "talks": [
+        {
+          "n": "01",
+          "title": "Harness e Workflows Agênticos",
+          "body": "Como compor tools, memória e o loop do agente que realmente entrega produto. Patterns de rollouts reais na itti."
+        },
+        {
+          "n": "02",
+          "title": "Management num mundo AI-first",
+          "body": "Code review com IA na sala. Recuperação de incidentes quando o bug foi escrito pela IA. Gestão de secrets, integração de harness, design de workflows agênticos — os problemas de management que os demos nunca cobrem."
+        }
       ]
     },
     "ittiAi": {

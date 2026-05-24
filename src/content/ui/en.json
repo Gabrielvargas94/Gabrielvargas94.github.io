@@ -88,9 +88,18 @@
     "lectures": {
       "kicker": "Lectures & Talks",
       "title": "Speaking on AI-first engineering — beyond the demo",
-      "topics": [
-        "Harness + Agentic Workflows: composing tools, memory, and the loop that ships.",
-        "Management in an AI-first world: code review with AI in the room, incident recovery when the bug is AI-authored, secret management, harness integration, agentic workflow design."
+      "body": "Talks aimed at engineering and management teams. Not just \"how to become AI-first\" — the harder management-scope problems nobody is talking about: incident playbooks, code review semantics, secret management, harness composition.",
+      "talks": [
+        {
+          "n": "01",
+          "title": "Harness & Agentic Workflows",
+          "body": "How to compose tools, memory, and the agent loop that actually ships product. Patterns from real rollouts at itti."
+        },
+        {
+          "n": "02",
+          "title": "Management in an AI-first world",
+          "body": "Code review when AI is in the room. Incident recovery when the bug was AI-authored. Secret management, harness integration, agentic workflow design — the management problems the demos never cover."
+        }
       ]
     },
     "ittiAi": {
