@@ -1,4 +1,6 @@
 ---
+import Pill from '../ui/Pill.astro';
+import Icon from '../ui/Icon.astro';
 import type { Locale } from '../../lib/i18n';
 import uiEn from '../../content/ui/en.json';
 import uiEs from '../../content/ui/es.json';
@@ -15,9 +17,15 @@ const s = ui.sections.aiIntro;
 ---
 <section id="ai-intro" aria-labelledby="ai-intro-title">
   <div class="inner">
-    <span class="kicker">{s.kicker}</span>
-    <h2 id="ai-intro-title">{s.title}</h2>
-    <p>{s.desc}</p>
+    <div class="head">
+      <Pill variant="dark">{s.kicker}</Pill>
+      <h2 id="ai-intro-title">{s.title}</h2>
+      <p>{s.desc}</p>
+    </div>
+    <aside class="badge" aria-hidden="true">
+      <Icon name="lucide:sparkles" size={26} />
+      <span>Claude · Cursor · MCP</span>
+    </aside>
   </div>
 </section>
 
@@ -26,39 +34,61 @@ const s = ui.sections.aiIntro;
   section {
     background: var(--ink);
     color: var(--cream);
-    padding: 100px clamp(16px, 4vw, 64px);
+    padding: clamp(80px, 10vw, 140px) clamp(16px, 4vw, 64px);
   }
 
   .inner {
-    max-width: 900px;
+    max-width: 1320px;
     margin: 0 auto;
-    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: end;
   }
 
-  .kicker {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent-light);
-    margin-bottom: 12px;
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 920px;
   }
 
   h2 {
+    margin: 0;
     font-family: var(--serif);
-    font-size: clamp(36px, 5vw, 64px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin: 0 0 20px;
+    font-size: clamp(36px, 5.4vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    font-weight: 400;
     color: var(--cream);
+    text-wrap: balance;
   }
 
-  p {
+  .head p {
     margin: 0;
-    font-size: 18px;
+    max-width: 720px;
+    font-size: clamp(16px, 1.2vw, 19px);
     line-height: 1.6;
-    color: var(--cream-2);
+    color: rgb(247 242 232 / 75%);
+    text-wrap: pretty;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    color: rgb(247 242 232 / 60%);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  @media (width <= 880px) {
+    .inner {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
   }
 }
 </style>
