@@ -1,0 +1,55 @@
+---
+import { canonicalUrl, hreflangLinks, ogImageUrl } from '../../lib/seo';
+import type { Locale } from '../../lib/i18n';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  path?: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const { locale, title, description, path = '', ogImage, noindex = false } = Astro.props;
+const canonical = canonicalUrl(locale, path);
+const og = ogImage ?? ogImageUrl(locale);
+const links = hreflangLinks(path);
+const keywords = [
+  'Head of Engineering', 'VP Engineering', 'Director of Engineering',
+  'Engineering Manager', 'Senior Engineering Manager', 'AI-first Engineering',
+  'Claude Code', 'Cursor', 'Remote Engineering Leader', 'LATAM',
+  'Mercado Libre', 'Inter-American Development Bank', 'itti',
+  'Architectural Refactoring', 'Microfrontends', 'React Native',
+  'AWS', 'GCP', 'Golang',
+].join(', ');
+
+const ogLocale: Record<Locale, string> = {
+  en: 'en_US',
+  es: 'es_AR',
+  pt: 'pt_BR',
+};
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+{noindex
+  ? <meta name="robots" content="noindex, nofollow" />
+  : <meta name="robots" content="index, follow, max-image-preview:large" />}
+<link rel="canonical" href={canonical} />
+{links.map((l) => <link rel="alternate" hreflang={l.hreflang} href={l.href} />)}
+
+<meta property="og:type" content="profile" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={og} />
+<meta property="og:image:alt" content="Gabriel Vargas — Head of Engineering" />
+<meta property="og:locale" content={ogLocale[locale]} />
+<meta property="og:profile:first_name" content="Gabriel" />
+<meta property="og:profile:last_name" content="Vargas" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={og} />

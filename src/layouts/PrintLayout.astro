@@ -1,0 +1,23 @@
+---
+import '../styles/global.scss';
+import '../styles/print.scss';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+  title: string;
+}
+const { locale, title } = Astro.props;
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

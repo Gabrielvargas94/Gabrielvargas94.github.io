@@ -1,0 +1,90 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import { canonicalUrl } from '../../lib/seo';
+import type { Locale } from '../../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+
+const profile = await getEntry('profile', locale);
+if (!profile) throw new Error(`Profile not found for locale ${locale}`);
+
+const experiences = (await getCollection('experience', (e) => e.data.locale === locale))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const SITE = 'https://gabrielvargas94.github.io';
+const profileUrl = canonicalUrl(locale);
+const personId = `${profileUrl}#person`;
+
+const workExperience = experiences.map((e) => ({
+  '@type': 'OrganizationRole',
+  roleName: e.data.title,
+  startDate: e.data.startDate,
+  ...(e.data.endDate ? { endDate: e.data.endDate } : {}),
+  memberOf: { '@type': 'Organization', name: e.data.company },
+}));
+
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ProfilePage',
+      '@id': `${profileUrl}#profile`,
+      mainEntity: { '@id': personId },
+      inLanguage: locale,
+      dateModified: new Date().toISOString().slice(0, 10),
+      url: profileUrl,
+    },
+    {
+      '@type': 'Person',
+      '@id': personId,
+      name: profile.data.name,
+      jobTitle: profile.data.displayTitle,
+      url: profile.data.linkedin,
+      image: `${SITE}/assets/gabriel.png`,
+      alumniOf: {
+        '@type': 'CollegeOrUniversity',
+        name: 'Universidad Tecnológica Nacional',
+      },
+      worksFor: { '@type': 'Organization', name: profile.data.company },
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Buenos Aires',
+        addressCountry: 'AR',
+      },
+      sameAs: [canonicalUrl('en'), profile.data.github],
+      knowsAbout: [
+        'Engineering Leadership', 'Team Scaling', 'AI-first Engineering',
+        'Claude Code', 'Cursor', 'GitHub Copilot',
+        'Architectural Refactoring', 'Microservices', 'Microfrontends',
+        'React Native', 'React', 'Vue', 'Angular',
+        'AWS', 'GCP', 'Golang', 'Java', 'Node.js',
+        'High-Concurrency Systems', 'Distributed Systems',
+        'OKRs', 'Roadmap Ownership', 'C-Level Communication',
+        'Matrix Organization Navigation', 'Agile', 'Scrum',
+      ],
+      knowsLanguage: [
+        { '@type': 'Language', name: 'Spanish', alternateName: 'native' },
+        { '@type': 'Language', name: 'English', alternateName: 'FCE B2 / Advanced' },
+        { '@type': 'Language', name: 'Portuguese', alternateName: 'basic' },
+      ],
+      description: profile.data.summary,
+      hasOccupation: {
+        '@type': 'Occupation',
+        name: profile.data.displayTitle,
+        occupationLocation: [
+          { '@type': 'Country', name: 'Argentina' },
+          { '@type': 'Country', name: 'United States' },
+          { '@type': 'AdministrativeArea', name: 'Latin America' },
+        ],
+        skills:
+          'Engineering leadership, AI-first development, Claude Code adoption, architectural transformation',
+      },
+      hasOccupationalCredential: workExperience,
+    },
+  ],
+};
+---
+<script is:inline type="application/ld+json" set:html={JSON.stringify(graph)} />

@@ -1,0 +1,64 @@
+---
+import type { Locale } from '../../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+
+const faqs: Record<Locale, ReadonlyArray<{ q: string; a: string }>> = {
+  en: [
+    { q: 'Is Gabriel available for remote engineering leadership roles?',
+      a: 'Yes — based in Buenos Aires, Argentina, open to remote and relocation. Available for Head of Engineering, VP Engineering, Director, and Engineering Manager roles.' },
+    { q: "What is Gabriel's expertise in AI-assisted development?",
+      a: "Embedded in itti's core AI adoption team. Rolling out Claude Code, Cursor, and AI-assisted development workflows across the organization. Certified by Anthropic on Claude Code, MCP, subagents, and agent skills." },
+    { q: 'What companies has Gabriel led engineering at?',
+      a: 'itti (current — Software Engineering Manager), Mercado Libre (Project Leader / Tech Lead Manager), Inter-American Development Bank (Engineering Manager, contract), Qu POS, GM2.' },
+    { q: 'What technical domains does Gabriel cover?',
+      a: 'Mobile platforms (React Native), microservices (Java, Golang, Node.js), microfrontends (Angular, Vue), cloud (AWS, GCP), high-concurrency and distributed systems, AI-assisted development tooling.' },
+    { q: 'How large are the teams Gabriel has led?',
+      a: 'Up to 60+ people at the Inter-American Development Bank across engineering, design, product, and policy. 8–12 person engineering teams at Mercado Libre and itti products (muv, Monchis).' },
+    { q: 'Is Gabriel open to roles in the United States?',
+      a: 'Yes — open to remote and relocation including the United States. Currently based in Buenos Aires, Argentina.' },
+  ],
+  es: [
+    { q: '¿Está Gabriel disponible para roles remotos de liderazgo en ingeniería?',
+      a: 'Sí — basado en Buenos Aires, Argentina, abierto a remoto y reubicación. Disponible para roles de Head of Engineering, VP Engineering, Director y Engineering Manager.' },
+    { q: '¿Cuál es la experiencia de Gabriel con desarrollo asistido por IA?',
+      a: 'Integrado en el equipo central de adopción de IA de itti. Impulsando Claude Code, Cursor y prácticas de desarrollo asistido por IA. Certificado por Anthropic en Claude Code, MCP, subagentes y agent skills.' },
+    { q: '¿En qué empresas lideró Gabriel ingeniería?',
+      a: 'itti (actual — Software Engineering Manager), Mercado Libre (Project Leader / Tech Lead Manager), Banco Interamericano de Desarrollo (Engineering Manager, contrato), Qu POS, GM2.' },
+    { q: '¿Qué dominios técnicos cubre Gabriel?',
+      a: 'Plataformas móviles (React Native), microservicios (Java, Golang, Node.js), microfrontends (Angular, Vue), cloud (AWS, GCP), sistemas distribuidos y de alta concurrencia, tooling de desarrollo asistido por IA.' },
+    { q: '¿Qué tamaño de equipos lideró Gabriel?',
+      a: 'Hasta 60+ personas en el Banco Interamericano de Desarrollo en ingeniería, diseño, producto y política. Equipos de 8–12 personas en Mercado Libre y productos itti (muv, Monchis).' },
+    { q: '¿Está Gabriel abierto a roles en Estados Unidos?',
+      a: 'Sí — abierto a remoto y reubicación incluyendo Estados Unidos. Actualmente basado en Buenos Aires, Argentina.' },
+  ],
+  pt: [
+    { q: 'Gabriel está disponível para cargos remotos de liderança em engenharia?',
+      a: 'Sim — baseado em Buenos Aires, Argentina, aberto a remoto e realocação. Disponível para cargos de Head of Engineering, VP Engineering, Director e Engineering Manager.' },
+    { q: 'Qual é a experiência de Gabriel em desenvolvimento assistido por IA?',
+      a: 'Integrado no time central de adoção de IA da itti. Liderando rollout de Claude Code, Cursor e práticas de desenvolvimento assistido por IA. Certificado pela Anthropic em Claude Code, MCP, subagents e agent skills.' },
+    { q: 'Em quais empresas Gabriel liderou engenharia?',
+      a: 'itti (atual — Software Engineering Manager), Mercado Libre (Project Leader / Tech Lead Manager), Banco Interamericano de Desenvolvimento (Engineering Manager, contrato), Qu POS, GM2.' },
+    { q: 'Quais domínios técnicos Gabriel cobre?',
+      a: 'Plataformas mobile (React Native), microsserviços (Java, Golang, Node.js), microfrontends (Angular, Vue), cloud (AWS, GCP), sistemas distribuídos e de alta concorrência, ferramentas de desenvolvimento assistido por IA.' },
+    { q: 'De que tamanho são os times que Gabriel liderou?',
+      a: 'Até 60+ pessoas no Banco Interamericano de Desenvolvimento em engenharia, design, produto e política. Times de 8–12 pessoas no Mercado Libre e em produtos itti (muv, Monchis).' },
+    { q: 'Gabriel está aberto a cargos nos Estados Unidos?',
+      a: 'Sim — aberto a remoto e realocação incluindo os Estados Unidos. Atualmente baseado em Buenos Aires, Argentina.' },
+  ],
+};
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs[locale].map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
+---
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />

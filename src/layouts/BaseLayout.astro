@@ -1,0 +1,64 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import { Font } from 'astro:assets';
+import '../styles/global.scss';
+import '../styles/print.scss';
+import SkipLink from '../components/layout/SkipLink.astro';
+import BaseMeta from '../components/seo/BaseMeta.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FaqSchema from '../components/seo/FaqSchema.astro';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  path?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  faq?: boolean;
+}
+
+const {
+  locale,
+  title,
+  description,
+  path = '',
+  ogImage,
+  noindex = false,
+  faq = false,
+} = Astro.props;
+
+const skipLabels: Record<Locale, string> = {
+  en: 'Skip to main content',
+  es: 'Saltar al contenido',
+  pt: 'Pular para o conteúdo',
+};
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Font cssVariable="--font-newsreader" preload />
+    <Font cssVariable="--font-geist" preload />
+    <Font cssVariable="--font-jetbrains-mono" />
+    <BaseMeta
+      locale={locale}
+      title={title}
+      description={description}
+      path={path}
+      ogImage={ogImage}
+      noindex={noindex}
+    />
+    <JsonLd locale={locale} />
+    {faq && <FaqSchema locale={locale} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <ClientRouter />
+    <slot name="head" />
+  </head>
+  <body>
+    <SkipLink label={skipLabels[locale]} />
+    <slot />
+  </body>
+</html>
