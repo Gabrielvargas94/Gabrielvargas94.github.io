@@ -1,0 +1,256 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import type { Locale } from '../../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+
+const profile = await getEntry('profile', locale);
+if (!profile) throw new Error(`Profile not found for locale ${locale}`);
+
+const experiences = (await getCollection('experience', (e) => e.data.locale === locale)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const certs = (await getCollection('certification', (c) => c.data.locale === locale)).sort((a, b) =>
+  b.data.date.localeCompare(a.data.date),
+);
+
+const headings: Record<Locale, Record<string, string>> = {
+  en: {
+    summary: 'Summary',
+    achievements: 'Selected Achievements',
+    exp: 'Experience',
+    edu: 'Education',
+    skills: 'Core Skills',
+    certs: 'Certifications',
+    langs: 'Languages',
+    openTo: 'Open to',
+    education:
+      'Universidad Tecnológica Nacional — B.Sc. Information Systems Engineering (coursework complete)',
+  },
+  es: {
+    summary: 'Resumen',
+    achievements: 'Logros Seleccionados',
+    exp: 'Experiencia',
+    edu: 'Educación',
+    skills: 'Habilidades Principales',
+    certs: 'Certificaciones',
+    langs: 'Idiomas',
+    openTo: 'Abierto a',
+    education:
+      'Universidad Tecnológica Nacional — Ing. en Sistemas de Información (cursada completa)',
+  },
+  pt: {
+    summary: 'Resumo',
+    achievements: 'Conquistas Selecionadas',
+    exp: 'Experiência',
+    edu: 'Educação',
+    skills: 'Habilidades Principais',
+    certs: 'Certificações',
+    langs: 'Idiomas',
+    openTo: 'Aberto a',
+    education:
+      'Universidad Tecnológica Nacional — Bacharel em Engenharia de Sistemas de Informação (cursos concluídos)',
+  },
+};
+
+const present: Record<Locale, string> = { en: 'Present', es: 'Presente', pt: 'Presente' };
+const openToJoin: Record<Locale, string> = { en: ' & ', es: ' y ', pt: ' e ' };
+
+const skillGroups: Record<Locale, ReadonlyArray<{ label: string; value: string }>> = {
+  en: [
+    {
+      label: 'Leadership & Strategy',
+      value:
+        'Engineering Leadership & Team Scaling (8–60+ people), Roadmap Ownership, OKRs, Strategic Thinking, Matrix Organization Navigation, Architectural Strategy.',
+    },
+    {
+      label: 'Architecture & Cloud',
+      value:
+        'Architectural Refactoring & Design, Microservices & APIs, Microfrontends, High-Concurrency Systems, Distributed Systems, AWS, GCP, High Availability, Fault Tolerance, Scalability.',
+    },
+    {
+      label: 'Cross-Functional Influence',
+      value:
+        'C-Level Communication, Stakeholder Negotiation, Cross-functional Alignment, Technical Strategy Presentation.',
+    },
+    { label: 'Technologies', value: 'React Native, React, Vue, Angular, Golang, Java, Node.js.' },
+    {
+      label: 'Methodology & Culture',
+      value:
+        'Agile / Scrum, Results-Driven Execution, AI-Assisted Development (Claude Code, GitHub Copilot, Cursor), Talent Development & Team Growth.',
+    },
+  ],
+  es: [
+    {
+      label: 'Liderazgo y Estrategia',
+      value:
+        'Liderazgo de Ingeniería y Escalado de Equipos (8–60+ personas), Ownership de Roadmap, OKRs, Pensamiento Estratégico, Navegación de Organizaciones Matriciales, Estrategia Arquitectónica.',
+    },
+    {
+      label: 'Arquitectura y Cloud',
+      value:
+        'Refactorización y Diseño Arquitectónico, Microservicios y APIs, Microfrontends, Sistemas de Alta Concurrencia, Sistemas Distribuidos, AWS, GCP, Alta Disponibilidad, Tolerancia a Fallos, Escalabilidad.',
+    },
+    {
+      label: 'Influencia Transversal',
+      value:
+        'Comunicación con C-Level, Negociación con Stakeholders, Alineación Interfuncional, Presentación de Estrategia Técnica.',
+    },
+    { label: 'Tecnologías', value: 'React Native, React, Vue, Angular, Golang, Java, Node.js.' },
+    {
+      label: 'Metodología y Cultura',
+      value:
+        'Agile / Scrum, Ejecución Orientada a Resultados, Desarrollo Asistido por IA (Claude Code, GitHub Copilot, Cursor), Desarrollo de Talento y Crecimiento de Equipos.',
+    },
+  ],
+  pt: [
+    {
+      label: 'Liderança e Estratégia',
+      value:
+        'Liderança de Engenharia e Escala de Equipes (8–60+ pessoas), Ownership de Roadmap, OKRs, Pensamento Estratégico, Navegação em Organizações Matriciais, Estratégia Arquitetural.',
+    },
+    {
+      label: 'Arquitetura e Cloud',
+      value:
+        'Refatoração e Design Arquitetural, Microsserviços e APIs, Microfrontends, Sistemas de Alta Concorrência, Sistemas Distribuídos, AWS, GCP, Alta Disponibilidade, Tolerância a Falhas, Escalabilidade.',
+    },
+    {
+      label: 'Influência Multifuncional',
+      value:
+        'Comunicação com C-Level, Negociação com Stakeholders, Alinhamento Multifuncional, Apresentação de Estratégia Técnica.',
+    },
+    { label: 'Tecnologias', value: 'React Native, React, Vue, Angular, Golang, Java, Node.js.' },
+    {
+      label: 'Metodologia e Cultura',
+      value:
+        'Agile / Scrum, Execução Orientada a Resultados, Desenvolvimento Assistido por IA (Claude Code, GitHub Copilot, Cursor), Desenvolvimento de Talentos e Crescimento de Equipes.',
+    },
+  ],
+};
+
+const langs: Record<Locale, ReadonlyArray<string>> = {
+  en: ['Spanish: Native', 'English: Advanced (FCE B2)', 'Portuguese: Basic'],
+  es: ['Español: Nativo', 'Inglés: Avanzado (FCE B2)', 'Portugués: Básico'],
+  pt: ['Espanhol: Nativo', 'Inglês: Avançado (FCE B2)', 'Português: Básico'],
+};
+
+const h = headings[locale];
+const p = profile.data;
+const open = p.openTo.join(openToJoin[locale]);
+---
+<article class="cv">
+  <header>
+    <h1>{p.name}</h1>
+    <p class="sub">{p.displayTitle} · {p.company} · {p.location} · {h.openTo} {open}</p>
+    <p class="links">LinkedIn: {p.linkedin}</p>
+  </header>
+  <section>
+    <h2>{h.summary}</h2>
+    <p>{p.summary}</p>
+  </section>
+  <section>
+    <h2>{h.achievements}</h2>
+    <ul>{p.achievements.map((a) => <li>{a}</li>)}</ul>
+  </section>
+  <section>
+    <h2>{h.exp}</h2>
+    {experiences.map((e) => (
+      <article class="job">
+        <h3>{e.data.company} — {e.data.title}</h3>
+        <p class="meta">
+          <time datetime={e.data.startDate}>{e.data.startDate}</time> – {e.data.endDate ?? present[locale]}{e.data.location ? ` · ${e.data.location}` : ''}
+        </p>
+        <ul>{e.data.bullets.map((b) => <li>{b}</li>)}</ul>
+      </article>
+    ))}
+  </section>
+  <section>
+    <h2>{h.edu}</h2>
+    <p>{h.education}</p>
+  </section>
+  <section>
+    <h2>{h.skills}</h2>
+    {skillGroups[locale].map((g) => (
+      <p><strong>{g.label}:</strong> {g.value}</p>
+    ))}
+  </section>
+  <section>
+    <h2>{h.certs}</h2>
+    <ul>{certs.map((c) => <li>{c.data.name} — {c.data.issuer} ({c.data.date}){c.data.status === 'in-progress' ? ' [in progress]' : ''}</li>)}</ul>
+  </section>
+  <section>
+    <h2>{h.langs}</h2>
+    <ul>{langs[locale].map((l) => <li>{l}</li>)}</ul>
+  </section>
+</article>
+
+<style lang="scss">
+@layer components {
+  .cv {
+    font-family: var(--font-newsreader, Georgia, serif);
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px;
+    color: #000000;
+
+    header {
+      .sub,
+      .links {
+        text-align: center;
+        font-size: 11pt;
+        margin: 4px 0;
+        color: #333333;
+      }
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 0 0 4px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 16pt;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 2px;
+      margin-top: 18pt;
+    }
+
+    h3 {
+      font-size: 12pt;
+      margin: 12pt 0 2pt;
+    }
+
+    .meta {
+      font-style: italic;
+      font-size: 10pt;
+      margin: 0 0 4pt;
+      color: #444444;
+    }
+
+    ul {
+      padding-left: 18pt;
+      margin: 6pt 0;
+    }
+
+    li {
+      margin: 2pt 0;
+      font-size: 11pt;
+      line-height: 1.4;
+    }
+
+    p {
+      font-size: 11pt;
+      line-height: 1.45;
+      margin: 6pt 0;
+    }
+
+    .job {
+      break-inside: avoid;
+    }
+  }
+}
+</style>

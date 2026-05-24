@@ -1,0 +1,8 @@
+---
+import PrintLayout from '../../../layouts/PrintLayout.astro';
+import CvPrint from '../../../components/cv/CvPrint.astro';
+const locale = 'es' as const;
+---
+<PrintLayout locale={locale} title="Gabriel Vargas — CV">
+  <CvPrint locale={locale} />
+</PrintLayout>
