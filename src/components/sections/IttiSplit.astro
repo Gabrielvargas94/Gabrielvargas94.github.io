@@ -17,171 +17,180 @@ const ui = uiByLocale[locale];
 const s = ui.sections.ittiSplit;
 ---
 <section id="work" aria-labelledby="itti-split-title">
-  <div class="inner">
-    <header class="head">
-      <span class="kicker">{s.kicker}</span>
-      <h2 id="itti-split-title">{s.title}</h2>
-    </header>
+  <header class="head">
+    <span class="kicker">{s.kicker}</span>
+    <h2 id="itti-split-title">{s.title}</h2>
+  </header>
 
-    <div class="split">
-      <div class="videos">
-        <div class="vid vid-left">
-          <VideoPlaceholder label={s.left} youtubeId="NG_xGUvlNl0" />
-        </div>
-        <Image
-          class="logo"
-          src={ittiLogo}
-          alt="itti"
-          widths={[180, 280, 420]}
-          sizes="(max-width: 720px) 180px, 280px"
-          loading="lazy"
-          decoding="async"
-        />
-        <div class="vid vid-right">
-          <VideoPlaceholder label={s.right} tint="var(--accent-dark)" youtubeId="ffQv3wXQlEU" />
-        </div>
+  <div class="split">
+    <article class="side">
+      <div class="bg" aria-hidden="true">
+        <VideoPlaceholder label={s.left} youtubeId="NG_xGUvlNl0" />
       </div>
+      <div class="overlay">
+        <h3>{s.left}</h3>
+        <p>{s.leftDesc}</p>
+      </div>
+    </article>
 
-      <div class="captions">
-        <article class="side">
-          <h3>{s.left}</h3>
-          <p>{s.leftDesc}</p>
-        </article>
-        <article class="side">
-          <h3>{s.right}</h3>
-          <p>{s.rightDesc}</p>
-        </article>
+    <Image
+      class="logo"
+      src={ittiLogo}
+      alt="itti"
+      widths={[180, 280, 420]}
+      sizes="(max-width: 720px) 160px, 280px"
+      loading="lazy"
+      decoding="async"
+    />
+
+    <article class="side">
+      <div class="bg" aria-hidden="true">
+        <VideoPlaceholder label={s.right} tint="var(--accent-dark)" youtubeId="ffQv3wXQlEU" />
       </div>
-    </div>
+      <div class="overlay">
+        <h3>{s.right}</h3>
+        <p>{s.rightDesc}</p>
+      </div>
+    </article>
   </div>
 </section>
 
 <style lang="scss">
 @layer components {
   section {
-    background: var(--paper);
-    padding: 100px clamp(16px, 4vw, 64px);
-  }
-
-  .inner {
-    max-width: 1440px;
-    margin: 0 auto;
+    background: var(--ink);
+    color: var(--cream);
+    padding: clamp(64px, 8vw, 100px) clamp(16px, 4vw, 64px);
   }
 
   .head {
     text-align: center;
-    margin-bottom: 64px;
+    max-width: 900px;
+    margin: 0 auto clamp(32px, 5vw, 56px);
   }
 
   .kicker {
     display: inline-block;
+    margin-bottom: 12px;
     font-family: var(--mono);
     font-size: 11px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--accent-dark);
-    margin-bottom: 12px;
+    color: var(--accent-light);
   }
 
   h2 {
+    margin: 0;
     font-family: var(--serif);
-    font-size: clamp(36px, 5vw, 64px);
+    font-size: clamp(32px, 5vw, 56px);
     line-height: 1.1;
     letter-spacing: -0.02em;
-    margin: 0;
-    color: var(--ink);
+    color: var(--cream);
   }
 
+  // Split: two full-bleed video sides with logo overlay at the seam.
   .split {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  }
-
-  // Two videos side-by-side with logo overlapping both at the seam.
-  .videos {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4px;
+    gap: 2px;
+    max-width: 1600px;
+    margin: 0 auto;
+    border-radius: 18px;
+    overflow: hidden;
   }
 
-  .vid {
-    width: 100%;
-    aspect-ratio: 16 / 10;
+  .side {
+    position: relative;
+    isolation: isolate;
+    min-height: clamp(380px, 52vh, 520px);
+    overflow: hidden;
+    background-color: #000000;
   }
 
-  .vid-left { grid-column: 1; }
-  .vid-right { grid-column: 2; }
+  // Video (or placeholder) fills the side as background.
+  .bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
 
-  // Logo: absolutely centered over the seam, larger than the medallion was,
-  // sitting visually above both videos via z-index.
+  // Dark gradient overlay so the text on top is legible (≥4.5:1 against any frame).
+  .bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgb(0 0 0 / 30%) 0%,
+      rgb(0 0 0 / 20%) 40%,
+      rgb(0 0 0 / 80%) 100%
+    );
+    pointer-events: none;
+  }
+
+  .overlay {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: flex-end;
+    height: 100%;
+    padding: clamp(20px, 4vw, 40px);
+    color: var(--cream);
+  }
+
+  h3 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  .overlay p {
+    margin: 0;
+    max-width: 420px;
+    font-size: clamp(14px, 1.6vw, 17px);
+    line-height: 1.55;
+    color: rgb(247 242 232 / 92%);
+  }
+
+  // Logo absolutely centered over the seam, on top of both videos.
   .logo {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 2;
-    width: clamp(140px, 22%, 280px);
+    z-index: 3;
+    width: clamp(120px, 18%, 240px);
     height: auto;
     pointer-events: none;
     user-select: none;
-    filter: drop-shadow(0 4px 24px rgb(0 0 0 / 35%));
+    filter: drop-shadow(0 6px 28px rgb(0 0 0 / 55%));
   }
 
-  .captions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-  }
-
-  .side {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  h3 {
-    font-family: var(--serif);
-    font-size: clamp(24px, 3vw, 32px);
-    margin: 0;
-    color: var(--ink);
-  }
-
-  p {
-    margin: 0;
-    color: var(--ink-2);
-    font-size: 16px;
-    line-height: 1.55;
-  }
-
+  // Mobile: stack the two sides vertically, logo static between them.
   @media (width <= 720px) {
-    .videos {
+    .split {
       grid-template-columns: 1fr;
-      gap: 24px;
-    }
-
-    .vid-left,
-    .vid-right {
-      grid-column: 1;
-    }
-
-    .logo {
-      // On stacked layout, drop the logo into a static row between the videos.
-      position: static;
-      transform: none;
-      width: clamp(96px, 30%, 160px);
-      margin: 0 auto;
-      filter: drop-shadow(0 4px 16px rgb(0 0 0 / 25%));
-    }
-
-    .captions {
-      grid-template-columns: 1fr;
+      gap: 0;
     }
 
     .side {
-      max-width: 480px;
-      margin: 0 auto;
+      min-height: clamp(320px, 48vh, 440px);
+    }
+
+    .logo {
+      // Place logo at the seam between stacked sides via static rendering.
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      width: clamp(96px, 28%, 160px);
+      margin: -28px auto;
+      filter: drop-shadow(0 4px 16px rgb(0 0 0 / 50%));
     }
   }
 }

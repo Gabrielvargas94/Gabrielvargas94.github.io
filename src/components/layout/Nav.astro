@@ -23,7 +23,7 @@ const ui = uiByLocale[locale];
 <header>
   <nav aria-label="Primary">
     <a href={localePath(locale)} class="brand">
-      <span class="mark" aria-hidden="true">g</span>
+      <span class="mark" aria-hidden="true">GV</span>
       <span class="name-block">
         <span class="name">{profile.data.name}</span>
         <span class="role">{profile.data.displayTitle}</span>
@@ -206,14 +206,15 @@ const ui = uiByLocale[locale];
   .mark {
     display: grid;
     place-items: center;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: var(--ink);
     color: var(--cream);
     font-family: var(--serif);
-    font-size: 16px;
-    font-style: italic;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
   }
 
   .name {

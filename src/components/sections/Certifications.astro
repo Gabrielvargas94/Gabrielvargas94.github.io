@@ -14,9 +14,15 @@ const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
 const ui = uiByLocale[locale];
 const s = ui.sections.certs;
 
-const certs = (await getCollection('certification', (c) => c.data.locale === locale)).sort(
-  (a, b) => b.data.date.localeCompare(a.data.date),
-);
+// Only show Anthropic AI certifications in the section grid. Other credentials
+// (e.g. Cambridge FCE language cert) still flow into cv.md / cv.json / cv.pdf
+// via the unfiltered collection; they don't belong in the AI-focus section.
+const certs = (
+  await getCollection(
+    'certification',
+    (c) => c.data.locale === locale && c.data.issuer === 'Anthropic',
+  )
+).sort((a, b) => b.data.date.localeCompare(a.data.date));
 
 const inProgressLabel: Record<Locale, string> = {
   en: 'In progress',
