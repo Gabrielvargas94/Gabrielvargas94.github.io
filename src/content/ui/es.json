@@ -8,65 +8,88 @@
     "claudeCodeRollout": "Rollout de Claude Code",
     "sideProject": "Side Project",
     "certifications": "Certificaciones",
+    "topSkills": "Top Skills",
     "dnd": "Dungeons & Dragons",
     "spirituality": "Espiritualidad"
   },
   "hero": {
     "kicker": "Head of Engineering",
     "headline": "Construyendo equipos de ingeniería AI-first",
-    "subhead": "Más de 6 años escalando ingeniería en Mercado Libre, el Banco Interamericano de Desarrollo e itti. Practitioner AI-first impulsando la adopción de Claude Code y Cursor.",
+    "subhead": "Engineering Manager @ itti · Transformaciones AI-first y arquitecturales · Claude Code, AWS & GCP · Ex-Mercado Libre · Ex-BID.",
     "cta": "Contáctame en LinkedIn",
-    "scrollHint": "Desplázate para explorar"
+    "scrollHint": "Scrolleá para explorar"
   },
   "sections": {
     "ittiSplit": {
-      "kicker": "itti · Software Engineering Manager",
-      "title": "Dos productos, una organización de ingeniería",
+      "kicker": "itti · Dos productos mobile, una org de ingeniería",
+      "title": "Ingeniería AI-driven a través de un ecosistema completo de productos",
       "left": "Monchis",
       "right": "muv",
-      "leftDesc": "Rediseño arquitectónico de la plataforma mobile que restauró el momentum de ingeniería.",
-      "rightDesc": "Transformación de plataforma mobile de alta concurrencia, prácticas de desarrollo asistidas por IA."
+      "leftDesc": "Rediseño arquitectural de plataforma mobile (React Native + microservicios sobre AWS). Mejoras de estabilidad y performance que restauraron retención de usuarios y momentum del equipo — la metodología que ganó la reasignación a muv.",
+      "rightDesc": "Transformación arquitectural completa de plataforma de alta concurrencia (React Native + microservicios Java, AWS + GCP). Micro-apps desacoplaron deploys, desarrollo asistido por IA en un equipo de 12 personas, observabilidad + incident response a nivel productivo."
     },
     "meli": {
-      "kicker": "Mercado Libre · Project Leader",
-      "title": "Infraestructura financiera a escala de múltiples millones de dólares",
+      "kicker": "Mercado Libre · Project Leader · 8–12 ingenieros",
+      "title": "Infraestructura financiera con 100+ equipos internos como clientes",
       "cards": [
-        { "icon": "lucide:circle-dollar-sign", "title": "Herramientas de Transferencias y Deudas", "desc": "Cargas batch de múltiples millones de dólares en el core de MercadoPago." },
-        { "icon": "lucide:layout-dashboard", "title": "Dashboard Centralizado", "desc": "Vista única a través de las APIs y unidades de negocio de MercadoPago." },
-        { "icon": "lucide:code", "title": "Framework de Frontend", "desc": "Estándar organizacional core que impulsa la confiabilidad y la DX a escala." }
+        {
+          "icon": "lucide:circle-dollar-sign",
+          "title": "Motor de Transfers & Debts",
+          "desc": "Co-arquitecté herramientas de procesamiento Golang de alto riesgo corriendo batches diarios multi-millonarios en el core operativo de MercadoPago."
+        },
+        {
+          "icon": "lucide:layout-dashboard",
+          "title": "Plataforma Unificada de Ops",
+          "desc": "Mantuve la consola interna de operaciones usada por 100+ equipos — vista única consolidando data de cada unidad de negocio."
+        },
+        {
+          "icon": "lucide:code",
+          "title": "Framework de Frontend org-wide",
+          "desc": "Impulsé la adopción y evolución del estándar frontend core de MercadoPago — confiabilidad y DX a escala de compañía."
+        }
       ]
     },
     "idb": {
-      "kicker": "Banco Interamericano de Desarrollo",
+      "kicker": "Banco Interamericano de Desarrollo · 3+ años · Contrato",
       "title": "Ingeniería en uno de los bancos multilaterales más influyentes del mundo",
       "stats": [
-        { "value": "60+", "label": "Personas gestionadas en ingeniería, diseño, producto y políticas" },
-        { "value": "30%", "label": "Reducción en time-to-market" },
-        { "value": "C-Level", "label": "Línea directa de reporte de estrategia técnica" }
+        { "value": "60+", "label": "Personas cross-funcionales gestionadas: ingeniería, diseño, producto y política." },
+        { "value": "30%", "label": "Reducción de time-to-market vía microfrontends Angular + Vue y trabajo focalizado sobre deuda técnica." },
+        { "value": "C-Level", "label": "Línea directa de reporte de estrategia técnica. Influencia de roadmap en org matricial grande." }
+      ]
+    },
+    "topSkills": {
+      "kicker": "Top Skills",
+      "title": "Lo que aporto a una organización de ingeniería",
+      "desc": "Destacadas por LinkedIn entre pares y líderes con los que trabajé.",
+      "items": [
+        { "icon": "lucide:sparkles", "title": "Model Context Protocol (MCP)", "desc": "Diseño de sistemas agénticos que componen tools, memoria y harness en producción." },
+        { "icon": "lucide:users", "title": "Engineering Management", "desc": "Escalando equipos de 8 a 60+ en organizaciones matriciales. Cultura de delivery de alta confianza." },
+        { "icon": "lucide:code", "title": "Arquitectura de Software", "desc": "Microservicios, microfrontends, plataformas de alta concurrencia, AWS + GCP. Rediseños que llegan a producción." }
       ]
     },
     "aiIntro": {
       "kicker": "Ingeniería AI-First",
       "title": "Donde la IA cambia cómo entregan los equipos",
-      "desc": "Desde rollouts de Claude Code a nivel organizacional hasta side projects que empujan los límites de los workflows agentivos."
+      "desc": "Práctico, entregable, repetible. Desde rollouts de Claude Code en toda la organización hasta side projects empujando workflows agénticos más allá de lo obvio — y la práctica de management requerida para hacerlo real."
     },
     "lectures": {
       "kicker": "Charlas y Conferencias",
-      "title": "Hablando sobre ingeniería AI-first",
+      "title": "Hablando de ingeniería AI-first — más allá del demo",
       "topics": [
-        "Harness y Workflows Agentivos",
-        "Problemas de management en un mundo AI-first: code review bajo IA, recuperación de incidentes, gestión de secretos, integración de harness, diseño de workflows agentivos"
+        "Harness + Workflows Agénticos: cómo componer tools, memoria y el loop que entrega.",
+        "Management en un mundo AI-first: code review con IA en la sala, recuperación de incidentes cuando el bug lo escribió IA, manejo de secretos, integración de harness, diseño de workflows agénticos."
       ]
     },
     "ittiAi": {
-      "kicker": "Rollout de Claude Code",
-      "title": "Adopción de IA en una organización de ingeniería",
-      "desc": "Integrado en un equipo core de menos de 40 personas que impulsa la adopción de IA en itti — desplegando Claude Code, Cursor y workflows de desarrollo asistidos por IA en toda la organización de ingeniería."
+      "kicker": "Rollout de Claude Code · itti",
+      "title": "Adopción de IA en una organización entera de ingeniería",
+      "desc": "Integrado en el equipo core de IA de itti (<40 personas) impulsando Claude Code, Cursor y workflows asistidos por IA más allá de lo obvio — en code review, respuesta a incidentes, gestión de secrets y harness agéntico."
     },
     "sideProject": {
       "kicker": "Side Project",
       "title": "D&D AI Companion",
-      "desc": "Companion de IA multi-tenant para RPG de mesa. Arquitectura de grafos por tenant/campaña con una capa de traducción entre esquemas no compatibles. Tools personalizadas, harness, Agent-as-a-Service."
+      "desc": "Plataforma agéntica multi-tenant para RPG de mesa. Arquitectura de grafos por campaña con capa de traducción entre rulesets no compatibles. Orquestación multi-provider de LLMs (Claude + GPT), custom tools, harness in-code y como producto, Agent-as-a-Service — no solo SaaS."
     },
     "certs": {
       "kicker": "Certificaciones",
@@ -76,16 +99,16 @@
     "dnd": {
       "kicker": "Hobbies",
       "title": "Dungeons & Dragons",
-      "desc": "Dungeon Master con amigos. Organización, creatividad, diversión — y la semilla del side project D&D AI Companion."
+      "desc": "Dungeon Master con amigos. Organización, creatividad, improvisación, y la paciencia del juego largo que se traduce de vuelta al liderazgo de ingeniería. También fue la semilla del side project D&D AI Companion."
     },
     "spirit": {
       "kicker": "Hobbies",
       "title": "Espiritualidad",
-      "desc": "Estudioso por naturaleza, enfocado en la no-dualidad. Aplicándola en el día a día para deconstruir, ser más feliz, más completo y mejor persona."
+      "desc": "Estudioso por naturaleza, enfocado en la no-dualidad. Aplicándola día a día para deconstruir, ablandar el ego y volverme una persona más calma y completa — mejor compañero, mejor líder, mejor humano."
     },
     "contact": {
-      "kicker": "Ponte en contacto",
-      "title": "¿Quieres saber más sobre mí?",
+      "kicker": "Hablemos",
+      "title": "¿Querés saber más?",
       "cta": "Contáctame en LinkedIn"
     }
   },

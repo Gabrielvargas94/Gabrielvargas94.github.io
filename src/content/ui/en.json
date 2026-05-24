@@ -8,84 +8,107 @@
     "claudeCodeRollout": "Claude Code Rollout",
     "sideProject": "Side Project",
     "certifications": "Certifications",
+    "topSkills": "Top Skills",
     "dnd": "Dungeons & Dragons",
     "spirituality": "Spirituality"
   },
   "hero": {
     "kicker": "Head of Engineering",
     "headline": "Building AI-first engineering teams",
-    "subhead": "6+ years scaling engineering at Mercado Libre, the Inter-American Development Bank, and itti. AI-first practitioner driving Claude Code and Cursor adoption.",
+    "subhead": "Engineering Manager @ itti · AI-first engineering & architectural transformations · Claude Code, AWS & GCP · Ex-Mercado Libre · Ex-IADB.",
     "cta": "Contact me on LinkedIn",
     "scrollHint": "Scroll to explore"
   },
   "sections": {
     "ittiSplit": {
-      "kicker": "itti · Software Engineering Manager",
-      "title": "Two products, one engineering org",
+      "kicker": "itti · Two mobile products, one engineering org",
+      "title": "AI-driven engineering across an entire product ecosystem",
       "left": "Monchis",
       "right": "muv",
-      "leftDesc": "Mobile platform architectural redesign that restored engineering momentum.",
-      "rightDesc": "High-concurrency mobile platform transformation, AI-assisted dev practices."
+      "leftDesc": "Architectural redesign of a React Native + microservices mobile platform on AWS. Stability and performance lift that restored user retention and engineering momentum — the methodology that earned the muv reassignment.",
+      "rightDesc": "Full architectural transformation of a high-concurrency platform (React Native + Java microservices, AWS + GCP). Micro-apps decoupled deploys, AI-assisted dev across a 12-person team, observability + incident response brought to production grade."
     },
     "meli": {
-      "kicker": "Mercado Libre · Project Leader",
-      "title": "Financial infrastructure at multi-million-dollar scale",
+      "kicker": "Mercado Libre · Project Leader · 8–12 engineers",
+      "title": "Financial infrastructure trusted by 100+ internal teams",
       "cards": [
-        { "icon": "lucide:circle-dollar-sign", "title": "Transfers & Debts Tooling", "desc": "Multi-million-dollar batch workloads at the core of MercadoPago." },
-        { "icon": "lucide:layout-dashboard", "title": "Centralized Dashboard", "desc": "Single pane of glass across MercadoPago's APIs and business units." },
-        { "icon": "lucide:code", "title": "Frontend Framework", "desc": "Core organizational standard driving reliability and DX at scale." }
+        {
+          "icon": "lucide:circle-dollar-sign",
+          "title": "Transfers & Debts engine",
+          "desc": "Co-architected high-stakes Golang processing tools running daily multi-million-dollar batches at MercadoPago's operational core."
+        },
+        {
+          "icon": "lucide:layout-dashboard",
+          "title": "Unified Ops platform",
+          "desc": "Maintained the internal operations console used by 100+ teams — single pane consolidating data across every business unit."
+        },
+        {
+          "icon": "lucide:code",
+          "title": "Org-wide Frontend Framework",
+          "desc": "Drove adoption and evolution of MercadoPago's core frontend standard — reliability and DX at company scale."
+        }
       ]
     },
     "idb": {
-      "kicker": "Inter-American Development Bank",
-      "title": "Engineering at one of the world's most influential multilateral banks",
+      "kicker": "Inter-American Development Bank · 3+ years · Contract",
+      "title": "Engineering inside one of the world's most influential multilateral banks",
       "stats": [
-        { "value": "60+", "label": "People managed across eng, design, product, policy" },
-        { "value": "30%", "label": "Reduction in time-to-market" },
-        { "value": "C-Level", "label": "Direct technical-strategy reporting line" }
+        { "value": "60+", "label": "Cross-functional people managed across engineering, design, product, and policy." },
+        { "value": "30%", "label": "Time-to-market reduction via Angular + Vue microfrontends and targeted tech-debt work." },
+        { "value": "C-Level", "label": "Direct technical-strategy reporting line. Roadmap influence across a large matrix org." }
+      ]
+    },
+    "topSkills": {
+      "kicker": "Top Skills",
+      "title": "What I bring to an engineering org",
+      "desc": "Highlighted by LinkedIn from peers + leaders I've worked with.",
+      "items": [
+        { "icon": "lucide:sparkles", "title": "Model Context Protocol (MCP)", "desc": "Designing agentic systems that compose tools, memory, and harness in production." },
+        { "icon": "lucide:users", "title": "Engineering Management", "desc": "Scaling teams from 8 to 60+ across matrix organizations. High-trust delivery culture." },
+        { "icon": "lucide:code", "title": "Software Architecture", "desc": "Microservices, microfrontends, high-concurrency platforms, AWS + GCP. Redesigns that ship." }
       ]
     },
     "aiIntro": {
       "kicker": "AI-First Engineering",
       "title": "Where AI changes how teams ship",
-      "desc": "From organization-wide Claude Code rollouts to side projects pushing the boundary of agentic workflows."
+      "desc": "Practical, deliverable, repeatable. From org-wide Claude Code rollouts to side projects pushing agentic workflows past the obvious — and the management practice required to make it real."
     },
     "lectures": {
       "kicker": "Lectures & Talks",
-      "title": "Speaking on AI-first engineering",
+      "title": "Speaking on AI-first engineering — beyond the demo",
       "topics": [
-        "Harness and Agentic Workflows",
-        "Management problems in an AI-first world: code review under AI, incident recovery, secret management, harness integration, agentic workflow design"
+        "Harness + Agentic Workflows: composing tools, memory, and the loop that ships.",
+        "Management in an AI-first world: code review with AI in the room, incident recovery when the bug is AI-authored, secret management, harness integration, agentic workflow design."
       ]
     },
     "ittiAi": {
-      "kicker": "Claude Code Rollout",
-      "title": "AI adoption across an engineering org",
-      "desc": "Embedded in a core team of <40 driving itti's AI adoption — rolling out Claude Code, Cursor, and AI-assisted development workflows across the broader engineering organization."
+      "kicker": "Claude Code Rollout · itti",
+      "title": "AI adoption across an entire engineering org",
+      "desc": "Embedded in itti's core AI team (<40 people) rolling out Claude Code, Cursor, and AI-assisted workflows beyond the obvious — into code review, incident response, secret management, and agentic harness."
     },
     "sideProject": {
       "kicker": "Side Project",
       "title": "D&D AI Companion",
-      "desc": "Multi-tenant AI companion for tabletop RPG. Graph architecture per tenant/campaign with a translation layer between non-compatible schemas. Custom tools, harness, Agent-as-a-Service."
+      "desc": "Multi-tenant agentic platform for tabletop RPG. Graph-per-campaign architecture with a translation layer between non-compatible rulesets. Multi-provider LLM orchestration (Claude + GPT), custom tools, harness in-code and as product, Agent-as-a-Service — not just SaaS."
     },
     "certs": {
       "kicker": "Certifications",
       "title": "Anthropic Claude curriculum",
-      "subtitle": "Claude Code, MCP, subagents, agent skills, and Claude API."
+      "subtitle": "Claude Code, MCP, subagents, agent skills, Claude API."
     },
     "dnd": {
       "kicker": "Hobbies",
       "title": "Dungeons & Dragons",
-      "desc": "Dungeon Master with friends. Organization, creativity, fun — and the seed of the D&D AI Companion side project."
+      "desc": "Dungeon Master with friends. Organization, creativity, improvisation, and the long-game patience that translates back to engineering leadership. Also the seed of the D&D AI Companion side project."
     },
     "spirit": {
       "kicker": "Hobbies",
       "title": "Spirituality",
-      "desc": "Studious by nature, focused on non-duality. Applying it day-to-day to deconstruct, become happier, more complete, and a better person."
+      "desc": "Studious by nature, focused on non-duality. Applying it day-to-day to deconstruct, soften ego, and become a calmer, more complete person — better partner, better leader, better human."
     },
     "contact": {
       "kicker": "Get in touch",
-      "title": "Want to know more about me?",
+      "title": "Want to know more?",
       "cta": "Contact me on LinkedIn"
     }
   },
