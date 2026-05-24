@@ -82,7 +82,18 @@ const { src, poster, label, tint = 'var(--accent)', youtubeId } = Astro.props;
       iframe.title = wrap.getAttribute('aria-label') ?? 'background video';
       iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
       iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-      // Defensive: deprecated `frameBorder` attr replaced by CSS; nothing to set.
+      // Inline styles (Astro scoped CSS doesn't reach runtime-injected nodes).
+      // 177.78% width with 200% height + scale crops YouTube chrome around edges.
+      Object.assign(iframe.style, {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        width: '177.78%',
+        height: '200%',
+        transform: 'translate(-50%, -50%) scale(1.15)',
+        border: '0',
+        pointerEvents: 'none',
+      });
       wrap.appendChild(iframe);
     };
 

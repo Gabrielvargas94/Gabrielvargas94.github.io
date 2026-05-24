@@ -104,11 +104,17 @@ const ui = uiByLocale[locale];
     margin-bottom: 36px;
   }
 
+  .photo {
+    display: flex;
+    justify-content: center;
+  }
+
   .photo :global(img) {
     display: block;
     width: 100%;
+    max-width: 100%;
     height: auto;
-    border-radius: 16px;
+    object-fit: contain;
   }
 
   @media (width <= 880px) {
