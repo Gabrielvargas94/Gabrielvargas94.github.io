@@ -19,7 +19,9 @@
     "test:i18n": "playwright test tests/i18n.spec.ts",
     "test:lhci": "lhci autorun",
     "test:links": "linkinator dist --silent --skip 'linkedin.com|github.com'",
-    "test": "npm run test:a11y && npm run test:seo && npm run test:artifacts && npm run test:i18n"
+    "test": "npm run test:a11y && npm run test:seo && npm run test:artifacts && npm run test:i18n",
+    "validate:cv": "node scripts/validate-cv-json.mjs",
+    "inspect:jsonld": "node scripts/inspect-jsonld.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",

@@ -1,8 +1,31 @@
 # Astro Migration — Gabriel Vargas Portfolio / CV Site
 
 **Date:** 2026-05-24
-**Status:** Approved (pending user review of written spec)
+**Status:** SHIPPED. Site live at <https://gabrielvargas94.github.io>.
 **Owner:** Gabriel Vargas
+
+## Post-ship deltas (D19+)
+
+Decisions made during implementation that extend the original D1-D18:
+
+| # | Decision | Rationale |
+|---|---|---|
+| D19 | SCSS over plain CSS, cascade layers (`@layer reset, base, components, a11y, print`) to eliminate `!important`. Stylelint with `declaration-no-important: true`. | User asked for clean code; layers replace specificity battles. |
+| D20 | Extended Astro stack: `@astrojs/mdx`, `astro-icon` (Lucide), `astro:assets <Image>`, native Fonts API (`<Font>`), `@astrojs/partytown` (analytics in worker), `astro-compress`, view transitions (`<ClientRouter />`). `scopedStyleStrategy: 'where'` for layer-cooperative scoped styles. `trailingSlash: 'always'`. | Best-practice Astro idiom not in original plan. |
+| D21 | Content collections require `generateId: localizedId` callback. Default glob loader uses filename-stem only → en/itti.md and es/itti.md collide. Custom generator produces `<locale>/<slug>`. | Astro 6 glob loader quirk; without fix, content silently overwrites cross-locale. |
+| D22 | `--accent-dark` darkened from `#9c5e36` to `#8a4f2c`. | Original failed axe contrast on `--cream-2` background (4.19:1 vs required 4.5:1). New value passes ≥4.7:1 on cream and cream-2. |
+| D23 | `MeliCards` and `SideProject` sections set explicit `background-color: var(--ink)` on the section element. | Axe-core couldn't see through the layered video bg + dark overlay; computed contrast against `body` cream. Solid section background fixes detection. |
+| D24 | `LangSwitcher` preserves current page path on locale change. | Honors hreflang contract (annotated alternates promise page-equivalent URLs). |
+| D25 | Nav `<script>` registers on `astro:page-load` (re-runs after view transitions) with `astro:before-swap` cleanup. | Without it, scroll-class toggle and burger toggle break after first soft navigation. |
+| D26 | YouTube embeds (privacy-enhanced) added to `IttiSplit` Monchis + muv sides as background videos. `pointer-events: none`, scaled to crop chrome. | User-supplied real video assets (post-launch iteration). |
+| D27 | itti logo PNG replaces text medallion in IttiSplit. Logo overlays the seam between the two videos, drop-shadow for legibility. Mobile: static centered between stacked videos. | User-supplied logo (post-launch iteration). |
+| D28 | Repository named `Gabrielvargas94.github.io` (auto-renamed from initial `personal`). Required exact match for user-site root deploy at `https://gabrielvargas94.github.io/`. | GH Pages naming convention. |
+
+## Operational notes
+
+- Deploy: `git push` on `main` → GH Actions workflow (`Build, test, and deploy`) runs typecheck + lint + build + a11y/seo/artifacts/i18n tests + Lighthouse CI (warn-only) → publishes to GH Pages.
+- Umami analytics website ID stored as GH Secret `UMAMI_WEBSITE_ID` (UUID `307bcc05-e257-4a7e-bdcc-cd9aef78b40b`), injected at build as `PUBLIC_UMAMI_ID`, embedded via `type="text/partytown"`.
+- All public artifacts validated post-deploy: JSON Resume schema ✅, 2 JSON-LD blocks (ProfilePage+Person+8 worksFor, FAQPage 6 Q's) ✅, sitemap with hreflang ✅, robots.txt AI allowlist ✅.
 
 ## Goal
 
