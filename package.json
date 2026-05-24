@@ -33,6 +33,7 @@
     "ajv-formats": "^3.0.1",
     "linkinator": "^7.6.1",
     "playwright": "^1.60.0",
+    "sass": "^1.100.0",
     "satori-html": "^0.3.2",
     "typescript": "~5.9"
   }
