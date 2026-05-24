@@ -60,13 +60,14 @@ const s = ui.sections.ittiSplit;
   section {
     background: var(--ink);
     color: var(--cream);
-    padding: clamp(64px, 8vw, 100px) clamp(16px, 4vw, 64px);
+    padding: clamp(64px, 8vw, 100px) 0;
   }
 
   .head {
     text-align: center;
     max-width: 900px;
     margin: 0 auto clamp(32px, 5vw, 56px);
+    padding: 0 clamp(16px, 4vw, 64px);
   }
 
   .kicker {
@@ -88,15 +89,13 @@ const s = ui.sections.ittiSplit;
     color: var(--cream);
   }
 
-  // Split: two full-bleed video sides with logo overlay at the seam.
+  // Split: two full-bleed video sides edge-to-edge with logo overlay at seam.
   .split {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2px;
-    max-width: 1600px;
-    margin: 0 auto;
-    border-radius: 18px;
+    width: 100%;
     overflow: hidden;
   }
 
