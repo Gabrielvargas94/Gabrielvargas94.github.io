@@ -39,13 +39,13 @@
         },
         {
           "icon": "lucide:layout-dashboard",
-          "title": "Plataforma Unificada de Ops",
-          "desc": "Mantuve la consola interna de operaciones usada por 100+ equipos — vista única consolidando data de cada unidad de negocio."
+          "title": "One Source",
+          "desc": "Principal consola de visibilidad de MercadoPago — vista única tirando de cada API del ecosistema. Contacto diario con la mayoría de los equipos de ingeniería."
         },
         {
           "icon": "lucide:code",
-          "title": "Framework de Frontend org-wide",
-          "desc": "Impulsé la adopción y evolución del estándar frontend core de MercadoPago — confiabilidad y DX a escala de compañía."
+          "title": "Framework de Frontend",
+          "desc": "Impulsé la adopción y evolución de un framework de frontend interno muy usado — miles de proyectos dependían de él, otros frameworks se construían encima."
         }
       ]
     },

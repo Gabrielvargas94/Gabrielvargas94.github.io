@@ -39,13 +39,13 @@
         },
         {
           "icon": "lucide:layout-dashboard",
-          "title": "Unified Ops platform",
-          "desc": "Maintained the internal operations console used by 100+ teams — single pane consolidating data across every business unit."
+          "title": "One Source",
+          "desc": "MercadoPago's main visibility console — single pane pulling from every API across the ecosystem. Daily contact with most engineering teams in the company."
         },
         {
           "icon": "lucide:code",
-          "title": "Org-wide Frontend Framework",
-          "desc": "Drove adoption and evolution of MercadoPago's core frontend standard — reliability and DX at company scale."
+          "title": "Frontend Framework",
+          "desc": "Drove adoption and evolution of a widely-used internal frontend framework — thousands of projects depended on it, other frameworks built on top of it."
         }
       ]
     },
