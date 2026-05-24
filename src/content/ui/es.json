@@ -1,0 +1,97 @@
+{
+  "nav": {
+    "work": "Mi Trabajo",
+    "ai": "Mi Trabajo con IA",
+    "hobbies": "Mis Hobbies",
+    "cta": "Contáctame en LinkedIn",
+    "lectures": "Charlas",
+    "claudeCodeRollout": "Rollout de Claude Code",
+    "sideProject": "Side Project",
+    "certifications": "Certificaciones",
+    "dnd": "Dungeons & Dragons",
+    "spirituality": "Espiritualidad"
+  },
+  "hero": {
+    "kicker": "Head of Engineering",
+    "headline": "Construyendo equipos de ingeniería AI-first",
+    "subhead": "Más de 6 años escalando ingeniería en Mercado Libre, el Banco Interamericano de Desarrollo e itti. Practitioner AI-first impulsando la adopción de Claude Code y Cursor.",
+    "cta": "Contáctame en LinkedIn",
+    "scrollHint": "Desplázate para explorar"
+  },
+  "sections": {
+    "ittiSplit": {
+      "kicker": "itti · Software Engineering Manager",
+      "title": "Dos productos, una organización de ingeniería",
+      "left": "Monchis",
+      "right": "muv",
+      "leftDesc": "Rediseño arquitectónico de la plataforma mobile que restauró el momentum de ingeniería.",
+      "rightDesc": "Transformación de plataforma mobile de alta concurrencia, prácticas de desarrollo asistidas por IA."
+    },
+    "meli": {
+      "kicker": "Mercado Libre · Project Leader",
+      "title": "Infraestructura financiera a escala de múltiples millones de dólares",
+      "cards": [
+        { "icon": "lucide:circle-dollar-sign", "title": "Herramientas de Transferencias y Deudas", "desc": "Cargas batch de múltiples millones de dólares en el core de MercadoPago." },
+        { "icon": "lucide:layout-dashboard", "title": "Dashboard Centralizado", "desc": "Vista única a través de las APIs y unidades de negocio de MercadoPago." },
+        { "icon": "lucide:code", "title": "Framework de Frontend", "desc": "Estándar organizacional core que impulsa la confiabilidad y la DX a escala." },
+        { "icon": "lucide:users", "title": "Tech Lead Manager", "desc": "Lideré equipos de 8 a 12 personas en arquitectura, entrega y roadmap." }
+      ]
+    },
+    "idb": {
+      "kicker": "Banco Interamericano de Desarrollo",
+      "title": "Ingeniería en uno de los bancos multilaterales más influyentes del mundo",
+      "stats": [
+        { "value": "60+", "label": "Personas gestionadas en ingeniería, diseño, producto y políticas" },
+        { "value": "30%", "label": "Reducción en time-to-market" },
+        { "value": "C-Level", "label": "Línea directa de reporte de estrategia técnica" }
+      ]
+    },
+    "aiIntro": {
+      "kicker": "Ingeniería AI-First",
+      "title": "Donde la IA cambia cómo entregan los equipos",
+      "desc": "Desde rollouts de Claude Code a nivel organizacional hasta side projects que empujan los límites de los workflows agentivos."
+    },
+    "lectures": {
+      "kicker": "Charlas y Conferencias",
+      "title": "Hablando sobre ingeniería AI-first",
+      "topics": [
+        "Harness y Workflows Agentivos",
+        "Problemas de management en un mundo AI-first: code review bajo IA, recuperación de incidentes, gestión de secretos, integración de harness, diseño de workflows agentivos"
+      ]
+    },
+    "ittiAi": {
+      "kicker": "Rollout de Claude Code",
+      "title": "Adopción de IA en una organización de ingeniería",
+      "desc": "Integrado en un equipo core de menos de 40 personas que impulsa la adopción de IA en itti — desplegando Claude Code, Cursor y workflows de desarrollo asistidos por IA en toda la organización de ingeniería."
+    },
+    "sideProject": {
+      "kicker": "Side Project",
+      "title": "D&D AI Companion",
+      "desc": "Companion de IA multi-tenant para RPG de mesa. Arquitectura de grafos por tenant/campaña con una capa de traducción entre esquemas no compatibles. Tools personalizadas, harness, Agent-as-a-Service."
+    },
+    "certs": {
+      "kicker": "Certificaciones",
+      "title": "Curriculum de Claude de Anthropic",
+      "subtitle": "8 certificaciones de Anthropic + Cambridge FCE B2."
+    },
+    "dnd": {
+      "kicker": "Hobbies",
+      "title": "Dungeons & Dragons",
+      "desc": "Dungeon Master con amigos. Organización, creatividad, diversión — y la semilla del side project D&D AI Companion."
+    },
+    "spirit": {
+      "kicker": "Hobbies",
+      "title": "Espiritualidad",
+      "desc": "Estudioso por naturaleza, enfocado en la no-dualidad. Aplicándola en el día a día para deconstruir, ser más feliz, más completo y mejor persona."
+    },
+    "contact": {
+      "kicker": "Ponte en contacto",
+      "title": "¿Quieres saber más sobre mí?",
+      "cta": "Contáctame en LinkedIn"
+    }
+  },
+  "footer": {
+    "copyright": "© {year} Gabriel Vargas",
+    "source": "Código en GitHub"
+  }
+}
