@@ -1,0 +1,39 @@
+---
+// Decorative spinning d20 illustration for the D&D section.
+// Pure CSS animation; respects prefers-reduced-motion via the global override.
+---
+<div class="d20" aria-hidden="true">
+  <svg width="80" height="80" viewBox="0 0 100 100">
+    <polygon
+      points="50,5 95,30 95,70 50,95 5,70 5,30"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    />
+    <polygon points="50,5 95,70 5,70" fill="currentColor" opacity="0.18" />
+    <polygon points="50,95 95,30 5,30" fill="currentColor" opacity="0.10" />
+    <text
+      x="50"
+      y="58"
+      text-anchor="middle"
+      font-family="var(--serif)"
+      font-size="22"
+      fill="currentColor"
+    >20</text>
+  </svg>
+</div>
+
+<style lang="scss">
+@layer components {
+  .d20 {
+    display: inline-block;
+    color: var(--accent-dark);
+    animation: d20-spin 18s linear infinite;
+  }
+
+  @keyframes d20-spin {
+    from { transform: rotate(0); }
+    to   { transform: rotate(360deg); }
+  }
+}
+</style>

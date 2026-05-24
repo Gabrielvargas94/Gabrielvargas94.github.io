@@ -1,0 +1,37 @@
+---
+interface Props {
+  /** CSS color for the pulse. Default matches the page accent green. */
+  color?: string;
+}
+
+const { color = '#5b9a6e' } = Astro.props;
+---
+<span class="pulse-dot" style={`--dot-color: ${color};`} aria-hidden="true"></span>
+
+<style lang="scss">
+@layer components {
+  .pulse-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--dot-color);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--dot-color) 50%, transparent);
+    animation: pulse 2s ease-out infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--dot-color) 50%, transparent);
+    }
+
+    70% {
+      box-shadow: 0 0 0 8px color-mix(in srgb, var(--dot-color) 0%, transparent);
+    }
+
+    100% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--dot-color) 0%, transparent);
+    }
+  }
+}
+</style>

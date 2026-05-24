@@ -1,0 +1,85 @@
+---
+import { getEntry } from 'astro:content';
+import type { Locale } from '../../lib/i18n';
+import uiEn from '../../content/ui/en.json';
+import uiEs from '../../content/ui/es.json';
+import uiPt from '../../content/ui/pt.json';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const profile = await getEntry('profile', locale);
+if (!profile) throw new Error(`Profile not found for locale ${locale}`);
+
+const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
+const ui = uiByLocale[locale];
+const year = new Date().getFullYear();
+---
+<footer>
+  <div class="inner">
+    <span>{ui.footer.copyright.replace('{year}', String(year))}</span>
+    <nav aria-label="Footer">
+      <a href={profile.data.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href={profile.data.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a
+        href="https://github.com/Gabrielvargas94/Gabrielvargas94.github.io"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {ui.footer.source}
+      </a>
+    </nav>
+  </div>
+</footer>
+
+<style lang="scss">
+@layer components {
+  footer {
+    margin-top: 80px;
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 32px clamp(16px, 4vw, 64px);
+    font-size: 13px;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    color: var(--cream);
+    text-decoration: none;
+    opacity: 0.85;
+    min-height: 44px;
+
+    &:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+  }
+
+  @media (width <= 560px) {
+    .inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
+</style>

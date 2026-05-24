@@ -1,0 +1,37 @@
+---
+// Thin wrapper around astro-icon. Defaults to decorative (aria-hidden);
+// pass `label` to mark the icon as meaningful with an accessible name.
+import { Icon as AstroIcon } from 'astro-icon/components';
+
+interface Props {
+  /** Lucide-prefixed icon name, e.g. "lucide:linkedin". */
+  name: string;
+  /** Pixel size (square). Default 16. */
+  size?: number;
+  /** If set, icon is meaningful; otherwise decorative. */
+  label?: string;
+  class?: string;
+}
+
+const { name, size = 16, label, class: className } = Astro.props;
+---
+{
+  label ? (
+    <AstroIcon
+      name={name}
+      width={size}
+      height={size}
+      role="img"
+      aria-label={label}
+      class={className}
+    />
+  ) : (
+    <AstroIcon
+      name={name}
+      width={size}
+      height={size}
+      aria-hidden="true"
+      class={className}
+    />
+  )
+}

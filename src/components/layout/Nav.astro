@@ -1,0 +1,306 @@
+---
+import { getEntry } from 'astro:content';
+import CTAButton from '../ui/CTAButton.astro';
+import LangSwitcher from './LangSwitcher.astro';
+import Icon from '../ui/Icon.astro';
+import { localePath, type Locale } from '../../lib/i18n';
+import uiEn from '../../content/ui/en.json';
+import uiEs from '../../content/ui/es.json';
+import uiPt from '../../content/ui/pt.json';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const profile = await getEntry('profile', locale);
+if (!profile) throw new Error(`Profile not found for locale ${locale}`);
+
+const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
+const ui = uiByLocale[locale];
+---
+<header>
+  <nav aria-label="Primary">
+    <a href={localePath(locale)} class="brand">
+      <span class="mark" aria-hidden="true">g</span>
+      <span class="name-block">
+        <span class="name">{profile.data.name}</span>
+        <span class="role">{profile.data.displayTitle}</span>
+      </span>
+    </a>
+
+    <button
+      class="burger"
+      type="button"
+      aria-label="Menu"
+      aria-expanded="false"
+      aria-controls="primary-links"
+    >
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="links" id="primary-links">
+      <a href="#work" class="link">{ui.nav.work}</a>
+
+      <details class="dropdown">
+        <summary>
+          <span>{ui.nav.ai}</span>
+          <Icon name="lucide:chevron-down" size={10} class="chev" />
+        </summary>
+        <div class="menu" role="menu">
+          <a href="#lectures" role="menuitem">{ui.nav.lectures}</a>
+          <a href="#itti-ai" role="menuitem">{ui.nav.claudeCodeRollout}</a>
+          <a href="#side-project" role="menuitem">{ui.nav.sideProject}</a>
+          <a href="#certs" role="menuitem">{ui.nav.certifications}</a>
+        </div>
+      </details>
+
+      <details class="dropdown">
+        <summary>
+          <span>{ui.nav.hobbies}</span>
+          <Icon name="lucide:chevron-down" size={10} class="chev" />
+        </summary>
+        <div class="menu" role="menu">
+          <a href="#dnd" role="menuitem">{ui.nav.dnd}</a>
+          <a href="#spirit" role="menuitem">{ui.nav.spirituality}</a>
+        </div>
+      </details>
+    </div>
+
+    <div class="right">
+      <LangSwitcher current={locale} />
+      <CTAButton href={profile.data.linkedin} label={ui.nav.cta} icon="lucide:linkedin" />
+    </div>
+  </nav>
+</header>
+
+<script>
+  const navEl = document.querySelector('header > nav');
+  const onScroll = (): void => {
+    navEl?.classList.toggle('scrolled', window.scrollY > 30);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Mobile burger toggle.
+  const burger = document.querySelector<HTMLButtonElement>('.burger');
+  const links = document.getElementById('primary-links');
+  burger?.addEventListener('click', () => {
+    const expanded = burger.getAttribute('aria-expanded') === 'true';
+    burger.setAttribute('aria-expanded', String(!expanded));
+    links?.classList.toggle('open', !expanded);
+  });
+</script>
+
+<style lang="scss">
+@layer components {
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 16px clamp(16px, 4vw, 64px);
+    border-bottom: 1px solid transparent;
+    transition: background 0.25s, border-color 0.25s;
+
+    &.scrolled {
+      background: rgb(247 242 232 / 85%);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border-bottom-color: rgb(42 33 27 / 8%);
+    }
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--ink);
+    text-decoration: none;
+    min-height: 44px;
+  }
+
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--serif);
+    font-size: 16px;
+    font-style: italic;
+  }
+
+  .name {
+    display: block;
+    font-family: var(--serif);
+    font-size: 18px;
+  }
+
+  .role {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+  }
+
+  .burger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 44px;
+    height: 44px;
+    padding: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    span {
+      width: 100%;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+    }
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .link,
+  .dropdown summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    color: var(--ink-2);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    list-style: none;
+    cursor: pointer;
+    min-height: 44px;
+
+    &:hover {
+      background: rgb(42 33 27 / 5%);
+    }
+  }
+
+  .dropdown summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown[open] .chev {
+    transform: rotate(180deg);
+  }
+
+  .chev {
+    transition: transform 0.2s;
+  }
+
+  .menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 10;
+    min-width: 240px;
+    padding: 6px;
+    background: var(--cream);
+    border: 1px solid rgb(42 33 27 / 10%);
+    border-radius: 14px;
+    box-shadow: 0 16px 48px rgb(42 33 27 / 16%);
+
+    a {
+      display: flex;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 8px;
+      color: var(--ink-2);
+      text-decoration: none;
+      font-size: 14px;
+      min-height: 44px;
+
+      &:hover {
+        background: rgb(42 33 27 / 5%);
+      }
+    }
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  @media (width <= 980px) {
+    .burger {
+      display: flex;
+    }
+
+    .links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      gap: 0;
+      padding: 16px;
+      background: var(--cream);
+      border-bottom: 1px solid rgb(42 33 27 / 8%);
+      transform: translateY(-12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.2s, opacity 0.2s;
+
+      &.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+
+    .link,
+    .dropdown summary {
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .menu {
+      position: static;
+      padding: 4px 0 4px 16px;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+  }
+
+  @media (width <= 560px) {
+    .role {
+      display: none;
+    }
+  }
+}
+</style>
