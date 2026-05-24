@@ -1,5 +1,6 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { z } from 'zod';
 
 const locale = z.enum(['en', 'es', 'pt']);
 
@@ -13,8 +14,8 @@ const profile = defineCollection({
     company: z.string(),
     location: z.string(),
     openTo: z.array(z.string()),
-    linkedin: z.string().url(),
-    github: z.string().url(),
+    linkedin: z.url(),
+    github: z.url(),
     yearsExperience: z.number().int().nonnegative(),
     summary: z.string().min(1),
     achievements: z.array(z.string()).min(1),
@@ -39,19 +40,19 @@ const experience = defineCollection({
 });
 
 const certification = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/certification' }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/certifications' }),
   schema: z.object({
     locale,
     name: z.string(),
     issuer: z.string(),
     date: z.string().regex(/^\d{4}-\d{2}(-\d{2})?$/, 'date must be YYYY-MM or YYYY-MM-DD'),
-    url: z.string().url().optional(),
+    url: z.url().optional(),
     status: z.enum(['completed', 'in-progress']),
   }),
 });
 
 const project = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/project' }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
   schema: z.object({
     locale,
     slug: z.string(),
