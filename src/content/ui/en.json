@@ -14,8 +14,11 @@
   },
   "hero": {
     "kicker": "Head of Engineering",
-    "headline": "Building AI-first engineering teams",
+    "titlePre": "Building",
+    "titleEm": "AI-first",
+    "titlePost": "engineering teams",
     "subhead": "AI-first engineering & architectural transformations · Claude Code, AWS & GCP · Ex-Mercado Libre · Ex-IADB.",
+    "yearsMeta": "6+ years scaling teams",
     "cta": "Contact me on LinkedIn",
     "scrollHint": "Scroll to explore"
   },

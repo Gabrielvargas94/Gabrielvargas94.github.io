@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import { getEntry } from 'astro:content';
 import CTAButton from '../ui/CTAButton.astro';
-import PulseDot from '../ui/PulseDot.astro';
+import Pill from '../ui/Pill.astro';
 import gabrielImg from '../../../public/assets/gabriel.png';
 import type { Locale } from '../../lib/i18n';
 import uiEn from '../../content/ui/en.json';
@@ -20,29 +20,66 @@ if (!profile) throw new Error(`Profile not found for locale ${locale}`);
 
 const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
 const ui = uiByLocale[locale];
+const openMeta: Record<Locale, string> = {
+  en: 'Open to leadership roles',
+  es: 'Abierto a roles de liderazgo',
+  pt: 'Aberto a cargos de liderança',
+};
+const locMeta: Record<Locale, string> = {
+  en: 'Buenos Aires · Remote · Relocation',
+  es: 'Buenos Aires · Remoto · Reubicación',
+  pt: 'Buenos Aires · Remoto · Realocação',
+};
 ---
 <section id="hero" aria-labelledby="hero-title">
   <div class="grain" aria-hidden="true"></div>
+
+  <aside class="status" aria-hidden="true">
+    <div class="status-row">
+      <span class="pulse" aria-hidden="true"></span>
+      <span>{openMeta[locale]}</span>
+    </div>
+    <div class="status-row">{locMeta[locale]}</div>
+  </aside>
+
   <div class="inner">
     <div class="copy">
-      <div class="kicker">
-        <PulseDot />
-        <span>{profile.data.displayTitle}</span>
-      </div>
-      <h1 id="hero-title">{ui.hero.headline}</h1>
+      <Pill>{ui.hero.kicker}</Pill>
+      <h1 id="hero-title">
+        {ui.hero.titlePre}{' '}
+        <em>{ui.hero.titleEm}</em>{ui.hero.titlePost ? ' ' : ''}
+        {ui.hero.titlePost}
+      </h1>
       <p class="sub">{ui.hero.subhead}</p>
-      <CTAButton href={profile.data.linkedin} label={ui.hero.cta} icon="lucide:linkedin" />
+      <div class="actions">
+        <CTAButton href={profile.data.linkedin} label={ui.hero.cta} icon="lucide:linkedin" />
+        <span class="years">
+          <span class="dot" aria-hidden="true"></span>
+          {ui.hero.yearsMeta}
+        </span>
+      </div>
+      <div class="scroll-cue" aria-hidden="true">
+        <span class="arrow">↓</span> {ui.hero.scrollHint}
+      </div>
     </div>
+
     <div class="photo">
-      <Image
-        src={gabrielImg}
-        alt={`${profile.data.name}, ${profile.data.displayTitle}`}
-        widths={[320, 480, 640, 960]}
-        sizes="(max-width: 560px) 320px, (max-width: 880px) 480px, 640px"
-        loading="eager"
-        decoding="async"
-        fetchpriority="high"
-      />
+      <div class="frame">
+        <div class="blob" aria-hidden="true"></div>
+        <span class="corner tl" aria-hidden="true"></span>
+        <span class="corner tr" aria-hidden="true"></span>
+        <span class="corner bl" aria-hidden="true"></span>
+        <span class="corner br" aria-hidden="true"></span>
+        <Image
+          src={gabrielImg}
+          alt={`${profile.data.name}, ${profile.data.displayTitle}`}
+          widths={[320, 480, 640, 960]}
+          sizes="(max-width: 560px) 320px, (max-width: 880px) 480px, 640px"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </div>
     </div>
   </div>
 </section>
@@ -51,7 +88,10 @@ const ui = uiByLocale[locale];
 @layer components {
   section {
     position: relative;
-    padding: 140px clamp(16px, 4vw, 64px) 100px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px clamp(16px, 4vw, 64px) 80px;
     background: var(--cream);
     overflow: hidden;
   }
@@ -66,71 +106,207 @@ const ui = uiByLocale[locale];
       radial-gradient(circle at 80% 70%, rgb(201 122 75 / 6%) 0%, transparent 45%);
   }
 
-  .inner {
-    position: relative;
-    max-width: 1440px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 64px;
-    align-items: center;
-  }
-
-  .kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
+  // Floating "open / location" meta in the top-right corner of the section.
+  .status {
+    position: absolute;
+    top: clamp(80px, 10vw, 120px);
+    right: clamp(16px, 4vw, 64px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
     font-family: var(--mono);
     font-size: 11px;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--ink-3);
+    z-index: 2;
+  }
+
+  .status-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pulse {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #5b9a6e;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: #5b9a6e;
+      animation: pulse-grow 2s ease-out infinite;
+    }
+  }
+
+  @keyframes pulse-grow {
+    0%   { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(3); opacity: 0; }
+  }
+
+  .inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(24px, 4vw, 72px);
+    align-items: center;
   }
 
   h1 {
     font-family: var(--serif);
-    font-size: clamp(40px, 6vw, 80px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin: 24px 0;
+    font-size: clamp(48px, 7vw, 108px);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    margin: 28px 0 0;
     color: var(--ink);
+    text-wrap: balance;
+
+    em {
+      font-style: italic;
+      color: var(--accent);
+      font-family: var(--serif);
+      font-weight: 400;
+    }
   }
 
   .sub {
-    max-width: 540px;
-    color: var(--ink-2);
-    font-size: 18px;
+    margin: 32px 0 0;
+    max-width: 560px;
+    font-size: clamp(16px, 1.3vw, 20px);
     line-height: 1.55;
-    margin-bottom: 36px;
+    color: var(--ink-2);
+    text-wrap: pretty;
   }
 
+  .actions {
+    margin-top: 44px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .years {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent-dark);
+    }
+  }
+
+  .scroll-cue {
+    margin-top: clamp(48px, 6vw, 88px);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .arrow {
+    display: inline-block;
+    animation: bob 2.4s ease-in-out infinite;
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(4px); }
+  }
+
+  // Photo frame: corner ticks + radial accent blob + drop shadow.
   .photo {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
   }
+
+  .frame {
+    position: relative;
+    width: min(100%, 560px);
+  }
+
+  .blob {
+    position: absolute;
+    inset: -8% -6%;
+    background: radial-gradient(60% 60% at 50% 55%, rgb(201 122 75 / 18%), transparent 70%);
+    filter: blur(20px);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .corner {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-top: 1.5px solid var(--ink);
+    border-left: 1.5px solid var(--ink);
+    opacity: 0.55;
+    z-index: 2;
+  }
+  .corner.tl { top: -14px; left: -14px; }
+  .corner.tr { top: -14px; right: -14px; transform: rotate(90deg); }
+  .corner.bl { bottom: -14px; left: -14px; transform: rotate(-90deg); }
+  .corner.br { bottom: -14px; right: -14px; transform: rotate(180deg); }
 
   .photo :global(img) {
+    position: relative;
+    z-index: 1;
     display: block;
     width: 100%;
-    max-width: 100%;
     height: auto;
-    object-fit: contain;
+    filter: drop-shadow(0 24px 40px rgb(42 33 27 / 18%));
   }
 
+  // Responsive collapse.
   @media (width <= 880px) {
     section {
+      min-height: auto;
       padding-top: 110px;
+    }
+
+    .status {
+      position: relative;
+      top: auto;
+      right: auto;
+      align-items: flex-start;
+      margin-bottom: 24px;
     }
 
     .inner {
       grid-template-columns: 1fr;
-      gap: 32px;
+      gap: 40px;
     }
 
     .photo {
-      order: -1;
+      justify-content: center;
+    }
+
+    .frame {
       max-width: 380px;
-      margin: 0 auto;
     }
   }
 }
