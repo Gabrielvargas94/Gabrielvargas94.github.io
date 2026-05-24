@@ -56,6 +56,14 @@ const skipLabels: Record<Locale, string> = {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <ClientRouter />
     <slot name="head" />
+    {import.meta.env.PROD && import.meta.env.PUBLIC_UMAMI_ID && (
+      <script
+        type="text/partytown"
+        src="https://cloud.umami.is/script.js"
+        data-website-id={import.meta.env.PUBLIC_UMAMI_ID}
+        is:inline
+      ></script>
+    )}
   </head>
   <body>
     <SkipLink label={skipLabels[locale]} />
