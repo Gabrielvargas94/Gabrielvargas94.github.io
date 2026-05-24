@@ -1,0 +1,111 @@
+---
+import type { Locale } from '../../lib/i18n';
+import uiEn from '../../content/ui/en.json';
+import uiEs from '../../content/ui/es.json';
+import uiPt from '../../content/ui/pt.json';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
+const ui = uiByLocale[locale];
+const s = ui.sections.idb;
+---
+<section id="idb" aria-labelledby="idb-title">
+  <div class="inner">
+    <header class="head">
+      <span class="kicker">{s.kicker}</span>
+      <h2 id="idb-title">{s.title}</h2>
+    </header>
+
+    <dl class="stats">
+      {
+        s.stats.map((stat) => (
+          <div class="stat">
+            <dt>{stat.value}</dt>
+            <dd>{stat.label}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<style lang="scss">
+@layer components {
+  section {
+    background: var(--cream-2);
+    padding: 100px clamp(16px, 4vw, 64px);
+  }
+
+  .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .head {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .kicker {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 auto;
+    color: var(--ink);
+    max-width: 900px;
+  }
+
+  .stats {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .stat {
+    text-align: center;
+    padding: 32px 16px;
+  }
+
+  dt {
+    font-family: var(--serif);
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--accent-dark);
+    margin-bottom: 16px;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 280px;
+    margin-inline: auto;
+  }
+
+  @media (width <= 720px) {
+    .stats {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+}
+</style>

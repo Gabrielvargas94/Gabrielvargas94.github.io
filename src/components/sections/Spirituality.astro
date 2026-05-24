@@ -1,0 +1,76 @@
+---
+import type { Locale } from '../../lib/i18n';
+import uiEn from '../../content/ui/en.json';
+import uiEs from '../../content/ui/es.json';
+import uiPt from '../../content/ui/pt.json';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
+const ui = uiByLocale[locale];
+const s = ui.sections.spirit;
+---
+<section id="spirit" aria-labelledby="spirit-title">
+  <div class="inner">
+    <span class="kicker">{s.kicker}</span>
+    <h2 id="spirit-title">{s.title}</h2>
+    <blockquote>
+      <p>{s.desc}</p>
+    </blockquote>
+  </div>
+</section>
+
+<style lang="scss">
+@layer components {
+  section {
+    background: var(--paper);
+    padding: 100px clamp(16px, 4vw, 64px);
+  }
+
+  .inner {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .kicker {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 32px;
+    color: var(--ink);
+  }
+
+  blockquote {
+    margin: 0;
+    padding: 32px;
+    border-left: 3px solid var(--accent-dark);
+    background: var(--cream);
+    border-radius: 0 16px 16px 0;
+    text-align: left;
+  }
+
+  blockquote p {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.55;
+    color: var(--ink-2);
+    font-style: italic;
+  }
+}
+</style>

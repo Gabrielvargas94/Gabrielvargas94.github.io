@@ -1,0 +1,83 @@
+---
+import type { Locale } from '../../lib/i18n';
+import uiEn from '../../content/ui/en.json';
+import uiEs from '../../content/ui/es.json';
+import uiPt from '../../content/ui/pt.json';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
+const ui = uiByLocale[locale];
+const s = ui.sections.lectures;
+---
+<section id="lectures" aria-labelledby="lectures-title">
+  <div class="inner">
+    <header class="head">
+      <span class="kicker">{s.kicker}</span>
+      <h2 id="lectures-title">{s.title}</h2>
+    </header>
+
+    <ul class="topics">
+      {s.topics.map((topic) => <li>{topic}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style lang="scss">
+@layer components {
+  section {
+    background: var(--paper);
+    padding: 100px clamp(16px, 4vw, 64px);
+  }
+
+  .inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .head {
+    margin-bottom: 48px;
+  }
+
+  .kicker {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .topics {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  li {
+    padding: 20px 24px;
+    background: var(--cream);
+    border-left: 3px solid var(--accent-dark);
+    border-radius: 0 12px 12px 0;
+    color: var(--ink-2);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+}
+</style>

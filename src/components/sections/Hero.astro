@@ -1,0 +1,130 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import CTAButton from '../ui/CTAButton.astro';
+import PulseDot from '../ui/PulseDot.astro';
+import gabrielImg from '../../../public/assets/gabriel.png';
+import type { Locale } from '../../lib/i18n';
+import uiEn from '../../content/ui/en.json';
+import uiEs from '../../content/ui/es.json';
+import uiPt from '../../content/ui/pt.json';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const profile = await getEntry('profile', locale);
+if (!profile) throw new Error(`Profile not found for locale ${locale}`);
+
+const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
+const ui = uiByLocale[locale];
+---
+<section id="hero" aria-labelledby="hero-title">
+  <div class="grain" aria-hidden="true"></div>
+  <div class="inner">
+    <div class="copy">
+      <div class="kicker">
+        <PulseDot />
+        <span>{profile.data.displayTitle} · {profile.data.company}</span>
+      </div>
+      <h1 id="hero-title">{ui.hero.headline}</h1>
+      <p class="sub">{ui.hero.subhead}</p>
+      <CTAButton href={profile.data.linkedin} label={ui.hero.cta} icon="lucide:linkedin" />
+    </div>
+    <div class="photo">
+      <Image
+        src={gabrielImg}
+        alt={`${profile.data.name}, ${profile.data.displayTitle}`}
+        widths={[380, 520, 760, 1040]}
+        sizes="(max-width: 880px) 380px, 520px"
+        loading="eager"
+        decoding="async"
+      />
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+@layer components {
+  section {
+    position: relative;
+    padding: 140px clamp(16px, 4vw, 64px) 100px;
+    background: var(--cream);
+    overflow: hidden;
+  }
+
+  .grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgb(201 122 75 / 8%) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgb(201 122 75 / 6%) 0%, transparent 45%);
+  }
+
+  .inner {
+    position: relative;
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(40px, 6vw, 80px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 24px 0;
+    color: var(--ink);
+  }
+
+  .sub {
+    max-width: 540px;
+    color: var(--ink-2);
+    font-size: 18px;
+    line-height: 1.55;
+    margin-bottom: 36px;
+  }
+
+  .photo :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+  }
+
+  @media (width <= 880px) {
+    section {
+      padding-top: 110px;
+    }
+
+    .inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .photo {
+      order: -1;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+  }
+}
+</style>

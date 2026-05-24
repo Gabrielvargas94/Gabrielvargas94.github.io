@@ -1,0 +1,165 @@
+---
+import { getCollection } from 'astro:content';
+import type { Locale } from '../../lib/i18n';
+import uiEn from '../../content/ui/en.json';
+import uiEs from '../../content/ui/es.json';
+import uiPt from '../../content/ui/pt.json';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
+const ui = uiByLocale[locale];
+const s = ui.sections.certs;
+
+const certs = (await getCollection('certification', (c) => c.data.locale === locale)).sort(
+  (a, b) => b.data.date.localeCompare(a.data.date),
+);
+
+const inProgressLabel: Record<Locale, string> = {
+  en: 'In progress',
+  es: 'En progreso',
+  pt: 'Em andamento',
+};
+
+function formatDate(date: string, loc: Locale): string {
+  const [year, month] = date.split('-');
+  const monthIndex = Number(month) - 1;
+  const monthNames: Record<Locale, readonly string[]> = {
+    en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    es: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+    pt: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+  };
+  return `${monthNames[loc][monthIndex] ?? ''} ${year}`;
+}
+---
+<section id="certs" aria-labelledby="certs-title">
+  <div class="inner">
+    <header class="head">
+      <span class="kicker">{s.kicker}</span>
+      <h2 id="certs-title">{s.title}</h2>
+      <p class="subtitle">{s.subtitle}</p>
+    </header>
+
+    <ul class="grid">
+      {
+        certs.map((cert) => (
+          <li class="cert">
+            <span class="issuer">{cert.data.issuer}</span>
+            <h3>{cert.data.name}</h3>
+            <div class="meta">
+              <time datetime={cert.data.date}>{formatDate(cert.data.date, locale)}</time>
+              {cert.data.status === 'in-progress' && (
+                <span class="badge">{inProgressLabel[locale]}</span>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style lang="scss">
+@layer components {
+  section {
+    background: var(--paper);
+    padding: 100px clamp(16px, 4vw, 64px);
+  }
+
+  .inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .head {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .kicker {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+    color: var(--ink);
+  }
+
+  .subtitle {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 16px;
+  }
+
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .cert {
+    padding: 24px;
+    background: var(--cream);
+    border: 1px solid rgb(42 33 27 / 8%);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .issuer {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+  }
+
+  h3 {
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.3;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+
+  time {
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  .badge {
+    padding: 3px 10px;
+    background: var(--accent-light);
+    color: var(--ink);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+}
+</style>

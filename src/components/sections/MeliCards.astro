@@ -1,0 +1,156 @@
+---
+import Icon from '../ui/Icon.astro';
+import VideoPlaceholder from '../ui/VideoPlaceholder.astro';
+import type { Locale } from '../../lib/i18n';
+import uiEn from '../../content/ui/en.json';
+import uiEs from '../../content/ui/es.json';
+import uiPt from '../../content/ui/pt.json';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
+const ui = uiByLocale[locale];
+const s = ui.sections.meli;
+---
+<section id="meli" aria-labelledby="meli-title">
+  <div class="bg" aria-hidden="true">
+    <VideoPlaceholder label="Mercado Libre" />
+  </div>
+
+  <div class="inner">
+    <header class="head">
+      <span class="kicker">{s.kicker}</span>
+      <h2 id="meli-title">{s.title}</h2>
+    </header>
+
+    <ul class="cards">
+      {
+        s.cards.map((c) => (
+          <li class="card">
+            <span class="icon" aria-hidden="true">
+              <Icon name={c.icon} size={28} />
+            </span>
+            <h3>{c.title}</h3>
+            <p>{c.desc}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style lang="scss">
+@layer components {
+  section {
+    position: relative;
+    isolation: isolate;
+    padding: 100px clamp(16px, 4vw, 64px);
+    overflow: hidden;
+  }
+
+  .bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgb(42 33 27 / 55%);
+  }
+
+  .inner {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .head {
+    text-align: center;
+    margin-bottom: 56px;
+    color: var(--cream);
+  }
+
+  .kicker {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--cream);
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  .cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .card {
+    padding: 24px;
+    background: rgb(247 242 232 / 86%);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    border: 1px solid rgb(247 242 232 / 30%);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--ink);
+    color: var(--accent-light);
+  }
+
+  h3 {
+    font-family: var(--serif);
+    font-size: 20px;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  @media (width <= 880px) {
+    .cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (width <= 560px) {
+    .cards {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+</style>

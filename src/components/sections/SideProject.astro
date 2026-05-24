@@ -1,0 +1,132 @@
+---
+import { getCollection } from 'astro:content';
+import VideoPlaceholder from '../ui/VideoPlaceholder.astro';
+import type { Locale } from '../../lib/i18n';
+import uiEn from '../../content/ui/en.json';
+import uiEs from '../../content/ui/es.json';
+import uiPt from '../../content/ui/pt.json';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
+const ui = uiByLocale[locale];
+const s = ui.sections.sideProject;
+
+const projects = await getCollection(
+  'project',
+  (p) => p.data.locale === locale && p.data.slug === 'dnd-companion',
+);
+const proj = projects[0]?.data;
+const desc = proj?.summary ?? s.desc;
+const highlights = proj?.highlights ?? [];
+---
+<section id="side-project" aria-labelledby="side-project-title">
+  <div class="bg" aria-hidden="true">
+    <VideoPlaceholder label="D&D AI Companion" tint="var(--accent-dark)" />
+  </div>
+
+  <div class="inner">
+    <span class="kicker">{s.kicker}</span>
+    <h2 id="side-project-title">{s.title}</h2>
+    <p class="desc">{desc}</p>
+
+    {
+      highlights.length > 0 && (
+        <ul class="highlights">
+          {highlights.map((h) => (
+            <li>{h}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</section>
+
+<style lang="scss">
+@layer components {
+  section {
+    position: relative;
+    isolation: isolate;
+    padding: 100px clamp(16px, 4vw, 64px);
+    overflow: hidden;
+  }
+
+  .bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgb(42 33 27 / 65%);
+  }
+
+  .inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+    color: var(--cream);
+  }
+
+  .kicker {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+    color: var(--cream);
+  }
+
+  .desc {
+    margin: 0 auto 48px;
+    max-width: 720px;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--cream-2);
+  }
+
+  .highlights {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    text-align: left;
+  }
+
+  li {
+    padding: 20px 24px;
+    background: rgb(247 242 232 / 8%);
+    border: 1px solid rgb(247 242 232 / 16%);
+    border-radius: 12px;
+    color: var(--cream);
+    font-size: 15px;
+    line-height: 1.6;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  @media (width <= 720px) {
+    .highlights {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+</style>

@@ -1,0 +1,149 @@
+---
+import VideoPlaceholder from '../ui/VideoPlaceholder.astro';
+import type { Locale } from '../../lib/i18n';
+import uiEn from '../../content/ui/en.json';
+import uiEs from '../../content/ui/es.json';
+import uiPt from '../../content/ui/pt.json';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
+const ui = uiByLocale[locale];
+const s = ui.sections.ittiSplit;
+---
+<section id="work" aria-labelledby="itti-split-title">
+  <div class="inner">
+    <header class="head">
+      <span class="kicker">{s.kicker}</span>
+      <h2 id="itti-split-title">{s.title}</h2>
+    </header>
+
+    <div class="split">
+      <article class="side left">
+        <div class="vid">
+          <VideoPlaceholder label={s.left} />
+        </div>
+        <h3>{s.left}</h3>
+        <p>{s.leftDesc}</p>
+      </article>
+
+      <div class="medallion" aria-hidden="true">
+        <span>itti</span>
+      </div>
+
+      <article class="side right">
+        <div class="vid">
+          <VideoPlaceholder label={s.right} tint="var(--accent-dark)" />
+        </div>
+        <h3>{s.right}</h3>
+        <p>{s.rightDesc}</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+@layer components {
+  section {
+    background: var(--paper);
+    padding: 100px clamp(16px, 4vw, 64px);
+  }
+
+  .inner {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .head {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .kicker {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .vid {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+  }
+
+  h3 {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3vw, 32px);
+    margin: 0;
+    color: var(--ink);
+  }
+
+  p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  .medallion {
+    display: grid;
+    place-items: center;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 32px;
+  }
+
+  @media (width <= 720px) {
+    .split {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      justify-items: center;
+    }
+
+    .medallion {
+      order: -1;
+      width: 88px;
+      height: 88px;
+      font-size: 24px;
+    }
+
+    .side {
+      width: 100%;
+      max-width: 480px;
+    }
+  }
+}
+</style>

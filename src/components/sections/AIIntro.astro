@@ -1,0 +1,64 @@
+---
+import type { Locale } from '../../lib/i18n';
+import uiEn from '../../content/ui/en.json';
+import uiEs from '../../content/ui/es.json';
+import uiPt from '../../content/ui/pt.json';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
+const ui = uiByLocale[locale];
+const s = ui.sections.aiIntro;
+---
+<section id="ai-intro" aria-labelledby="ai-intro-title">
+  <div class="inner">
+    <span class="kicker">{s.kicker}</span>
+    <h2 id="ai-intro-title">{s.title}</h2>
+    <p>{s.desc}</p>
+  </div>
+</section>
+
+<style lang="scss">
+@layer components {
+  section {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 100px clamp(16px, 4vw, 64px);
+  }
+
+  .inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .kicker {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+    color: var(--cream);
+  }
+
+  p {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--cream-2);
+  }
+}
+</style>

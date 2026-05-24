@@ -1,0 +1,95 @@
+---
+import D20 from '../ui/D20.astro';
+import type { Locale } from '../../lib/i18n';
+import uiEn from '../../content/ui/en.json';
+import uiEs from '../../content/ui/es.json';
+import uiPt from '../../content/ui/pt.json';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
+const ui = uiByLocale[locale];
+const s = ui.sections.dnd;
+---
+<section id="dnd" aria-labelledby="dnd-title">
+  <div class="inner">
+    <div class="copy">
+      <span class="kicker">{s.kicker}</span>
+      <h2 id="dnd-title">{s.title}</h2>
+      <p>{s.desc}</p>
+    </div>
+
+    <div class="d20-wrap">
+      <D20 />
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+@layer components {
+  section {
+    background: var(--cream-2);
+    padding: 100px clamp(16px, 4vw, 64px);
+  }
+
+  .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .kicker {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+    color: var(--ink);
+  }
+
+  p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 17px;
+    line-height: 1.65;
+    max-width: 580px;
+  }
+
+  .d20-wrap {
+    display: grid;
+    place-items: center;
+  }
+
+  .d20-wrap :global(.d20) {
+    transform: scale(2);
+  }
+
+  @media (width <= 880px) {
+    .inner {
+      grid-template-columns: 1fr;
+      gap: 56px;
+      text-align: center;
+    }
+
+    .copy p {
+      margin-inline: auto;
+    }
+  }
+}
+</style>
