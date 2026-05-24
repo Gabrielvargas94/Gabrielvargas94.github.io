@@ -8,12 +8,34 @@ interface Props {
   label: string;
   /** CSS color for the secondary accent blob. */
   tint?: string;
+  /** YouTube video ID for background embed (autoplay, mute, loop). */
+  youtubeId?: string;
 }
 
-const { src, poster, label, tint = 'var(--accent)' } = Astro.props;
+const { src, poster, label, tint = 'var(--accent)', youtubeId } = Astro.props;
+
+// Privacy-enhanced youtube-nocookie + flags that hide chrome and force loop.
+const ytSrc = youtubeId
+  ? `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&mute=1&loop=1&playlist=${youtubeId}&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0&iv_load_policy=3&disablekb=1&fs=0`
+  : null;
 ---
 {
-  src ? (
+  ytSrc ? (
+    <div class="yt-wrap" role="img" aria-label={label}>
+      <iframe
+        class="yt"
+        src={ytSrc}
+        title={label}
+        loading="lazy"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin"
+      />
+      <div class="rec">
+        <span class="rec-dot" />
+        <span>{label}</span>
+      </div>
+    </div>
+  ) : src ? (
     <video
       autoplay
       loop
@@ -46,7 +68,8 @@ const { src, poster, label, tint = 'var(--accent)' } = Astro.props;
 <style lang="scss">
 @layer components {
   .video,
-  .placeholder {
+  .placeholder,
+  .yt-wrap {
     /* Local color token for the recording chip dot. */
     --rec-color: #e3624b;
     position: relative;
@@ -60,6 +83,19 @@ const { src, poster, label, tint = 'var(--accent)' } = Astro.props;
 
   .video {
     object-fit: cover;
+  }
+
+  // YouTube iframe: scale to cover container, crop edges to hide chrome,
+  // disable pointer events so it behaves like a background.
+  .yt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 177.78%; /* 16:9 width when scaled vertically */
+    height: 200%; /* extends beyond container to crop UI/chrome */
+    transform: translate(-50%, -50%) scale(1.15);
+    border: 0;
+    pointer-events: none;
   }
 
   .mesh {
