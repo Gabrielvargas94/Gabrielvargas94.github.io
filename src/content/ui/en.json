@@ -114,9 +114,17 @@
       ]
     },
     "sideProject": {
-      "kicker": "Side Project",
-      "title": "D&D AI Companion",
-      "desc": "Multi-tenant agentic platform for tabletop RPG. Graph-per-campaign architecture with a translation layer between non-compatible rulesets. Multi-provider LLM orchestration (Claude + GPT), custom tools, harness in-code and as product, Agent-as-a-Service — not just SaaS."
+      "kicker": "Side Project · D&D AI Companion",
+      "title": "An agentic RPG platform pushing the architecture further",
+      "lede": "Multi-tenant agentic platform for tabletop RPG. Helps DMs and players create characters, build full campaigns, translate adventures across rulesets — without reading thousands of pages of source material.",
+      "cards": [
+        { "tag": "Architecture", "title": "Graph-per-tenant, graph-per-campaign", "body": "Each campaign is its own graph. Lore, characters, and rule references stay isolated and queryable." },
+        { "tag": "Interoperability", "title": "Translation layer between rulesets", "body": "Bridges D&D 5e, Pathfinder, Vampire: the Masquerade and more — non-compatible schemas reconciled in one runtime." },
+        { "tag": "Orchestration", "title": "Multi-provider LLM routing", "body": "Claude + GPT in the same pipeline. Pick the right model per task — reasoning, narration, world-building, character builder." },
+        { "tag": "Harness", "title": "Custom tools + harness in-code and as product", "body": "Custom tools, in-code harness for trusted ops, and a product-level harness for end-user agents to compose without leaking context." },
+        { "tag": "Agent-as-a-Service", "title": "Beyond SaaS — agents you can subscribe to", "body": "Not just a SaaS app: every campaign gets its own scheduled, persistent agent. Identity, memory, and orchestration are first-class." },
+        { "tag": "Scheduled workflows", "title": "Agentic loops on a clock", "body": "Long-running, scheduled workflows that prep next session, reconcile state, and surface plot threads the DM forgot." }
+      ]
     },
     "certs": {
       "kicker": "Certifications",

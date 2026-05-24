@@ -114,9 +114,17 @@
       ]
     },
     "sideProject": {
-      "kicker": "Side Project",
-      "title": "D&D AI Companion",
-      "desc": "Plataforma agéntica multi-tenant para RPG de mesa. Arquitectura de grafos por campaña con capa de traducción entre rulesets no compatibles. Orquestación multi-provider de LLMs (Claude + GPT), custom tools, harness in-code y como producto, Agent-as-a-Service — no solo SaaS."
+      "kicker": "Side Project · D&D AI Companion",
+      "title": "Una plataforma agéntica de RPG empujando la arquitectura más allá",
+      "lede": "Plataforma agéntica multi-tenant para RPG de mesa. Ayuda a DMs y jugadores a crear personajes, armar campañas completas, traducir aventuras entre rulesets — sin leer miles de páginas de material fuente.",
+      "cards": [
+        { "tag": "Arquitectura", "title": "Grafo por tenant, grafo por campaña", "body": "Cada campaña es su propio grafo. Lore, personajes y referencias de reglas quedan aislados y queryables." },
+        { "tag": "Interoperabilidad", "title": "Capa de traducción entre rulesets", "body": "Puentea D&D 5e, Pathfinder, Vampiro la Mascarada y más — schemas no compatibles reconciliados en un runtime." },
+        { "tag": "Orquestación", "title": "Routing multi-provider de LLMs", "body": "Claude + GPT en el mismo pipeline. Elegí el modelo correcto por tarea — razonamiento, narración, world-building, creador de personajes." },
+        { "tag": "Harness", "title": "Custom tools + harness in-code y como producto", "body": "Custom tools, harness in-code para ops confiables, y un harness a nivel producto para que los agents del usuario final compongan sin filtrar contexto." },
+        { "tag": "Agent-as-a-Service", "title": "Más allá de SaaS — agentes a los que te suscribís", "body": "No es solo una app SaaS: cada campaña tiene su propio agente persistente y agendado. Identidad, memoria y orquestación son first-class." },
+        { "tag": "Workflows agendados", "title": "Loops agénticos sobre un reloj", "body": "Workflows largos y agendados que preparan la próxima sesión, reconcilian estado, y traen los hilos de la trama que el DM olvidó." }
+      ]
     },
     "certs": {
       "kicker": "Certificaciones",
