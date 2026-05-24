@@ -1,6 +1,6 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
-import { canonicalUrl } from '../../lib/seo';
+import { canonicalUrl, SITE } from '../../lib/seo';
 import type { Locale } from '../../lib/i18n';
 
 interface Props {
@@ -14,11 +14,13 @@ if (!profile) throw new Error(`Profile not found for locale ${locale}`);
 const experiences = (await getCollection('experience', (e) => e.data.locale === locale))
   .sort((a, b) => a.data.order - b.data.order);
 
-const SITE = 'https://gabrielvargas94.github.io';
 const profileUrl = canonicalUrl(locale);
 const personId = `${profileUrl}#person`;
 
-const workExperience = experiences.map((e) => ({
+// `worksFor` per schema.org Person accepts Organization | OrganizationRole.
+// We model each engagement as an OrganizationRole — this is what ATS parsers
+// and Google's structured-data pipeline read for work history.
+const worksFor = experiences.map((e) => ({
   '@type': 'OrganizationRole',
   roleName: e.data.title,
   startDate: e.data.startDate,
@@ -48,13 +50,13 @@ const graph = {
         '@type': 'CollegeOrUniversity',
         name: 'Universidad Tecnológica Nacional',
       },
-      worksFor: { '@type': 'Organization', name: profile.data.company },
+      worksFor,
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Buenos Aires',
         addressCountry: 'AR',
       },
-      sameAs: [canonicalUrl('en'), profile.data.github],
+      sameAs: [profile.data.github],
       knowsAbout: [
         'Engineering Leadership', 'Team Scaling', 'AI-first Engineering',
         'Claude Code', 'Cursor', 'GitHub Copilot',
@@ -82,7 +84,6 @@ const graph = {
         skills:
           'Engineering leadership, AI-first development, Claude Code adoption, architectural transformation',
       },
-      hasOccupationalCredential: workExperience,
     },
   ],
 };

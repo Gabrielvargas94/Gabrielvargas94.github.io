@@ -1,4 +1,8 @@
 ---
+// Consumer pages MUST render a focusable target with id="main":
+//   <main id="main" tabindex="-1"> ... </main>
+// The tabindex makes the landmark programmatically focusable when the
+// skip link is activated by keyboard or screen-reader users.
 interface Props {
   label?: string;
 }

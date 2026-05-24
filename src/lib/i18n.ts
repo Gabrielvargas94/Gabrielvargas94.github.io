@@ -10,8 +10,11 @@ export const HREFLANG_MAP: Readonly<Record<Locale, string>> = {
 
 export function localePath(locale: Locale, path = ''): string {
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  if (locale === DEFAULT_LOCALE) return `/${cleanPath}`;
-  return `/${locale}/${cleanPath}`;
+  // Always end with `/` to match Astro config `trailingSlash: 'always'` and
+  // GitHub Pages directory-style serving. Avoids canonical→served redirects.
+  const withTrail = cleanPath === '' ? '' : cleanPath.endsWith('/') ? cleanPath : `${cleanPath}/`;
+  if (locale === DEFAULT_LOCALE) return `/${withTrail}`;
+  return `/${locale}/${withTrail}`;
 }
 
 export function getLocaleFromUrl(url: URL): Locale {

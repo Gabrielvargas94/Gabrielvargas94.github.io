@@ -1,6 +1,6 @@
 import { LOCALES, HREFLANG_MAP, DEFAULT_LOCALE, type Locale, localePath } from './i18n';
 
-const SITE = 'https://gabrielvargas94.github.io';
+export const SITE = 'https://gabrielvargas94.github.io';
 
 export function canonicalUrl(locale: Locale, path = ''): string {
   return `${SITE}${localePath(locale, path)}`;
