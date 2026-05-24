@@ -37,10 +37,11 @@ const ui = uiByLocale[locale];
       <Image
         src={gabrielImg}
         alt={`${profile.data.name}, ${profile.data.displayTitle}`}
-        widths={[380, 520, 760, 1040]}
-        sizes="(max-width: 880px) 380px, 520px"
+        widths={[320, 480, 640, 960]}
+        sizes="(max-width: 560px) 320px, (max-width: 880px) 480px, 640px"
         loading="eager"
         decoding="async"
+        fetchpriority="high"
       />
     </div>
   </div>
