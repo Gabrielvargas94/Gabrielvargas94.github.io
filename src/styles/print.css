@@ -1,0 +1,8 @@
+@media print {
+  :root { --cream: #ffffff; --paper: #ffffff; }
+  html, body { background: #fff; color: #000; font-size: 11pt; }
+  nav, footer, .no-print { display: none !important; }
+  a { color: #000; text-decoration: underline; }
+  h1, h2, h3 { page-break-after: avoid; }
+  article, section { page-break-inside: avoid; }
+}
