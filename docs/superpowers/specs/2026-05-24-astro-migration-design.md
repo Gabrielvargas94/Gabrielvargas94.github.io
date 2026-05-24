@@ -27,25 +27,28 @@ Decisions made during implementation that extend the original D1-D18:
 - Umami analytics website ID stored as GH Secret `UMAMI_WEBSITE_ID` (UUID `307bcc05-e257-4a7e-bdcc-cd9aef78b40b`), injected at build as `PUBLIC_UMAMI_ID`, embedded via `type="text/partytown"`.
 - All public artifacts validated post-deploy: JSON Resume schema ✅, 2 JSON-LD blocks (ProfilePage+Person+8 worksFor, FAQPage 6 Q's) ✅, sitemap with hreflang ✅, robots.txt AI allowlist ✅.
 
-## Lighthouse CI scores (mobile, live)
+## Lighthouse scores (live)
 
-| Category | Score | Target | Status |
-|---|---|---|---|
-| Accessibility | 100 | ≥95 | ✅ |
-| Best Practices | 100 | ≥90 | ✅ |
-| SEO | 100 | ≥95 | ✅ |
-| Performance | 68 | ≥90 | ⚠️ warn-only |
+| Category | Mobile (CI) | Desktop (browser) | Target | Status |
+|---|---|---|---|---|
+| Accessibility | 100 | 100 | ≥95 | ✅ |
+| Best Practices | 100 | 100 | ≥90 | ✅ |
+| SEO | 100 | 100 | ≥95 | ✅ |
+| Performance | 66–68 | 100 | ≥90 | ⚠️ mobile warn-only |
 
-Performance gap dominated by:
-- **GitHub Pages free-tier limits:** no text compression on assets, no custom cache headers, ~243 KB savings achievable only via Cloudflare proxy (requires custom domain — out of scope).
-- **YouTube iframes:** lazy-loaded via facade pattern (IntersectionObserver + `requestIdleCallback`), but once intersecting, each iframe pulls ~500 KB of YouTube player JS and adds ~4.5 s main-thread work.
+Desktop hits all 100s. Mobile lags 22-24 points on Performance due to:
 
-Paths to ≥90:
+- **GitHub Pages free-tier limits:** no text compression on assets, no custom cache headers. ~243 KB savings achievable only via Cloudflare proxy (requires custom domain — out of scope).
+- **YouTube iframes:** lazy-loaded via facade pattern (IntersectionObserver + `requestIdleCallback`); each iframe still pulls ~500 KB of YouTube player JS on intersect and adds ~4.5 s main-thread work. Also prevents bfcache restoration.
+
+Optimizations already applied: PulseDot composited transform animation (was non-composited box-shadow), hero image `fetchpriority="high"` with tightened srcset widths.
+
+Paths to mobile ≥90:
 1. Buy custom domain → CF proxy compression + caching (single biggest gain).
-2. Replace YouTube backgrounds with self-hosted MP4 (~3 MB each, 5–10× lighter than YT embed runtime).
+2. Replace YouTube backgrounds with self-hosted MP4 (~3 MB each, 5–10× lighter than YT embed runtime, recovers bfcache).
 3. Drop view transitions (`<ClientRouter />`) — saves ~2 KB JS + main-thread overhead. UX cost: locale/anchor nav becomes full reloads.
 
-A11y/SEO/Best-Practices at 100 is the primary discovery goal for AEO; performance remains a known follow-up.
+A11y/SEO/Best-Practices at 100 across both viewports is the primary discovery goal for AEO; mobile performance ceiling is documented and accepted.
 
 ## Goal
 
