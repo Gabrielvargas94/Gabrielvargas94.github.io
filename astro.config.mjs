@@ -91,7 +91,11 @@ export default defineConfig({
   ],
 
   build: {
-    inlineStylesheets: 'auto',
+    // 'always' inlines all CSS into the HTML head — eliminates render-blocking
+    // external CSS requests (e.g., Contact.css that was costing ~150ms even
+    // though the section is below the fold). For a static portfolio with
+    // ~30KB total CSS, eliminating the TCP round-trip beats the HTML weight.
+    inlineStylesheets: 'always',
   },
 
   vite: {

@@ -40,6 +40,10 @@ const skipLabels: Record<Locale, string> = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* Warm up YouTube + Umami connections so lazy embeds + analytics save handshake RTT. */}
+    <link rel="dns-prefetch" href="https://www.youtube-nocookie.com" />
+    <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin />
+    <link rel="dns-prefetch" href="https://cloud.umami.is" />
     <Font cssVariable="--font-newsreader" preload />
     <Font cssVariable="--font-geist" preload />
     <Font cssVariable="--font-jetbrains-mono" />
