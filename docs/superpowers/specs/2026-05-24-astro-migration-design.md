@@ -431,7 +431,7 @@ Excludes: `/cv-print/*` (noindex utility pages).
 | ink-2 | #4d4036 | secondary text | ~9:1 | AAA |
 | ink-3 | #7a6a5c | captions, micro | ~4.8:1 | AA |
 | accent | #c97a4b | decorative, large display | ~3.0:1 | AA large only |
-| accent-dark | #9c5e36 | text-on-cream, focus rings | ~4.8:1 | AA |
+| accent-dark | #9c5e36 | text-on-cream, focus rings | ~4.6:1 | AA (razor-thin; do not lighten) |
 
 CSS variables exposed:
 
