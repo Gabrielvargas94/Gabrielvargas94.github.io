@@ -1,0 +1,97 @@
+{
+  "nav": {
+    "work": "My Work",
+    "ai": "My Work with AI",
+    "hobbies": "My Hobbies",
+    "cta": "Contact me on LinkedIn",
+    "lectures": "Lectures",
+    "claudeCodeRollout": "Claude Code Rollout",
+    "sideProject": "Side Project",
+    "certifications": "Certifications",
+    "dnd": "Dungeons & Dragons",
+    "spirituality": "Spirituality"
+  },
+  "hero": {
+    "kicker": "Head of Engineering",
+    "headline": "Building AI-first engineering teams",
+    "subhead": "6+ years scaling engineering at Mercado Libre, the Inter-American Development Bank, and itti. AI-first practitioner driving Claude Code and Cursor adoption.",
+    "cta": "Contact me on LinkedIn",
+    "scrollHint": "Scroll to explore"
+  },
+  "sections": {
+    "ittiSplit": {
+      "kicker": "itti · Software Engineering Manager",
+      "title": "Two products, one engineering org",
+      "left": "Monchis",
+      "right": "muv",
+      "leftDesc": "Mobile platform architectural redesign that restored engineering momentum.",
+      "rightDesc": "High-concurrency mobile platform transformation, AI-assisted dev practices."
+    },
+    "meli": {
+      "kicker": "Mercado Libre · Project Leader",
+      "title": "Financial infrastructure at multi-million-dollar scale",
+      "cards": [
+        { "icon": "lucide:circle-dollar-sign", "title": "Transfers & Debts Tooling", "desc": "Multi-million-dollar batch workloads at the core of MercadoPago." },
+        { "icon": "lucide:layout-dashboard", "title": "Centralized Dashboard", "desc": "Single pane of glass across MercadoPago's APIs and business units." },
+        { "icon": "lucide:code", "title": "Frontend Framework", "desc": "Core organizational standard driving reliability and DX at scale." },
+        { "icon": "lucide:users", "title": "Tech Lead Manager", "desc": "Led teams of 8–12 across architecture, delivery, and roadmap." }
+      ]
+    },
+    "idb": {
+      "kicker": "Inter-American Development Bank",
+      "title": "Engineering at one of the world's most influential multilateral banks",
+      "stats": [
+        { "value": "60+", "label": "People managed across eng, design, product, policy" },
+        { "value": "30%", "label": "Reduction in time-to-market" },
+        { "value": "C-Level", "label": "Direct technical-strategy reporting line" }
+      ]
+    },
+    "aiIntro": {
+      "kicker": "AI-First Engineering",
+      "title": "Where AI changes how teams ship",
+      "desc": "From organization-wide Claude Code rollouts to side projects pushing the boundary of agentic workflows."
+    },
+    "lectures": {
+      "kicker": "Lectures & Talks",
+      "title": "Speaking on AI-first engineering",
+      "topics": [
+        "Harness and Agentic Workflows",
+        "Management problems in an AI-first world: code review under AI, incident recovery, secret management, harness integration, agentic workflow design"
+      ]
+    },
+    "ittiAi": {
+      "kicker": "Claude Code Rollout",
+      "title": "AI adoption across an engineering org",
+      "desc": "Embedded in a core team of <40 driving itti's AI adoption — rolling out Claude Code, Cursor, and AI-assisted development workflows across the broader engineering organization."
+    },
+    "sideProject": {
+      "kicker": "Side Project",
+      "title": "D&D AI Companion",
+      "desc": "Multi-tenant AI companion for tabletop RPG. Graph architecture per tenant/campaign with a translation layer between non-compatible schemas. Custom tools, harness, Agent-as-a-Service."
+    },
+    "certs": {
+      "kicker": "Certifications",
+      "title": "Anthropic Claude curriculum",
+      "subtitle": "8 Anthropic certifications + Cambridge FCE B2."
+    },
+    "dnd": {
+      "kicker": "Hobbies",
+      "title": "Dungeons & Dragons",
+      "desc": "Dungeon Master with friends. Organization, creativity, fun — and the seed of the D&D AI Companion side project."
+    },
+    "spirit": {
+      "kicker": "Hobbies",
+      "title": "Spirituality",
+      "desc": "Studious by nature, focused on non-duality. Applying it day-to-day to deconstruct, become happier, more complete, and a better person."
+    },
+    "contact": {
+      "kicker": "Get in touch",
+      "title": "Want to know more about me?",
+      "cta": "Contact me on LinkedIn"
+    }
+  },
+  "footer": {
+    "copyright": "© {year} Gabriel Vargas",
+    "source": "Source on GitHub"
+  }
+}
