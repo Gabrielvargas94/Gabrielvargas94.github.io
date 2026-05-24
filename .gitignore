@@ -4,7 +4,12 @@ dist/
 .DS_Store
 .env
 .env.local
+.env.*
+!.env.example
 *.log
 playwright-report/
 test-results/
 .lighthouseci/
+.claude/settings.local.json
+Thumbs.db
+desktop.ini
