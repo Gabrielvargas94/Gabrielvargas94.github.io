@@ -33,8 +33,7 @@
       "cards": [
         { "icon": "lucide:circle-dollar-sign", "title": "Ferramentas de Transferências e Dívidas", "desc": "Cargas batch de múltiplos milhões de dólares no core do MercadoPago." },
         { "icon": "lucide:layout-dashboard", "title": "Dashboard Centralizado", "desc": "Visão única das APIs e unidades de negócio do MercadoPago." },
-        { "icon": "lucide:code", "title": "Framework de Frontend", "desc": "Padrão organizacional core que impulsiona a confiabilidade e a DX em escala." },
-        { "icon": "lucide:users", "title": "Tech Lead Manager", "desc": "Liderei times de 8 a 12 pessoas em arquitetura, entrega e roadmap." }
+        { "icon": "lucide:code", "title": "Framework de Frontend", "desc": "Padrão organizacional core que impulsiona a confiabilidade e a DX em escala." }
       ]
     },
     "idb": {

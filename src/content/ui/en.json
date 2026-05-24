@@ -33,8 +33,7 @@
       "cards": [
         { "icon": "lucide:circle-dollar-sign", "title": "Transfers & Debts Tooling", "desc": "Multi-million-dollar batch workloads at the core of MercadoPago." },
         { "icon": "lucide:layout-dashboard", "title": "Centralized Dashboard", "desc": "Single pane of glass across MercadoPago's APIs and business units." },
-        { "icon": "lucide:code", "title": "Frontend Framework", "desc": "Core organizational standard driving reliability and DX at scale." },
-        { "icon": "lucide:users", "title": "Tech Lead Manager", "desc": "Led teams of 8–12 across architecture, delivery, and roadmap." }
+        { "icon": "lucide:code", "title": "Frontend Framework", "desc": "Core organizational standard driving reliability and DX at scale." }
       ]
     },
     "idb": {
