@@ -19,7 +19,7 @@ export default defineConfig({
         defaultLocale: 'en',
         locales: { en: 'en-US', es: 'es-AR', pt: 'pt-BR' },
       },
-      filter: (page) => !page.includes('/cv-print'),
+      filter: (page) => !/\/cv-print(\/|$)/.test(page),
     }),
   ],
   build: {
