@@ -1,7 +1,41 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+import Hero from '../components/sections/Hero.astro';
+import IttiSplit from '../components/sections/IttiSplit.astro';
+import MeliCards from '../components/sections/MeliCards.astro';
+import IDBSection from '../components/sections/IDBSection.astro';
+import AIIntro from '../components/sections/AIIntro.astro';
+import Lectures from '../components/sections/Lectures.astro';
+import IttiAI from '../components/sections/IttiAI.astro';
+import SideProject from '../components/sections/SideProject.astro';
+import Certifications from '../components/sections/Certifications.astro';
+import HobbiesIntro from '../components/sections/HobbiesIntro.astro';
+import DnD from '../components/sections/DnD.astro';
+import Spirituality from '../components/sections/Spirituality.astro';
+import Contact from '../components/sections/Contact.astro';
+
+const locale = 'en' as const;
+const title = 'Gabriel Vargas — Head of Engineering | AI-first Eng Leader, ex-MELI, ex-IADB';
+const description = 'Gabriel Vargas — Head of Engineering. 6+ years leading engineering at Mercado Libre, Inter-American Development Bank, and itti. AI-first practitioner, Claude Code adoption. Open to remote and relocation.';
 ---
-<!doctype html>
-<html lang="en">
-  <head><meta charset="utf-8" /><title>Placeholder</title></head>
-  <body><h1>Placeholder — Astro scaffold in progress</h1></body>
-</html>
+<BaseLayout locale={locale} title={title} description={description} faq>
+  <Nav locale={locale} />
+  <main id="main" tabindex="-1">
+    <Hero locale={locale} />
+    <IttiSplit locale={locale} />
+    <MeliCards locale={locale} />
+    <IDBSection locale={locale} />
+    <AIIntro locale={locale} />
+    <Lectures locale={locale} />
+    <IttiAI locale={locale} />
+    <SideProject locale={locale} />
+    <Certifications locale={locale} />
+    <HobbiesIntro locale={locale} />
+    <DnD locale={locale} />
+    <Spirituality locale={locale} />
+    <Contact locale={locale} />
+  </main>
+  <Footer locale={locale} />
+</BaseLayout>
