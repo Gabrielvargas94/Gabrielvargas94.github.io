@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gabriel Vargas — Head of Engineering</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  /* Warm editorial palette */
+  --cream:      #f7f2e8;
+  --cream-2:    #efe7d6;
+  --paper:      #fbf8f1;
+  --ink:        #2a211b;
+  --ink-2:      #4d4036;
+  --ink-3:      #7a6a5c;
+  --accent:     #c97a4b;
+  --accent-light: #e3a76b;
+
+  /* Type */
+  --serif: "Newsreader", "Source Serif Pro", Georgia, serif;
+  --sans:  "Geist", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --mono:  "JetBrains Mono", "SF Mono", Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  line-height: 1.5;
+  scroll-behavior: smooth;
+}
+
+body { overflow-x: hidden; }
+
+img { max-width: 100%; }
+
+::selection { background: var(--accent); color: var(--cream); }
+
+/* ─── Hero grain ───────────────────────────────────────────────────── */
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(201,122,75,0.08) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(201,122,75,0.06) 0%, transparent 45%);
+}
+
+/* ─── Pulse dot (status indicator) ─────────────────────────────────── */
+.pulse-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #5b9a6e;
+  box-shadow: 0 0 0 0 rgba(91,154,110,0.5);
+  animation: pulse 2s ease-out infinite;
+  display: inline-block;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(91,154,110,0.5); }
+  70%  { box-shadow: 0 0 0 8px rgba(91,154,110,0); }
+  100% { box-shadow: 0 0 0 0 rgba(91,154,110,0); }
+}
+
+/* ─── REC dot in video labels ──────────────────────────────────────── */
+.rec-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #e3624b;
+  display: inline-block;
+  animation: rec-blink 1.4s ease-in-out infinite;
+}
+@keyframes rec-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.25; }
+}
+
+/* ─── Scroll arrow gentle bob ──────────────────────────────────────── */
+.scroll-arrow {
+  display: inline-block;
+  animation: bob 2.4s ease-in-out infinite;
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(4px); }
+}
+
+/* ─── Video backdrop motion ────────────────────────────────────────── */
+.vid-mesh {
+  animation: mesh-drift 18s ease-in-out infinite alternate;
+}
+@keyframes mesh-drift {
+  0%   { filter: hue-rotate(0deg) saturate(0.9) brightness(0.95); transform: scale(1.02); }
+  100% { filter: hue-rotate(-12deg) saturate(1.0) brightness(1.0); transform: scale(1.06); }
+}
+
+.vid-blob {
+  position: absolute;
+  width: 60%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(40px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.vid-blob-a { top: -10%; left: -10%; animation: blob-a 22s ease-in-out infinite alternate; }
+.vid-blob-b { bottom: -20%; right: -10%; animation: blob-b 26s ease-in-out infinite alternate; }
+.vid-blob-c { top: 20%; right: 20%; width: 40%; animation: blob-c 20s ease-in-out infinite alternate; }
+@keyframes blob-a { 0% { transform: translate(0,0); } 100% { transform: translate(15%, 10%); } }
+@keyframes blob-b { 0% { transform: translate(0,0); } 100% { transform: translate(-15%, -10%); } }
+@keyframes blob-c { 0% { transform: translate(0,0); } 100% { transform: translate(-10%, 12%); } }
+
+.vid-blocks {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mix-blend-mode: overlay;
+  animation: blocks-shift 12s linear infinite;
+}
+@keyframes blocks-shift {
+  0%   { transform: translate(0,0); }
+  100% { transform: translate(60px, 60px); }
+}
+
+.vid-scan {
+  position: absolute;
+  left: 0; right: 0; height: 60%;
+  top: -60%;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(255,255,255,0.04) 50%,
+    transparent 100%);
+  animation: scan 8s linear infinite;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+@keyframes scan {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(280%); }
+}
+
+.vid-grain {
+  position: absolute; inset: 0;
+  opacity: 0.18;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
+
+/* ─── Generic ─── */
+@keyframes spin {
+  0%   { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes drop-in {
+  0%   { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes rotate-d20 {
+  0%   { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+
+.cursor-blink {
+  animation: blink 1s steps(2, end) infinite;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Nav hover */
+.nav-item:hover, .nav-item-btn:hover { background: rgba(42,33,27,0.05); }
+.nav-cta { transition: transform .2s, box-shadow .2s; }
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(42,33,27,0.18); }
+
+/* Responsive — collapse nav on small screens */
+@media (max-width: 980px) {
+  .nav-links { display: none !important; }
+  .nav-cta-text { display: none; }
+}
+
+@media (max-width: 880px) {
+  section#hero > div { grid-template-columns: 1fr !important; }
+  section[data-screen-label="itti-split"] > div > div > div[style*="grid-template-columns: 1fr 1fr"],
+  section[data-screen-label="dnd"] > div > div,
+  section[data-screen-label="spirit"] > div > div,
+  section[data-screen-label="meli"] > div > div,
+  section[data-screen-label="idb"] > div > div,
+  section[data-screen-label="lectures"] > div > div,
+  section[data-screen-label="itti-ai"] > div > div,
+  section[data-screen-label="certs"] > div > div,
+  section[data-screen-label="ai-intro"] > div > div,
+  section[data-screen-label="side-project"] > div > div { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 720px) {
+  /* Stack the split-screen videos */
+  section[data-screen-label="itti-split"] [style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<!-- React + Babel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- Data -->
+<script src="translations.js"></script>
+
+<!-- Tweaks (must come before app) -->
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+
+<!-- Components -->
+<script type="text/babel" src="components.jsx"></script>
+<script type="text/babel" src="sections-work.jsx"></script>
+<script type="text/babel" src="sections-rest.jsx"></script>
+
+<!-- App -->
+<script type="text/babel" src="app.jsx"></script>
+
+</body>
+</html>
