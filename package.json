@@ -22,11 +22,17 @@
     "test": "npm run test:a11y && npm run test:seo && npm run test:artifacts && npm run test:i18n"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/mdx": "^5.0.6",
+    "@astrojs/partytown": "^2.1.7",
     "@astrojs/sitemap": "^3.7.2",
-    "astro": "^6.3.7"
+    "astro": "^6.3.7",
+    "astro-compress": "^2.4.1",
+    "astro-icon": "^1.1.5"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
+    "@iconify-json/lucide": "^1.2.109",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.60.0",
     "@resvg/resvg-js": "^2.6.2",

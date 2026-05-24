@@ -62,7 +62,17 @@ committing. Reviewers will fail tasks that miss these.
 - **Inline scripts ≤1KB total** across all pages.
 - **CSS scoped to component** via Astro `<style>` blocks, wrapped in `@layer components`.
 - **Image dimensions** (`width` + `height`) set on every `<img>`.
-- **Fonts** preconnected + display=swap.
+- **Use `<Image>` from `astro:assets`** for content images (auto-format, responsive, lazy).
+- **Fonts** via Astro native fonts API (`<Font cssVariable={'--font-...'} preload />`). Never link Google Fonts CDN directly.
+- **Analytics offloaded to web worker** via `type="text/partytown"` (Umami).
+
+## Astro idioms
+
+- **Icons** via `astro-icon` (`<Icon name="lucide:linkedin" />`), not inline SVG paths.
+- **View transitions** via `<ClientRouter />` in `BaseLayout` for smoother locale/anchor navigation.
+- **MDX** for richer content (callouts, embedded components inside markdown).
+- **`scopedStyleStrategy: 'where'`** is set globally — scoped styles have specificity 0, cooperate with cascade layers.
+- **Content collections** access via `getCollection` / `getEntry` with Zod-validated schemas.
 
 ## Git / commit hygiene
 
