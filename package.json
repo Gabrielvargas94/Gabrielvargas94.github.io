@@ -28,12 +28,12 @@
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.60.0",
     "@resvg/resvg-js": "^2.6.2",
-    "@types/node": "^25.9.1",
+    "@types/node": "^22.19.19",
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
     "linkinator": "^7.6.1",
     "playwright": "^1.60.0",
     "satori-html": "^0.3.2",
-    "typescript": "^6.0.3"
+    "typescript": "~5.9"
   }
 }
