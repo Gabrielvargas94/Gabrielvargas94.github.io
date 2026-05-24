@@ -20,11 +20,6 @@ if (!profile) throw new Error(`Profile not found for locale ${locale}`);
 
 const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
 const ui = uiByLocale[locale];
-const openMeta: Record<Locale, string> = {
-  en: 'Open to leadership roles',
-  es: 'Abierto a roles de liderazgo',
-  pt: 'Aberto a cargos de liderança',
-};
 const locMeta: Record<Locale, string> = {
   en: 'Buenos Aires · Remote · Relocation',
   es: 'Buenos Aires · Remoto · Reubicación',
@@ -35,10 +30,6 @@ const locMeta: Record<Locale, string> = {
   <div class="grain" aria-hidden="true"></div>
 
   <aside class="status" aria-hidden="true">
-    <div class="status-row">
-      <span class="pulse" aria-hidden="true"></span>
-      <span>{openMeta[locale]}</span>
-    </div>
     <div class="status-row">{locMeta[locale]}</div>
   </aside>
 

@@ -24,12 +24,21 @@
   },
   "sections": {
     "ittiSplit": {
-      "kicker": "itti · Dos productos mobile, una org de ingeniería",
+      "kicker": "itti · Ingeniería sobre dos productos mobile",
       "title": "Ingeniería AI-driven a través de un ecosistema completo de productos",
       "left": "Monchis",
       "right": "muv",
       "leftDesc": "Rediseño arquitectural de plataforma mobile (React Native + microservicios sobre AWS). Mejoras de estabilidad y performance que restauraron retención de usuarios y momentum del equipo — la metodología que ganó la reasignación a muv.",
-      "rightDesc": "Transformación arquitectural completa de plataforma de alta concurrencia (React Native + microservicios Java, AWS + GCP). Micro-apps desacoplaron deploys, desarrollo asistido por IA en un equipo de 12 personas, observabilidad + incident response a nivel productivo."
+      "rightDesc": "Transformación arquitectural completa de plataforma de alta concurrencia (React Native + microservicios Java, AWS + GCP). Micro-apps desacoplaron deploys, desarrollo asistido por IA en un equipo de 12 personas, observabilidad + incident response a nivel productivo.",
+      "whatDidLabel": "Lo que hice",
+      "whatDidIntro": "Dos productos dentro del ecosistema itti. Misma jugada, distinta escala: estabilizar, rediseñar, entregar, y después convertir el mismo approach en adopción de IA a nivel equipo.",
+      "bullets": [
+        "Alineé ingeniería, producto y diseño en una org matricial — negocié prioridades con stakeholders de negocio, dialogué con senior leadership sobre estrategia técnica y planning trimestral.",
+        "Diseñé y entregué arquitectura de micro-apps que desacopló los deploys mobile — destrabando velocidad de equipos independientes.",
+        "Introduje desarrollo asistido por IA (Claude Code, Cursor, Superpowers) en un equipo de 12 — ciclos más rápidos, menos overhead repetitivo.",
+        "Impulsé cultura de code review, observabilidad e incident response que llevaron confiabilidad a nivel productivo.",
+        "Infraestructura cloud sobre AWS + GCP — compliance, escalabilidad y uptime como estándares de la org de ingeniería."
+      ]
     },
     "meli": {
       "kicker": "Mercado Libre · Project Leader · 8–12 ingenieros",

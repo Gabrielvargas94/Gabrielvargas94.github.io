@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import VideoPlaceholder from '../ui/VideoPlaceholder.astro';
+import Pill from '../ui/Pill.astro';
 import ittiLogo from '../../../public/assets/itti-logo.png';
 import type { Locale } from '../../lib/i18n';
 import uiEn from '../../content/ui/en.json';
@@ -18,7 +19,7 @@ const s = ui.sections.ittiSplit;
 ---
 <section id="work" aria-labelledby="itti-split-title">
   <header class="head">
-    <span class="kicker">{s.kicker}</span>
+    <Pill variant="dark">{s.kicker}</Pill>
     <h2 id="itti-split-title">{s.title}</h2>
   </header>
 
@@ -52,6 +53,23 @@ const s = ui.sections.ittiSplit;
         <p>{s.rightDesc}</p>
       </div>
     </article>
+  </div>
+
+  <div class="what">
+    <div class="what-inner">
+      <aside class="what-label" aria-hidden="true">↳ {s.whatDidLabel}</aside>
+      <div class="what-body">
+        <p class="lede">{s.whatDidIntro}</p>
+        <ol class="bullets">
+          {s.bullets.map((b, i) => (
+            <li>
+              <span class="num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="bullet-text">{b}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -176,6 +194,67 @@ const s = ui.sections.ittiSplit;
     filter: drop-shadow(0 6px 28px rgb(0 0 0 / 55%));
   }
 
+  // "What I did" — numbered bullets block below the split.
+  .what {
+    background: var(--cream);
+    color: var(--ink);
+    padding: clamp(64px, 8vw, 110px) clamp(16px, 4vw, 64px);
+  }
+
+  .what-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(260px, 320px) 1fr;
+    gap: clamp(32px, 5vw, 80px);
+    align-items: start;
+  }
+
+  .what-label {
+    padding-top: 6px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .lede {
+    margin: 0;
+    max-width: 760px;
+    font-family: var(--serif);
+    font-size: clamp(22px, 2vw, 30px);
+    line-height: 1.35;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  .bullets {
+    list-style: none;
+    margin: clamp(28px, 4vw, 40px) 0 0;
+    padding: 0;
+    display: grid;
+    gap: 18px;
+  }
+
+  .bullets li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgb(42 33 27 / 10%);
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  .num {
+    padding-top: 4px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent-dark);
+  }
+
   // Mobile: stack the two sides vertically, logo static between them.
   @media (width <= 720px) {
     .split {
@@ -202,6 +281,10 @@ const s = ui.sections.ittiSplit;
       width: clamp(96px, 28%, 160px);
       margin: -28px auto;
       filter: drop-shadow(0 4px 16px rgb(0 0 0 / 50%));
+    }
+
+    .what-inner {
+      grid-template-columns: 1fr;
     }
   }
 }
