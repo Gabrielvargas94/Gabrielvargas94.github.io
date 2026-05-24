@@ -132,14 +132,20 @@
       "subtitle": "Claude Code, MCP, subagentes, agent skills y Claude API."
     },
     "dnd": {
-      "kicker": "Hobbies",
+      "kicker": "Hobbies · D&D",
       "title": "Dungeons & Dragons",
-      "desc": "Dungeon Master con amigos. Organización, creatividad, improvisación, y la paciencia del juego largo que se traduce de vuelta al liderazgo de ingeniería. También fue la semilla del side project D&D AI Companion."
+      "body": "Dungeon Master con amigos. Organización, creatividad, improvisación, y la paciencia del juego largo que se traduce de vuelta al liderazgo de ingeniería. También fue la semilla del side project D&D AI Companion.",
+      "pulls": [
+        { "k": "Rol", "v": "Dungeon Master · story-first" },
+        { "k": "Skills", "v": "Organización, improvisación, paciencia" },
+        { "k": "Cross-over", "v": "Ritmo de liderazgo — y la semilla de un side project" }
+      ]
     },
     "spirit": {
-      "kicker": "Hobbies",
+      "kicker": "Hobbies · Espiritualidad",
       "title": "Espiritualidad",
-      "desc": "Estudioso por naturaleza, enfocado en la no-dualidad. Aplicándola día a día para deconstruir, ablandar el ego y volverme una persona más calma y completa — mejor compañero, mejor líder, mejor humano."
+      "body": "Estudioso por naturaleza, enfocado en la no-dualidad. Aplicándola día a día para deconstruir, ablandar el ego y volverme una persona más calma y completa — mejor compañero, mejor líder, mejor humano.",
+      "pull": "Menos ego, más presencia. Mejor compañero, mejor líder, mejor humano."
     },
     "contact": {
       "kicker": "Hablemos",

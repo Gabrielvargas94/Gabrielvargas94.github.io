@@ -1,5 +1,6 @@
 ---
-import D20 from '../ui/D20.astro';
+import Pill from '../ui/Pill.astro';
+import Icon from '../ui/Icon.astro';
 import type { Locale } from '../../lib/i18n';
 import uiEn from '../../content/ui/en.json';
 import uiEs from '../../content/ui/es.json';
@@ -13,17 +14,73 @@ const { locale } = Astro.props;
 const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
 const ui = uiByLocale[locale];
 const s = ui.sections.dnd;
+const sessionLabel: Record<Locale, string> = {
+  en: 'Table · Session 47',
+  es: 'Mesa · Sesión 47',
+  pt: 'Mesa · Sessão 47',
+};
+const initiativeLabel: Record<Locale, string> = {
+  en: 'roll · for · initiative',
+  es: 'tirá · iniciativa',
+  pt: 'role · pela · iniciativa',
+};
 ---
 <section id="dnd" aria-labelledby="dnd-title">
   <div class="inner">
-    <div class="copy">
-      <span class="kicker">{s.kicker}</span>
-      <h2 id="dnd-title">{s.title}</h2>
-      <p>{s.desc}</p>
+    <div class="visual">
+      <span class="meta-top">
+        <span class="rec-dot" aria-hidden="true"></span>
+        {sessionLabel[locale]}
+      </span>
+      <svg
+        class="d20"
+        viewBox="0 0 200 200"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <defs>
+          <linearGradient id="d20-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#e3a76b" />
+            <stop offset="100%" stop-color="#7a3d1c" />
+          </linearGradient>
+        </defs>
+        <g fill="none" stroke="url(#d20-grad)" stroke-width="1.2" stroke-linejoin="round">
+          <polygon points="100,20 175,65 175,135 100,180 25,135 25,65" />
+          <polygon points="100,20 175,65 100,100" />
+          <polygon points="100,20 25,65 100,100" />
+          <polygon points="175,65 175,135 100,100" />
+          <polygon points="25,65 25,135 100,100" />
+          <polygon points="100,180 175,135 100,100" />
+          <polygon points="100,180 25,135 100,100" />
+        </g>
+        <text
+          x="100"
+          y="112"
+          text-anchor="middle"
+          fill="#e3a76b"
+          font-size="42"
+          class="d20-text"
+        >20</text>
+      </svg>
+      <span class="meta-bot">{initiativeLabel[locale]}</span>
     </div>
 
-    <div class="d20-wrap">
-      <D20 />
+    <div class="copy">
+      <Pill>
+        <span class="dice" aria-hidden="true"><Icon name="lucide:dice-6" size={14} /></span>
+        {s.kicker}
+      </Pill>
+      <h3 id="dnd-title">{s.title}</h3>
+      <p>{s.body}</p>
+
+      <ul class="pulls">
+        {s.pulls.map((p) => (
+          <li>
+            <span class="k">{p.k}</span>
+            <span class="v">{p.v}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   </div>
 </section>
@@ -31,64 +88,150 @@ const s = ui.sections.dnd;
 <style lang="scss">
 @layer components {
   section {
-    background: var(--cream-2);
-    padding: 100px clamp(16px, 4vw, 64px);
+    background: var(--paper);
+    padding: clamp(64px, 8vw, 120px) clamp(16px, 4vw, 64px);
   }
 
   .inner {
-    max-width: 1200px;
+    max-width: 1280px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 48px;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 6vw, 96px);
     align-items: center;
   }
 
-  .kicker {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent-dark);
-    margin-bottom: 12px;
-  }
-
-  h2 {
-    font-family: var(--serif);
-    font-size: clamp(36px, 5vw, 56px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin: 0 0 20px;
-    color: var(--ink);
-  }
-
-  p {
-    margin: 0;
-    color: var(--ink-2);
-    font-size: 17px;
-    line-height: 1.65;
-    max-width: 580px;
-  }
-
-  .d20-wrap {
+  // Framed d20 with film-still aesthetic.
+  .visual {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
     display: grid;
     place-items: center;
+    overflow: hidden;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #2a211b 0%, #4a3326 60%, #6b4a35 100%);
+    box-shadow: 0 24px 60px rgb(42 33 27 / 25%);
   }
 
-  .d20-wrap :global(.d20) {
-    transform: scale(2);
+  .d20 {
+    width: 60%;
+    height: 60%;
+    animation: rotate-d20 24s linear infinite;
+  }
+
+  .d20-text {
+    font-family: var(--serif);
+    font-style: italic;
+  }
+
+  @keyframes rotate-d20 {
+    from { transform: rotate(0); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .meta-top,
+  .meta-bot {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(247 242 232 / 60%);
+  }
+
+  .meta-top { top: 18px; left: 22px; }
+  .meta-bot { right: 22px; bottom: 18px; letter-spacing: 0.12em; color: rgb(247 242 232 / 50%); }
+
+  .rec-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #e3624b;
+    animation: rec-blink 1.4s ease-in-out infinite;
+  }
+
+  @keyframes rec-blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.25; }
+  }
+
+  // Copy column.
+  .copy {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .dice {
+    display: inline-flex;
+    margin-right: 2px;
+  }
+
+  h3 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(32px, 4.2vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  .copy p {
+    margin: 0;
+    max-width: 520px;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+
+  .pulls {
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+
+  .pulls li {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px 16px;
+    border-top: 1px solid var(--ink);
+  }
+
+  .k {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+  }
+
+  .v {
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.35;
+    color: var(--ink);
   }
 
   @media (width <= 880px) {
     .inner {
       grid-template-columns: 1fr;
-      gap: 56px;
-      text-align: center;
     }
 
-    .copy p {
-      margin-inline: auto;
+    .pulls {
+      grid-template-columns: 1fr;
     }
   }
 }
