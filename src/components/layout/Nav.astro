@@ -48,11 +48,11 @@ const ui = uiByLocale[locale];
           <span>{ui.nav.ai}</span>
           <Icon name="lucide:chevron-down" size={10} class="chev" />
         </summary>
-        <div class="menu" role="menu">
-          <a href="#lectures" role="menuitem">{ui.nav.lectures}</a>
-          <a href="#itti-ai" role="menuitem">{ui.nav.claudeCodeRollout}</a>
-          <a href="#side-project" role="menuitem">{ui.nav.sideProject}</a>
-          <a href="#certs" role="menuitem">{ui.nav.certifications}</a>
+        <div class="menu">
+          <a href="#lectures">{ui.nav.lectures}</a>
+          <a href="#itti-ai">{ui.nav.claudeCodeRollout}</a>
+          <a href="#side-project">{ui.nav.sideProject}</a>
+          <a href="#certs">{ui.nav.certifications}</a>
         </div>
       </details>
 
@@ -61,9 +61,9 @@ const ui = uiByLocale[locale];
           <span>{ui.nav.hobbies}</span>
           <Icon name="lucide:chevron-down" size={10} class="chev" />
         </summary>
-        <div class="menu" role="menu">
-          <a href="#dnd" role="menuitem">{ui.nav.dnd}</a>
-          <a href="#spirit" role="menuitem">{ui.nav.spirituality}</a>
+        <div class="menu">
+          <a href="#dnd">{ui.nav.dnd}</a>
+          <a href="#spirit">{ui.nav.spirituality}</a>
         </div>
       </details>
     </div>
@@ -76,20 +76,92 @@ const ui = uiByLocale[locale];
 </header>
 
 <script>
-  const navEl = document.querySelector('header > nav');
-  const onScroll = (): void => {
-    navEl?.classList.toggle('scrolled', window.scrollY > 30);
-  };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  // Re-run on every Astro view transition (otherwise listeners reference
+  // detached DOM after navigation and the nav silently breaks).
+  type Cleanup = () => void;
+  let cleanups: Cleanup[] = [];
 
-  // Mobile burger toggle.
-  const burger = document.querySelector<HTMLButtonElement>('.burger');
-  const links = document.getElementById('primary-links');
-  burger?.addEventListener('click', () => {
-    const expanded = burger.getAttribute('aria-expanded') === 'true';
-    burger.setAttribute('aria-expanded', String(!expanded));
-    links?.classList.toggle('open', !expanded);
+  function initNav(): void {
+    cleanups.forEach((fn) => { fn(); });
+    cleanups = [];
+
+    const navEl = document.querySelector('header > nav');
+    if (!navEl) return;
+
+    // Scrolled state.
+    const onScroll = (): void => {
+      navEl.classList.toggle('scrolled', window.scrollY > 30);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    cleanups.push(() => { window.removeEventListener('scroll', onScroll); });
+    onScroll();
+
+    // Mobile burger toggle.
+    const burger = document.querySelector<HTMLButtonElement>('.burger');
+    const links = document.getElementById('primary-links');
+    const closeBurger = (): void => {
+      burger?.setAttribute('aria-expanded', 'false');
+      links?.classList.remove('open');
+    };
+    const toggleBurger = (): void => {
+      const expanded = burger?.getAttribute('aria-expanded') === 'true';
+      burger?.setAttribute('aria-expanded', String(!expanded));
+      links?.classList.toggle('open', !expanded);
+    };
+    burger?.addEventListener('click', toggleBurger);
+    cleanups.push(() => { burger?.removeEventListener('click', toggleBurger); });
+
+    // Escape closes the burger menu.
+    const onKeydown = (e: KeyboardEvent): void => {
+      if (e.key !== 'Escape') return;
+      const burgerOpen = burger?.getAttribute('aria-expanded') === 'true';
+      if (burgerOpen) {
+        closeBurger();
+        burger?.focus();
+      }
+      // Close any open <details> dropdowns on Esc.
+      navEl
+        .querySelectorAll<HTMLDetailsElement>('details.dropdown[open]')
+        .forEach((d) => { d.open = false; });
+    };
+    document.addEventListener('keydown', onKeydown);
+    cleanups.push(() => { document.removeEventListener('keydown', onKeydown); });
+
+    // Only one <details> dropdown open at a time; close on item click.
+    const dropdowns = navEl.querySelectorAll<HTMLDetailsElement>('details.dropdown');
+    dropdowns.forEach((d) => {
+      const onToggle = (): void => {
+        if (!d.open) return;
+        dropdowns.forEach((other) => {
+          if (other !== d) other.open = false;
+        });
+      };
+      d.addEventListener('toggle', onToggle);
+      cleanups.push(() => { d.removeEventListener('toggle', onToggle); });
+
+      d.querySelectorAll<HTMLAnchorElement>('.menu a').forEach((a) => {
+        const onClick = (): void => { d.open = false; closeBurger(); };
+        a.addEventListener('click', onClick);
+        cleanups.push(() => { a.removeEventListener('click', onClick); });
+      });
+    });
+
+    // Click-outside closes open dropdowns + burger.
+    const onDocClick = (e: MouseEvent): void => {
+      const t = e.target as Node | null;
+      if (!t || navEl.contains(t)) return;
+      dropdowns.forEach((d) => { d.open = false; });
+      closeBurger();
+    };
+    document.addEventListener('click', onDocClick);
+    cleanups.push(() => { document.removeEventListener('click', onDocClick); });
+  }
+
+  initNav();
+  document.addEventListener('astro:page-load', initNav);
+  document.addEventListener('astro:before-swap', () => {
+    cleanups.forEach((fn) => { fn(); });
+    cleanups = [];
   });
 </script>
 

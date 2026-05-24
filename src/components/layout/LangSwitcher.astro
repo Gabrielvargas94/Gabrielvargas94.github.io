@@ -1,6 +1,6 @@
 ---
 import Icon from '../ui/Icon.astro';
-import { LOCALES, localePath, type Locale } from '../../lib/i18n';
+import { LOCALES, localePath, DEFAULT_LOCALE, type Locale } from '../../lib/i18n';
 
 interface Props {
   current: Locale;
@@ -13,6 +13,19 @@ const labels: Record<Locale, { short: string; long: string }> = {
   es: { short: 'ES', long: 'Español' },
   pt: { short: 'PT', long: 'Português' },
 };
+
+// Build a target path per locale that preserves the current page.
+// Strip the existing locale prefix from `Astro.url.pathname` to get the
+// page-relative path, then re-prefix for the destination locale.
+const pathname = Astro.url.pathname;
+const segments = pathname.split('/').filter(Boolean);
+const firstIsLocale = segments[0] && (LOCALES as readonly string[]).includes(segments[0]);
+const relPath = firstIsLocale ? segments.slice(1).join('/') : segments.join('/');
+
+function targetFor(target: Locale): string {
+  if (target === DEFAULT_LOCALE) return localePath(target, relPath);
+  return localePath(target, relPath);
+}
 ---
 <details class="lang">
   <summary aria-label="Change language">
@@ -20,12 +33,12 @@ const labels: Record<Locale, { short: string; long: string }> = {
     <span>{labels[current].short}</span>
     <Icon name="lucide:chevron-down" size={10} class="chev" />
   </summary>
-  <div class="menu" role="menu">
+  <div class="menu">
     {
       LOCALES.map((l) => (
         <a
-          href={localePath(l)}
-          role="menuitem"
+          href={targetFor(l)}
+          hreflang={l}
           aria-current={l === current ? 'page' : undefined}
           class:list={['item', { active: l === current }]}
         >
@@ -54,7 +67,7 @@ const labels: Record<Locale, { short: string; long: string }> = {
     font-size: 13px;
     list-style: none;
     cursor: pointer;
-    min-height: 36px;
+    min-height: 44px;
     user-select: none;
   }
 

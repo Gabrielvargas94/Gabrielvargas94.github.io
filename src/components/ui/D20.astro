@@ -16,7 +16,6 @@
       x="50"
       y="58"
       text-anchor="middle"
-      font-family="var(--serif)"
       font-size="22"
       fill="currentColor"
     >20</text>
@@ -29,6 +28,10 @@
     display: inline-block;
     color: var(--accent-dark);
     animation: d20-spin 18s linear infinite;
+
+    svg text {
+      font-family: var(--serif);
+    }
   }
 
   @keyframes d20-spin {
