@@ -1,7 +1,13 @@
-// ─── Design tokens ───────────────────────────────────────────────
-// SCSS map of palette for compile-time access; CSS custom props
-// expose the same values at runtime for downstream component styles.
+// ─── Cascade layers ──────────────────────────────────────────────
+// Layer order = priority. Later layers override earlier ones,
+// regardless of selector specificity. Components MUST wrap their
+// scoped <style> blocks in `@layer components { ... }` so that
+// `a11y` and `print` overrides cascade correctly without !important.
+@layer reset, base, components, a11y, print;
 
+// ─── Design tokens ───────────────────────────────────────────────
+// SCSS maps drive compile-time work; CSS custom props expose the
+// same values at runtime for downstream component styles.
 $palette: (
   cream:        #f7f2e8,
   cream-2:      #efe7d6,
@@ -13,90 +19,102 @@ $palette: (
   accent-dark:  #9c5e36,
   accent-light: #e3a76b,
 );
-
 $fonts: (
-  serif: ("Newsreader", "Source Serif Pro", Georgia, serif),
-  sans:  ("Geist", -apple-system, BlinkMacSystemFont, system-ui, sans-serif),
-  mono:  ("JetBrains Mono", "SF Mono", Menlo, monospace),
+  serif: ("Newsreader", "Source Serif Pro", "Georgia", serif),
+  sans:  ("Geist", "-apple-system", "BlinkMacSystemFont", system-ui, sans-serif),
+  mono:  ("JetBrains Mono", "SF Mono", "Menlo", monospace),
 );
 
-:root {
-  @each $name, $value in $palette {
-    --#{$name}: #{$value};
-  }
-  --focus-ring: var(--accent-dark);
+@layer base {
+  :root {
+    @each $name, $value in $palette {
+      --#{$name}: #{$value};
+    }
 
-  @each $name, $stack in $fonts {
-    --#{$name}: #{$stack};
-  }
-}
+    --focus-ring: var(--accent-dark);
 
-// ─── Base resets ─────────────────────────────────────────────────
-* {
-  box-sizing: border-box;
-}
+    @each $name, $stack in $fonts {
+      --#{$name}: #{$stack};
+    }
 
-html {
-  scroll-behavior: smooth;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  background: var(--cream);
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 16px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  overflow-x: hidden;
-}
-
-img {
-  max-width: 100%;
-}
-
-::selection {
-  background: var(--accent-dark);
-  color: var(--cream);
-}
-
-// ─── A11y: skip link ─────────────────────────────────────────────
-.skip-link {
-  position: absolute;
-  top: -100px;
-  left: 0;
-  padding: 8px 16px;
-  background: var(--ink);
-  color: var(--cream);
-  text-decoration: none;
-  z-index: 1000;
-  border-radius: 0 0 8px 0;
-
-  &:focus {
-    top: 0;
+    color-scheme: light;
   }
 }
 
-// ─── A11y: focus ring ────────────────────────────────────────────
-:focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 2px;
+// ─── Reset ───────────────────────────────────────────────────────
+@layer reset {
+  * {
+    box-sizing: border-box;
+  }
 }
 
-// ─── A11y: reduced motion ────────────────────────────────────────
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+// ─── Base ────────────────────────────────────────────────────────
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 100%;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  ::selection {
+    background: var(--accent-dark);
+    color: var(--cream);
+  }
+}
+
+// ─── A11y overrides ──────────────────────────────────────────────
+// Declared after `components`, so these rules win without !important.
+@layer a11y {
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    padding: 8px 16px;
+    background: var(--ink);
+    color: var(--cream);
+    text-decoration: none;
+    z-index: 1000;
+    border-radius: 0 0 8px;
+
+    &:focus {
+      top: 0;
+    }
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  // Universal selector; relies on layer order (not !important) to win.
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms;
+      animation-iteration-count: 1;
+      transition-duration: 0.01ms;
+      scroll-behavior: auto;
+    }
   }
 }

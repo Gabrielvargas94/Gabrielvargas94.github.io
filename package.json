@@ -10,7 +10,9 @@
     "preview": "astro preview",
     "astro": "astro",
     "typecheck": "astro check",
-    "lint": "echo 'lint placeholder — add eslint later if needed'",
+    "lint": "npm run lint:css",
+    "lint:css": "stylelint \"src/**/*.{scss,astro}\"",
+    "lint:css:fix": "stylelint --fix \"src/**/*.{scss,astro}\"",
     "test:a11y": "playwright test tests/a11y.spec.ts",
     "test:seo": "playwright test tests/seo.spec.ts",
     "test:artifacts": "playwright test tests/artifacts.spec.ts",
@@ -35,6 +37,8 @@
     "playwright": "^1.60.0",
     "sass": "^1.100.0",
     "satori-html": "^0.3.2",
+    "stylelint": "^17.12.0",
+    "stylelint-config-standard-scss": "^17.0.0",
     "typescript": "~5.9"
   }
 }

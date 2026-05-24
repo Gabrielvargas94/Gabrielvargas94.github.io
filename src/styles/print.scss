@@ -1,58 +1,62 @@
-@media print {
-  :root {
-    --cream: #ffffff;
-    --paper: #ffffff;
-    --ink: #000000;
-    --ink-2: #000000;
-    --ink-3: #1a1a1a;
-    --accent: #000000;
-    --accent-dark: #000000;
-  }
+// Print rules live in the `print` cascade layer (declared last in
+// global.scss), so they override components without !important.
+@layer print {
+  @media print {
+    :root {
+      --cream: #ffffff;
+      --paper: #ffffff;
+      --ink: #000000;
+      --ink-2: #000000;
+      --ink-3: #1a1a1a;
+      --accent: #000000;
+      --accent-dark: #000000;
+    }
 
-  html,
-  body {
-    background: #fff;
-    color: #000;
-    font-size: 11pt;
-  }
+    html,
+    body {
+      background: #ffffff;
+      color: #000000;
+      font-size: 11pt;
+    }
 
-  body > nav,
-  body > header nav,
-  body > footer,
-  .no-print {
-    display: none !important;
-  }
+    body > nav,
+    body > header nav,
+    body > footer,
+    .no-print {
+      display: none;
+    }
 
-  a {
-    color: #000;
-    text-decoration: underline;
+    a {
+      color: #000000;
+      text-decoration: underline;
 
-    &[href^="http"]::after {
-      content: " (" attr(href) ")";
+      &[href^="http"]::after {
+        content: " (" attr(href) ")";
+        font-size: 9pt;
+        color: #333333;
+      }
+
+      &[href^="#"]::after,
+      &[href^="mailto:"]::after,
+      &[href^="tel:"]::after {
+        content: "";
+      }
+    }
+
+    abbr[title]::after {
+      content: " (" attr(title) ")";
       font-size: 9pt;
-      color: #333;
     }
 
-    &[href^="#"]::after,
-    &[href^="mailto:"]::after,
-    &[href^="tel:"]::after {
-      content: "";
+    h1,
+    h2,
+    h3 {
+      break-after: avoid;
     }
-  }
 
-  abbr[title]::after {
-    content: " (" attr(title) ")";
-    font-size: 9pt;
-  }
-
-  h1,
-  h2,
-  h3 {
-    page-break-after: avoid;
-  }
-
-  article,
-  section {
-    page-break-inside: avoid;
+    article,
+    section {
+      break-inside: avoid;
+    }
   }
 }
