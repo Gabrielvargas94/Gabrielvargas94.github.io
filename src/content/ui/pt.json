@@ -105,7 +105,13 @@
     "ittiAi": {
       "kicker": "Rollout de Claude Code · itti",
       "title": "Liderando a transformação AI-first sobre milhares de engenheiros",
-      "desc": "Membro do time core de IA da itti (<40 pessoas) gestando a transição AI-first para uma organização de engenharia de milhares. Minha contribuição foi além do óbvio: code review com IA, recuperação de incidentes, gestão de secrets, SDD, harness agêntico, deep agents e a prática de management para isso aterrissar em escala."
+      "desc": "Membro do time core de IA da itti (<40 pessoas) gestando a transição AI-first para uma organização de engenharia de milhares. Minha contribuição foi além do óbvio.",
+      "points": [
+        "Semântica do code review quando o diff foi escrito pela IA. Trust signals, blast radius, playbooks de rollback.",
+        "Recuperação de incidentes quando o bug foi escrito pela IA — convenções de debug, caminhos de escalação, framing de post-mortem.",
+        "Gestão de secrets + integração de harness para que os agents possam agir sem vazar credenciais ou contexto.",
+        "Spec-Driven Development (SDD) + deep agents — workflows componíveis que o resto da org pode adotar sem reescrever."
+      ]
     },
     "sideProject": {
       "kicker": "Side Project",

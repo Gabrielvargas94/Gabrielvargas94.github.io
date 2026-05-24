@@ -1,4 +1,5 @@
 ---
+import Pill from '../ui/Pill.astro';
 import type { Locale } from '../../lib/i18n';
 import uiEn from '../../content/ui/en.json';
 import uiEs from '../../content/ui/es.json';
@@ -16,118 +17,177 @@ const s = ui.sections.ittiAi;
 <section id="itti-ai" aria-labelledby="itti-ai-title">
   <div class="inner">
     <div class="copy">
-      <span class="kicker">{s.kicker}</span>
+      <Pill>{s.kicker}</Pill>
       <h2 id="itti-ai-title">{s.title}</h2>
-      <p>{s.desc}</p>
+      <p class="lead">{s.desc}</p>
+
+      <div class="terminal" role="img" aria-label="Claude Code terminal mock">
+        <div class="bar" aria-hidden="true">
+          <span class="dot dot-r"></span>
+          <span class="dot dot-y"></span>
+          <span class="dot dot-g"></span>
+          <span class="path">~/itti/rollout</span>
+        </div>
+        <pre class="term"><code><span class="muted">$ claude-code init --org itti</span>
+<span class="arrow">→</span> bootstrapping engineering org
+<span class="arrow">→</span> aligning code review for AI-generated PRs
+<span class="arrow">→</span> incident playbooks · secrets · harness
+<span class="ok">✓ ready for production</span>
+<span class="cursor">▍</span></code></pre>
+      </div>
     </div>
 
-    <div class="terminal">
-      <div class="bar" aria-hidden="true">
-        <span class="dot dot-r"></span>
-        <span class="dot dot-y"></span>
-        <span class="dot dot-g"></span>
-      </div>
-      <pre class="term" aria-label="Claude Code terminal example"><code>$ claude
-<span class="cmd">&gt;</span> roll out claude code to engineering org
-<span class="ok">&#10003;</span> 40-person core team onboarded
-<span class="ok">&#10003;</span> harness wired
-<span class="ok">&#10003;</span> incident playbook updated
-<span class="cmd">_</span></code></pre>
-    </div>
+    <ol class="points">
+      {s.points.map((p, i) => (
+        <li>
+          <span class="badge" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <span class="text">{p}</span>
+        </li>
+      ))}
+    </ol>
   </div>
 </section>
 
 <style lang="scss">
 @layer components {
   section {
-    background: var(--cream);
-    padding: 100px clamp(16px, 4vw, 64px);
+    background: var(--cream-2);
+    padding: clamp(80px, 10vw, 140px) clamp(16px, 4vw, 64px);
   }
 
   .inner {
-    max-width: 1280px;
+    max-width: 1320px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    align-items: center;
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
   }
 
-  .kicker {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent-dark);
-    margin-bottom: 12px;
+  .copy {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 
   h2 {
-    font-family: var(--serif);
-    font-size: clamp(36px, 5vw, 56px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin: 0 0 20px;
-    color: var(--ink);
-  }
-
-  .copy p {
     margin: 0;
-    color: var(--ink-2);
-    font-size: 17px;
-    line-height: 1.6;
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    color: var(--ink);
+    text-wrap: balance;
   }
 
+  .lead {
+    margin: 0;
+    max-width: 540px;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+
+  // Terminal mock styled like a macOS window.
   .terminal {
+    margin-top: 24px;
+    max-width: 520px;
     background: var(--ink);
-    border-radius: 14px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgb(42 33 27 / 25%);
+    box-shadow: 0 24px 48px rgb(42 33 27 / 18%);
   }
 
   .bar {
     display: flex;
+    align-items: center;
     gap: 8px;
     padding: 12px 16px;
-    background: rgb(247 242 232 / 8%);
+    background: rgb(247 242 232 / 6%);
     border-bottom: 1px solid rgb(247 242 232 / 8%);
   }
 
   .dot {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
   }
+  .dot-r { background: #e3624b; }
+  .dot-y { background: #e3b04b; }
+  .dot-g { background: #7aa97f; }
 
-  .dot-r {
-    background: #e3624b;
-  }
-
-  .dot-y {
-    background: #e3a76b;
-  }
-
-  .dot-g {
-    background: #5b9a6e;
+  .path {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: rgb(247 242 232 / 50%);
   }
 
   .term {
     margin: 0;
-    padding: 24px;
+    padding: 20px 24px 24px;
     color: var(--cream);
     font-family: var(--mono);
-    font-size: 14px;
-    line-height: 1.7;
+    font-size: 13.5px;
+    line-height: 1.6;
     overflow-x: auto;
   }
 
-  .cmd {
-    color: var(--accent-light);
+  .muted { color: rgb(247 242 232 / 55%); }
+  .arrow { color: var(--accent); margin-right: 6px; }
+  .ok { color: #7aa97f; display: block; margin-top: 8px; }
+  .cursor {
+    display: inline-block;
+    margin-top: 8px;
+    opacity: 0.5;
+    animation: blink 1s steps(2, end) infinite;
   }
 
-  .ok {
-    color: #5b9a6e;
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  // Numbered points column.
+  .points {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+
+  .points li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 18px;
+    padding: 20px 24px;
+    background: var(--paper);
+    border: 1px solid rgb(42 33 27 / 8%);
+    border-radius: 14px;
+  }
+
+  .badge {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--accent-dark);
+    color: var(--cream);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .text {
+    padding-top: 6px;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    text-wrap: pretty;
   }
 
   @media (width <= 880px) {
