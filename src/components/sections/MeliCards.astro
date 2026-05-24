@@ -49,6 +49,10 @@ const s = ui.sections.meli;
     isolation: isolate;
     padding: 100px clamp(16px, 4vw, 64px);
     overflow: hidden;
+    // Solid fallback ensures axe-core computes contrast against ink (not body
+    // cream) since the video bg + overlay layers aren't traversable opacity-wise.
+    background-color: var(--ink);
+    color: var(--cream);
   }
 
   .bg {
