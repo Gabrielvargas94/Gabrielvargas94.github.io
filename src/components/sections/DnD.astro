@@ -24,65 +24,100 @@ const initiativeLabel: Record<Locale, string> = {
   es: 'tirá · iniciativa',
   pt: 'role · pela · iniciativa',
 };
+const rollAriaLabel: Record<Locale, string> = {
+  en: 'Roll the d20 for initiative',
+  es: 'Tirar el d20 por iniciativa',
+  pt: 'Rolar o d20 pela iniciativa',
+};
 ---
 <section id="dnd" aria-labelledby="dnd-title">
   <div class="inner">
-    <div class="visual">
+    <div
+      class="visual"
+      role="button"
+      tabindex="0"
+      aria-label={rollAriaLabel[locale]}
+    >
       <span class="meta-top">
         <span class="rec-dot" aria-hidden="true"></span>
         {sessionLabel[locale]}
       </span>
-      <svg
-        class="d20"
-        viewBox="0 0 200 200"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <defs>
-          <linearGradient id="d20-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#e3a76b" />
-            <stop offset="100%" stop-color="#7a3d1c" />
-          </linearGradient>
-        </defs>
-        {/*
-          Icosahedron (true d20) projected to a 2D front-face view:
-          hexagonal silhouette + 9 interior edges triangulate the visible
-          hemisphere into 10 triangular faces. Central inverted triangle
-          carries the rolled "20"; surrounding faces show neighbour numbers
-          (a real d20 has no adjacent faces summing to 21, so 13/7/11/4/18
-          are arbitrary readable picks).
-        */}
-        <g fill="none" stroke="url(#d20-grad)" stroke-width="1.4" stroke-linejoin="round">
-          <polygon points="100,20 169,60 169,140 100,180 31,140 31,60" />
-          <polygon points="65,75 135,75 100,140" />
-          <line x1="65"  y1="75"  x2="100" y2="20" />
-          <line x1="65"  y1="75"  x2="31"  y2="60" />
-          <line x1="65"  y1="75"  x2="31"  y2="140" />
-          <line x1="135" y1="75"  x2="100" y2="20" />
-          <line x1="135" y1="75"  x2="169" y2="60" />
-          <line x1="135" y1="75"  x2="169" y2="140" />
-          <line x1="100" y1="140" x2="31"  y2="140" />
-          <line x1="100" y1="140" x2="169" y2="140" />
-          <line x1="100" y1="140" x2="100" y2="180" />
-        </g>
-        <text
-          x="100"
-          y="116"
-          text-anchor="middle"
-          fill="#e3a76b"
-          font-size="32"
-          class="d20-text"
-        >20</text>
-        <g class="d20-face-num" fill="#e3a76b" opacity="0.55" font-size="11">
-          <text x="100" y="60"  text-anchor="middle">13</text>
-          <text x="50"  y="100" text-anchor="middle">7</text>
-          <text x="150" y="100" text-anchor="middle">11</text>
-          <text x="73"  y="162" text-anchor="middle">4</text>
-          <text x="127" y="162" text-anchor="middle">18</text>
-        </g>
-      </svg>
+      {/*
+        True 3D icosahedron in pure CSS. 20 triangular faces split into 4
+        groups: top cap (5), antiprism up-pointing band (5), antiprism
+        down-pointing band (5), bottom cap (5). Each face is a div clipped
+        to an equilateral triangle and rotated to its place on the polyhedron
+        via rotateY (azimuth) → rotateX (tilt) → translateZ (push out by
+        inradius). Container has perspective so the rotation reads 3D.
+      */}
+      <div class="die" aria-hidden="true">
+        <div class="face">20</div>
+        <div class="face">8</div>
+        <div class="face">14</div>
+        <div class="face">2</div>
+        <div class="face">17</div>
+
+        <div class="face down">13</div>
+        <div class="face down">7</div>
+        <div class="face down">16</div>
+        <div class="face down">5</div>
+        <div class="face down">19</div>
+
+        <div class="face">1</div>
+        <div class="face">11</div>
+        <div class="face">4</div>
+        <div class="face">18</div>
+        <div class="face">6</div>
+
+        <div class="face down">9</div>
+        <div class="face down">10</div>
+        <div class="face down">3</div>
+        <div class="face down">15</div>
+        <div class="face down">12</div>
+      </div>
       <span class="meta-bot">{initiativeLabel[locale]}</span>
     </div>
+
+    <script>
+      // Click/tap/keyboard on the frame triggers a one-shot roll: the idle
+      // rotation animation gets disabled and the die transitions to a fresh
+      // random orientation. Each subsequent click re-rolls.
+      function attachRollHandler(): void {
+        const visuals = document.querySelectorAll<HTMLElement>('#dnd .visual');
+        visuals.forEach((visual) => {
+          if (visual.dataset.rollWired === '1') return;
+          visual.dataset.rollWired = '1';
+          const die = visual.querySelector<HTMLElement>('.die');
+          if (!die) return;
+          const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+          const roll = (): void => {
+            // Lots of full spins + random landing pose so each roll feels chaotic.
+            const rx = 720 + Math.random() * 720;
+            const ry = 720 + Math.random() * 720;
+            const rz = Math.random() * 360;
+            die.style.animation = 'none';
+            // Reflow to lock the animation: none state in.
+            void die.offsetHeight;
+            die.style.transition = prefersReduced
+              ? 'none'
+              : 'transform 1.6s cubic-bezier(0.16, 1, 0.3, 1)';
+            die.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg)`;
+          };
+
+          visual.addEventListener('click', roll);
+          visual.addEventListener('keydown', (e: KeyboardEvent) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              roll();
+            }
+          });
+        });
+      }
+
+      attachRollHandler();
+      document.addEventListener('astro:page-load', attachRollHandler);
+    </script>
 
     <div class="copy">
       <Pill>
@@ -120,7 +155,7 @@ const initiativeLabel: Record<Locale, string> = {
     align-items: center;
   }
 
-  // Framed d20 with film-still aesthetic.
+  // Framed d20 with film-still aesthetic — also a button: click/tap/Enter rolls.
   .visual {
     position: relative;
     aspect-ratio: 1 / 1;
@@ -133,27 +168,102 @@ const initiativeLabel: Record<Locale, string> = {
     border-radius: 20px;
     background: linear-gradient(135deg, #2a211b 0%, #4a3326 60%, #6b4a35 100%);
     box-shadow: 0 24px 60px rgb(42 33 27 / 25%);
+    perspective: 800px;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      box-shadow: 0 24px 60px rgb(42 33 27 / 35%), 0 0 0 1px rgb(227 167 107 / 25%);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--accent-light, #e3a76b);
+      outline-offset: 4px;
+    }
   }
 
-  .d20 {
-    width: 60%;
-    height: 60%;
-    animation: rotate-d20 24s linear infinite;
+  // Icosahedron geometry constants:
+  //   --E: edge length in px (≈ container ÷ 1.902)
+  //   --R: inradius (face-to-center distance) ≈ edge × 0.7558
+  // For the rendered ~280px effective container, edge ~150 + inradius ~113.
+  .die {
+    --E: 150px;
+    --R: 113px;
+    width: var(--E);
+    height: var(--E);
+    position: relative;
+    transform-style: preserve-3d;
+    animation: roll-d20 18s linear infinite;
   }
 
-  .d20-text {
-    font-family: var(--serif);
-    font-style: italic;
-  }
-
-  .d20-face-num {
+  .face {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding-top: 12%;
+    // Equilateral triangle inscribed in the square face div, apex up
+    // (height/width = √3/2 = 0.866 → 6.7% margins top/bottom).
+    clip-path: polygon(50% 6.7%, 100% 93.3%, 0% 93.3%);
+    background: linear-gradient(155deg, #e3a76b 0%, #b3743c 55%, #7a3d1c 100%);
+    color: var(--cream);
     font-family: var(--mono);
-    letter-spacing: 0.04em;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    backface-visibility: hidden;
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 22%);
   }
 
-  @keyframes rotate-d20 {
-    from { transform: rotate(0); }
-    to   { transform: rotate(360deg); }
+  // Inverted equilateral for down-pointing faces (antiprism band + bottom cap).
+  .face.down {
+    clip-path: polygon(50% 93.3%, 100% 6.7%, 0% 6.7%);
+    padding-top: 0;
+    padding-bottom: 12%;
+    align-items: end;
+  }
+
+  // 4 groups of 5 faces. Tilt angles derive from the icosahedron's face
+  // colatitudes (37.38°, 79.19°, 100.81°, 142.62° from north pole).
+  @for $i from 0 through 4 {
+    // Top cap — 5 faces around the top vertex, azimuths 36° + 72°·i.
+    .face:nth-child(#{$i + 1}) {
+      transform:
+        rotateY(#{36deg + 72deg * $i})
+        rotateX(-52.62deg)
+        translateZ(var(--R));
+    }
+    // Antiprism down-pointing band — azimuths 0° + 72°·i.
+    .face:nth-child(#{$i + 6}) {
+      transform:
+        rotateY(#{72deg * $i})
+        rotateX(10.81deg)
+        translateZ(var(--R));
+    }
+    // Antiprism up-pointing band — azimuths 36° + 72°·i.
+    .face:nth-child(#{$i + 11}) {
+      transform:
+        rotateY(#{36deg + 72deg * $i})
+        rotateX(-10.81deg)
+        translateZ(var(--R));
+    }
+    // Bottom cap — 5 faces around the bottom vertex, azimuths 0° + 72°·i.
+    .face:nth-child(#{$i + 16}) {
+      transform:
+        rotateY(#{72deg * $i})
+        rotateX(52.62deg)
+        translateZ(var(--R));
+    }
+  }
+
+  @keyframes roll-d20 {
+    0%   { transform: rotateX(-10deg) rotateY(0deg)   rotateZ(0deg); }
+    50%  { transform: rotateX(190deg) rotateY(180deg) rotateZ(20deg); }
+    100% { transform: rotateX(350deg) rotateY(360deg) rotateZ(0deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .die { animation: none; transform: rotateX(-12deg) rotateY(28deg); }
   }
 
   .meta-top,
