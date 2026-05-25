@@ -78,3 +78,16 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  indexnow:
+    needs: deploy
+    runs-on: ubuntu-latest
+    # IndexNow push is best-effort; never block CI on it.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Ping IndexNow (Bing + Yandex + DuckDuckGo + Naver + Seznam)
+        run: node scripts/ping-indexnow.mjs
