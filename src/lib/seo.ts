@@ -1,6 +1,8 @@
-import { LOCALES, HREFLANG_MAP, DEFAULT_LOCALE, type Locale, localePath } from './i18n';
+import { LOCALES, DEFAULT_LOCALE, type Locale, localePath } from './i18n';
+import { SITE as CONST_SITE, HREFLANG } from '../consts/site';
 
-export const SITE = 'https://gabrielvargas94.github.io';
+/** Re-exported for backward-compatibility with components already importing `SITE`. */
+export const SITE = CONST_SITE;
 
 export function canonicalUrl(locale: Locale, path = ''): string {
   return `${SITE}${localePath(locale, path)}`;
@@ -13,7 +15,7 @@ export interface HreflangLink {
 
 export function hreflangLinks(path = ''): readonly HreflangLink[] {
   const links: HreflangLink[] = LOCALES.map((l) => ({
-    hreflang: HREFLANG_MAP[l],
+    hreflang: HREFLANG[l],
     href: canonicalUrl(l, path),
   }));
   links.push({ hreflang: 'x-default', href: canonicalUrl(DEFAULT_LOCALE, path) });
