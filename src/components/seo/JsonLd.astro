@@ -54,7 +54,9 @@ const graph = {
       '@id': `${profileUrl}#profile`,
       mainEntity: { '@id': personId },
       inLanguage: locale,
-      dateModified: new Date().toISOString().slice(0, 10),
+      // Full ISO 8601 DateTime — Google's Rich Results parser flags the
+      // date-only YYYY-MM-DD form as invalid even though Schema.org accepts it.
+      dateModified: new Date().toISOString(),
       url: profileUrl,
     },
     {
