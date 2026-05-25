@@ -1,3 +1,5 @@
+// @ts-check
+import { fileURLToPath } from 'node:url';
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
@@ -101,6 +103,11 @@ export default defineConfig({
   vite: {
     css: {
       devSourcemap: true,
+    },
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
     },
   },
 });
