@@ -297,17 +297,14 @@ const parts = locMetaParts[locale];
     section {
       min-height: auto;
       padding-top: 110px;
-      // Stack status above .inner instead of side-by-side via flex row.
-      flex-direction: column;
-      align-items: stretch;
     }
 
-    // position: static (default) takes status out of absolute corner-pinning
-    // and lets it flow as a normal flex item — sits above .inner thanks to
-    // the column flex-direction above. position: relative here was creating
-    // a containing block that broke the responsive layout (overlapped copy).
+    // Don't override position here — the desktop position:absolute keeps the
+    // status pinned to its corner. Anything that puts it back into flow
+    // (relative / static) breaks the responsive layout in this section.
     .status {
-      position: static;
+      top: auto;
+      right: auto;
       align-items: flex-start;
       margin-bottom: 24px;
     }
