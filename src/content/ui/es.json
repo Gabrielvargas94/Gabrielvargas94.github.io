@@ -42,34 +42,42 @@
       ]
     },
     "meli": {
-      "kicker": "Mercado Libre · Project Leader · 8–12 ingenieros",
+      "kicker": "Mercado Libre · 2022 – 2024",
       "title": "Infraestructura financiera con 100+ equipos internos como clientes",
+      "lede": "Project Leader en MercadoPago. Lideré equipos de 8 y 12 ingenieros en diseño, entrega y ejecución — colaborando directamente con tech leads en decisiones de arquitectura mientras tenía ownership de performance del equipo y roadmap.",
+      "metaRole": "Project Leader",
       "cards": [
         {
           "icon": "lucide:circle-dollar-sign",
+          "tag": "Core Financiero",
           "title": "Motor de Transfers & Debts",
           "desc": "Co-arquitecté herramientas de procesamiento Golang de alto riesgo corriendo batches diarios multi-millonarios en el core operativo de MercadoPago."
         },
         {
           "icon": "lucide:layout-dashboard",
+          "tag": "Plataforma Interna",
           "title": "One Source",
           "desc": "Principal consola de visibilidad de MercadoPago — vista única tirando de cada API del ecosistema. Contacto diario con la mayoría de los equipos de ingeniería."
         },
         {
           "icon": "lucide:code",
+          "tag": "Developer Experience",
           "title": "Framework de Frontend",
           "desc": "Impulsé la adopción y evolución de un framework de frontend interno muy usado — miles de proyectos dependían de él, otros frameworks se construían encima."
         }
       ]
     },
     "idb": {
-      "kicker": "Banco Interamericano de Desarrollo · 3+ años · Contrato",
-      "title": "Ingeniería en uno de los bancos multilaterales más influyentes del mundo",
+      "kicker": "Engineering Manager · Contrato · 2020 – 2023",
+      "metaTitle": "Banco Interamericano de Desarrollo",
+      "org": "Banco Interamericano de Desarrollo",
+      "lede": "Entregué ingeniería para múltiples proyectos en uno de los bancos multilaterales de desarrollo más influyentes del mundo — gestionando equipos cross-funcionales en ingeniería, diseño, producto y política.",
       "stats": [
-        { "value": "60+", "label": "Personas cross-funcionales gestionadas: ingeniería, diseño, producto y política." },
-        { "value": "30%", "label": "Reducción de time-to-market vía microfrontends Angular + Vue y trabajo focalizado sobre deuda técnica." },
-        { "value": "C-Level", "label": "Línea directa de reporte de estrategia técnica. Influencia de roadmap en org matricial grande." }
-      ]
+        { "n": "60+", "l": "Personas gestionadas en ingeniería, diseño, producto, política." },
+        { "n": "30%", "l": "Reducción de time-to-market vía arquitectura microfrontend (Angular + Vue)." },
+        { "n": "C-Level", "l": "Línea directa de reporte de estrategia técnica. Influencia de roadmap en org matricial grande." }
+      ],
+      "body": "Engaged inicialmente como consultor full-time, luego continué como contratista flexible liderando proyectos internos — estructura que permitió engagement concurrente con Mercado Libre desde mayo 2022 en adelante."
     },
     "topSkills": {
       "kicker": "Top Skills",
@@ -150,8 +158,11 @@
     },
     "contact": {
       "kicker": "Hablemos",
-      "title": "¿Querés saber más?",
-      "cta": "Contáctame en LinkedIn"
+      "titlePre": "¿Querés saber",
+      "titleEm": "más?",
+      "body": "El mejor camino es LinkedIn. Leo todo, respondo a lo técnico, y atiendo a reclutadores que hacen el research.",
+      "cta": "Contáctame en LinkedIn",
+      "foot": "Construido con Astro · estático + AI-ready"
     }
   },
   "footer": {

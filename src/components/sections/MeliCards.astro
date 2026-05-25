@@ -1,6 +1,7 @@
 ---
 import Icon from '../ui/Icon.astro';
 import VideoPlaceholder from '../ui/VideoPlaceholder.astro';
+import Pill from '../ui/Pill.astro';
 import type { Locale } from '../../lib/i18n';
 import uiEn from '../../content/ui/en.json';
 import uiEs from '../../content/ui/es.json';
@@ -22,22 +23,29 @@ const s = ui.sections.meli;
 
   <div class="inner">
     <header class="head">
-      <span class="kicker">{s.kicker}</span>
-      <h2 id="meli-title">{s.title}</h2>
+      <div class="head-main">
+        <Pill variant="dark">{s.kicker}</Pill>
+        <h2 id="meli-title">{s.title}</h2>
+        <p class="lede">{s.lede}</p>
+      </div>
+      <span class="role-mono" aria-hidden="true">{s.metaRole}</span>
     </header>
 
     <ul class="cards">
-      {
-        s.cards.map((c) => (
-          <li class="card">
-            <span class="icon" aria-hidden="true">
-              <Icon name={c.icon} size={28} />
+      {s.cards.map((c) => (
+        <li class="card">
+          <div class="card-top">
+            <span class="card-tag">{c.tag}</span>
+            <span class="card-icon" aria-hidden="true">
+              <Icon name={c.icon} size={22} />
             </span>
+          </div>
+          <div class="card-body">
             <h3>{c.title}</h3>
             <p>{c.desc}</p>
-          </li>
-        ))
-      }
+          </div>
+        </li>
+      ))}
     </ul>
   </div>
 </section>
@@ -47,10 +55,8 @@ const s = ui.sections.meli;
   section {
     position: relative;
     isolation: isolate;
-    padding: 100px clamp(16px, 4vw, 64px);
+    padding: clamp(96px, 11vw, 160px) clamp(16px, 4vw, 64px);
     overflow: hidden;
-    // Solid fallback ensures axe-core computes contrast against ink (not body
-    // cream) since the video bg + overlay layers aren't traversable opacity-wise.
     background-color: var(--ink);
     color: var(--cream);
   }
@@ -65,39 +71,56 @@ const s = ui.sections.meli;
     content: '';
     position: absolute;
     inset: 0;
-    background: rgb(42 33 27 / 55%);
+    background: rgb(42 33 27 / 62%);
   }
 
   .inner {
-    max-width: 1440px;
+    position: relative;
+    max-width: 1320px;
     margin: 0 auto;
   }
 
   .head {
-    text-align: center;
-    margin-bottom: 56px;
-    color: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: end;
+    margin-bottom: clamp(48px, 6vw, 80px);
   }
 
-  .kicker {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent-light);
-    margin-bottom: 12px;
+  .head-main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 820px;
   }
 
   h2 {
-    font-family: var(--serif);
-    font-size: clamp(36px, 5vw, 64px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
     margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(36px, 5.2vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    font-weight: 400;
     color: var(--cream);
-    max-width: 900px;
-    margin-inline: auto;
+    text-wrap: balance;
+  }
+
+  .lede {
+    margin: 0;
+    max-width: 720px;
+    font-size: clamp(15px, 1.2vw, 18px);
+    line-height: 1.6;
+    color: rgb(247 242 232 / 80%);
+    text-wrap: pretty;
+  }
+
+  .role-mono {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(247 242 232 / 75%);
   }
 
   .cards {
@@ -105,55 +128,78 @@ const s = ui.sections.meli;
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 20px;
   }
 
   .card {
-    padding: 24px;
-    background: rgb(247 242 232 / 86%);
-    backdrop-filter: blur(10px) saturate(140%);
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
-    border: 1px solid rgb(247 242 232 / 30%);
-    border-radius: 16px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-  }
+    justify-content: space-between;
+    min-height: 280px;
+    padding: 32px 28px 28px;
+    background: rgb(247 242 232 / 6%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgb(247 242 232 / 16%);
+    border-radius: 18px;
+    transition:
+      transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+      background 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 
-  .icon {
-    display: grid;
-    place-items: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: var(--ink);
-    color: var(--accent-light);
-  }
-
-  h3 {
-    font-family: var(--serif);
-    font-size: 20px;
-    margin: 0;
-    color: var(--ink);
-  }
-
-  p {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.55;
-    color: var(--ink-2);
-  }
-
-  @media (width <= 880px) {
-    .cards {
-      grid-template-columns: repeat(2, 1fr);
+    &:hover {
+      background: rgb(247 242 232 / 10%);
+      transform: translateY(-4px);
     }
   }
 
-  @media (width <= 560px) {
-    .cards {
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+
+  .card-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgb(247 242 232 / 78%);
+  }
+
+  .card-icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgb(247 242 232 / 10%);
+    color: var(--cream);
+  }
+
+  .card-body h3 {
+    margin: 0 0 12px;
+    font-family: var(--serif);
+    font-size: 26px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    font-weight: 400;
+    color: var(--cream);
+  }
+
+  .card-body p {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: rgb(247 242 232 / 78%);
+    text-wrap: pretty;
+  }
+
+  @media (width <= 880px) {
+    .head {
       grid-template-columns: 1fr;
+      align-items: start;
     }
   }
 }

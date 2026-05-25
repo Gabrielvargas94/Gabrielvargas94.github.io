@@ -1,4 +1,6 @@
 ---
+import Pill from '../ui/Pill.astro';
+import Icon from '../ui/Icon.astro';
 import type { Locale } from '../../lib/i18n';
 import uiEn from '../../content/ui/en.json';
 import uiEs from '../../content/ui/es.json';
@@ -15,21 +17,29 @@ const s = ui.sections.idb;
 ---
 <section id="idb" aria-labelledby="idb-title">
   <div class="inner">
-    <header class="head">
-      <span class="kicker">{s.kicker}</span>
-      <h2 id="idb-title">{s.title}</h2>
-    </header>
+    <aside class="meta">
+      <span class="icon-box" aria-hidden="true">
+        <Icon name="lucide:award" size={36} />
+      </span>
+      <Pill>{s.kicker}</Pill>
+      <span class="meta-title">{s.metaTitle}</span>
+    </aside>
 
-    <dl class="stats">
-      {
-        s.stats.map((stat) => (
+    <div class="content">
+      <h2 id="idb-title">{s.org}</h2>
+      <p class="lede">{s.lede}</p>
+
+      <dl class="stats">
+        {s.stats.map((stat) => (
           <div class="stat">
-            <dt>{stat.value}</dt>
-            <dd>{stat.label}</dd>
+            <dt>{stat.n}</dt>
+            <dd>{stat.l}</dd>
           </div>
-        ))
-      }
-    </dl>
+        ))}
+      </dl>
+
+      <p class="body">{s.body}</p>
+    </div>
   </div>
 </section>
 
@@ -37,74 +47,125 @@ const s = ui.sections.idb;
 @layer components {
   section {
     background: var(--cream-2);
-    padding: 100px clamp(16px, 4vw, 64px);
+    padding: clamp(80px, 10vw, 140px) clamp(16px, 4vw, 64px);
   }
 
   .inner {
-    max-width: 1200px;
+    max-width: 1320px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(280px, 380px) 1fr;
+    gap: clamp(40px, 6vw, 100px);
+    align-items: start;
   }
 
-  .head {
-    text-align: center;
-    margin-bottom: 64px;
+  .meta {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
 
-  .kicker {
-    display: inline-block;
+  .icon-box {
+    display: grid;
+    place-items: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 18px;
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .meta-title {
     font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.18em;
+    font-size: 12px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--accent-dark);
-    margin-bottom: 12px;
+    color: var(--ink-3);
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
   }
 
   h2 {
+    margin: 0;
     font-family: var(--serif);
-    font-size: clamp(36px, 5vw, 64px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin: 0 auto;
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    font-weight: 400;
     color: var(--ink);
-    max-width: 900px;
+    text-wrap: balance;
+  }
+
+  .lede {
+    margin: 0;
+    max-width: 680px;
+    font-size: clamp(17px, 1.4vw, 22px);
+    line-height: 1.55;
+    color: var(--ink-2);
+    text-wrap: pretty;
   }
 
   .stats {
-    margin: 0;
-    padding: 0;
+    margin: clamp(28px, 4vw, 40px) 0 0;
+    padding-top: 36px;
+    border-top: 1px solid rgb(42 33 27 / 12%);
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
   }
 
   .stat {
-    text-align: center;
-    padding: 32px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
   dt {
     font-family: var(--serif);
-    font-size: clamp(48px, 7vw, 96px);
+    font-size: clamp(40px, 4.8vw, 64px);
     line-height: 1;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    font-weight: 400;
     color: var(--accent-dark);
-    margin-bottom: 16px;
   }
 
   dd {
     margin: 0;
-    font-size: 15px;
+    max-width: 220px;
+    font-size: 14px;
     line-height: 1.5;
     color: var(--ink-2);
-    max-width: 280px;
-    margin-inline: auto;
   }
 
-  @media (width <= 720px) {
-    .stats {
+  .body {
+    margin: clamp(28px, 4vw, 48px) 0 0;
+    max-width: 680px;
+    padding-left: 24px;
+    border-left: 2px solid var(--accent-dark);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-3);
+  }
+
+  @media (width <= 880px) {
+    .inner {
       grid-template-columns: 1fr;
-      gap: 24px;
+    }
+
+    .meta {
+      position: static;
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
     }
   }
 }

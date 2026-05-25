@@ -42,34 +42,42 @@
       ]
     },
     "meli": {
-      "kicker": "Mercado Libre · Project Leader · 8–12 engineers",
+      "kicker": "Mercado Libre · 2022 – 2024",
       "title": "Financial infrastructure trusted by 100+ internal teams",
+      "lede": "Project Leader at MercadoPago. Led teams of 8 and 12 engineers across design, delivery, and execution — collaborating directly with technical leads on architecture decisions while owning team performance and roadmap.",
+      "metaRole": "Project Leader",
       "cards": [
         {
           "icon": "lucide:circle-dollar-sign",
+          "tag": "Financial Core",
           "title": "Transfers & Debts engine",
           "desc": "Co-architected high-stakes Golang processing tools running daily multi-million-dollar batches at MercadoPago's operational core."
         },
         {
           "icon": "lucide:layout-dashboard",
+          "tag": "Internal Platform",
           "title": "One Source",
           "desc": "MercadoPago's main visibility console — single pane pulling from every API across the ecosystem. Daily contact with most engineering teams in the company."
         },
         {
           "icon": "lucide:code",
+          "tag": "Developer Experience",
           "title": "Frontend Framework",
           "desc": "Drove adoption and evolution of a widely-used internal frontend framework — thousands of projects depended on it, other frameworks built on top of it."
         }
       ]
     },
     "idb": {
-      "kicker": "Inter-American Development Bank · 3+ years · Contract",
-      "title": "Engineering inside one of the world's most influential multilateral banks",
+      "kicker": "Engineering Manager · Contract · 2020 – 2023",
+      "metaTitle": "Inter-American Development Bank",
+      "org": "Inter-American Development Bank",
+      "lede": "Delivered engineering for multiple projects at one of the world's most influential multilateral development banks — managing cross-functional teams across engineering, design, product, and policy.",
       "stats": [
-        { "value": "60+", "label": "Cross-functional people managed across engineering, design, product, and policy." },
-        { "value": "30%", "label": "Time-to-market reduction via Angular + Vue microfrontends and targeted tech-debt work." },
-        { "value": "C-Level", "label": "Direct technical-strategy reporting line. Roadmap influence across a large matrix org." }
-      ]
+        { "n": "60+", "l": "People managed across engineering, design, product, policy." },
+        { "n": "30%", "l": "Time-to-market reduction via microfrontend architecture (Angular + Vue)." },
+        { "n": "C-Level", "l": "Direct technical-strategy reporting. Roadmap influence in a large matrix org." }
+      ],
+      "body": "Engaged initially as a full-time consultant, then continued as a flexible contractor leading internal projects — a structure that allowed concurrent engagement with Mercado Libre from May 2022 onward."
     },
     "topSkills": {
       "kicker": "Top Skills",
@@ -150,8 +158,11 @@
     },
     "contact": {
       "kicker": "Get in touch",
-      "title": "Want to know more?",
-      "cta": "Contact me on LinkedIn"
+      "titlePre": "Want to know",
+      "titleEm": "more?",
+      "body": "Best path is LinkedIn. I read everything, reply to anything technical, and answer recruiters who do their homework.",
+      "cta": "Contact me on LinkedIn",
+      "foot": "Built with Astro · static + AI-ready"
     }
   },
   "footer": {
