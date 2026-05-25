@@ -50,38 +50,29 @@ const rollAriaLabel: Record<Locale, string> = {
         via rotateY (azimuth) → rotateX (tilt) → translateZ (push out by
         inradius). Container has perspective so the rotation reads 3D.
       */}
+      {/*
+        20-face icosahedron — pure CSS 3D approach adapted from
+        vicentemundim's CodePen "3d d20 die with pure CSS" (nXNvBw).
+        Each face is a CSS border-triangle (border-left/right transparent +
+        border-bottom colored = upward-pointing triangle of zero-width 0-height
+        div). Numbers come from `counter-increment: steps` + `::before` so the
+        same 20 figures auto-number 1..20 without per-face content.
+      */}
       <div class="die" aria-hidden="true">
-        <div class="face">20</div>
-        <div class="face">8</div>
-        <div class="face">14</div>
-        <div class="face">2</div>
-        <div class="face">17</div>
-
-        <div class="face down">13</div>
-        <div class="face down">7</div>
-        <div class="face down">16</div>
-        <div class="face down">5</div>
-        <div class="face down">19</div>
-
-        <div class="face">1</div>
-        <div class="face">11</div>
-        <div class="face">4</div>
-        <div class="face">18</div>
-        <div class="face">6</div>
-
-        <div class="face down">9</div>
-        <div class="face down">10</div>
-        <div class="face down">3</div>
-        <div class="face down">15</div>
-        <div class="face down">12</div>
+        {Array.from({ length: 20 }, (_, i) => (
+          <figure class={`face face-${i + 1}`} />
+        ))}
       </div>
       <span class="meta-bot">{initiativeLabel[locale]}</span>
     </div>
 
     <script>
-      // Click/tap/keyboard on the frame triggers a one-shot roll: the idle
-      // rotation animation gets disabled and the die transitions to a fresh
-      // random orientation. Each subsequent click re-rolls.
+      // Roll-to-face flow: click/tap/Enter on the frame adds .rolling for 3s
+      // (the multi-step roll keyframe animation plays) then drops .rolling and
+      // sets `data-face` to a fresh random number 1..20, which the CSS targets
+      // to land the die on that face via a 0.5s ease-out transition.
+      const ROLL_MS = 3000;
+
       function attachRollHandler(): void {
         const visuals = document.querySelectorAll<HTMLElement>('#dnd .visual');
         visuals.forEach((visual) => {
@@ -89,20 +80,28 @@ const rollAriaLabel: Record<Locale, string> = {
           visual.dataset.rollWired = '1';
           const die = visual.querySelector<HTMLElement>('.die');
           if (!die) return;
-          const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+          let timeoutId: number | undefined;
+          let lastFace = 1;
+          const rand = (): number => {
+            let f = Math.floor(Math.random() * 20) + 1;
+            if (f === lastFace) f = rand();
+            lastFace = f;
+            return f;
+          };
 
           const roll = (): void => {
-            // Lots of full spins + random landing pose so each roll feels chaotic.
-            const rx = 720 + Math.random() * 720;
-            const ry = 720 + Math.random() * 720;
-            const rz = Math.random() * 360;
-            die.style.animation = 'none';
-            // Reflow to lock the animation: none state in.
+            die.removeAttribute('data-face');
+            // Force reflow before re-adding the class so the animation restarts
+            // even if .rolling was already present.
+            die.classList.remove('rolling');
             void die.offsetHeight;
-            die.style.transition = prefersReduced
-              ? 'none'
-              : 'transform 1.6s cubic-bezier(0.16, 1, 0.3, 1)';
-            die.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg)`;
+            die.classList.add('rolling');
+            if (timeoutId !== undefined) window.clearTimeout(timeoutId);
+            timeoutId = window.setTimeout(() => {
+              die.classList.remove('rolling');
+              die.dataset.face = String(rand());
+            }, ROLL_MS);
           };
 
           visual.addEventListener('click', roll);
@@ -182,88 +181,169 @@ const rollAriaLabel: Record<Locale, string> = {
     }
   }
 
-  // Icosahedron geometry constants:
-  //   --E: edge length in px (≈ container ÷ 1.902)
-  //   --R: inradius (face-to-center distance) ≈ edge × 0.7558
-  // For the rendered ~280px effective container, edge ~150 + inradius ~113.
+  // d20 geometry — values mirror vicentemundim's CodePen so the well-tested
+  // angle/translate set is preserved. The only swap is colour: CodePen's
+  // bright green replaced by the site's accent gradient.
+  $container-w: 220px;
+  $face-w: $container-w * 0.5;
+  $face-h: $face-w * 0.86;
+  $angle: 53deg;
+  $ring-angle: -11deg;
+  $side-angle: 72deg;
+  $rotate-x: -$angle;
+  $translate-z: $face-w * 0.335;
+  $translate-y: -$face-h * 0.15;
+  $translate-ring-z: $face-w * 0.75;
+  $translate-ring-y: $face-h * 0.78 + $translate-y;
+  $translate-lower-z: $translate-z;
+  $translate-lower-y: $face-h * 0.78 + $translate-ring-y;
+  $face-color: #b3743c;
+
   .die {
-    --E: 150px;
-    --R: 113px;
-    width: var(--E);
-    height: var(--E);
     position: relative;
+    width: $container-w;
+    height: $container-w;
     transform-style: preserve-3d;
-    animation: roll-d20 18s linear infinite;
+    transition: transform 0.5s ease-out;
+    transform: rotateX($rotate-x);
+    counter-reset: steps;
+
+    &.rolling {
+      animation: roll-d20 3s linear;
+    }
+
+    // Top cap (faces 1–5): tilted up about the top vertex.
+    @for $i from 1 through 5 {
+      &[data-face="#{$i}"] {
+        $am: $i - 1;
+        transform: rotateX(-$angle) rotateY($side-angle * $am);
+      }
+    }
+
+    // Bottom cap (faces 16–20): flipped 180° from top cap.
+    @for $i from 16 through 20 {
+      &[data-face="#{$i}"] {
+        $am: $i - 15;
+        transform: rotateX(-$angle + 180deg) rotateY(-$side-angle * $am);
+      }
+    }
+
+    // Upper anti-prism ring (faces 6–10): inverted triangles, slight tilt.
+    @for $i from 6 through 10 {
+      &[data-face="#{$i}"] {
+        $am: $i - 6;
+        transform: rotateX(-$ring-angle) rotateZ(180deg) rotateY($side-angle * $am);
+      }
+    }
+
+    // Lower anti-prism ring (faces 11–15): upright triangles, slight tilt,
+    // offset by half a side-angle so they fit between the upper-ring faces.
+    @for $i from 11 through 15 {
+      &[data-face="#{$i}"] {
+        $am: $i - 8;
+        transform: rotateX(-$ring-angle) rotateY(-$side-angle * $am - $side-angle * 0.5);
+      }
+    }
   }
 
   .face {
+    $h-margin: -$face-w * 0.5;
+
     position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    padding-top: 12%;
-    // Equilateral triangle inscribed in the square face div, apex up
-    // (height/width = √3/2 = 0.866 → 6.7% margins top/bottom).
-    clip-path: polygon(50% 6.7%, 100% 93.3%, 0% 93.3%);
-    background: linear-gradient(155deg, #e3a76b 0%, #b3743c 55%, #7a3d1c 100%);
-    color: var(--cream);
-    font-family: var(--mono);
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
+    left: 50%;
+    top: 0;
+    margin: 0 $h-margin;
+    border-left: $face-w * 0.5 solid transparent;
+    border-right: $face-w * 0.5 solid transparent;
+    border-bottom: $face-h solid $face-color;
+    width: 0;
+    height: 0;
+    transform-style: preserve-3d;
     backface-visibility: hidden;
-    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 22%);
+    counter-increment: steps 1;
+
+    &::before {
+      content: counter(steps);
+      position: absolute;
+      top: $face-h * 0.25;
+      left: -$face-w;
+      width: $face-w * 2;
+      height: $face-h;
+      color: var(--cream);
+      text-shadow: 1px 1px 3px rgb(0 0 0 / 75%);
+      font-family: var(--mono);
+      font-size: $face-h * 0.45;
+      font-weight: 600;
+      text-align: center;
+      line-height: $face-h * 0.9;
+    }
+
+    // Top cap face transforms (faces 1–5).
+    @for $i from 1 through 5 {
+      &:nth-child(#{$i}) {
+        $am: $i - 1;
+        transform:
+          rotateY(-$side-angle * $am)
+          translateZ($translate-z)
+          translateY($translate-y)
+          rotateX($angle);
+      }
+    }
+
+    // Bottom cap face transforms (faces 16–20).
+    @for $i from 16 through 20 {
+      &:nth-child(#{$i}) {
+        $am: $i - 18;
+        transform:
+          rotateY($side-angle * $am + $side-angle * 0.5)
+          translateZ($translate-lower-z)
+          translateY($translate-lower-y)
+          rotateZ(180deg)
+          rotateX($angle);
+      }
+    }
+
+    // Upper ring (faces 6–10): inverted triangles.
+    @for $i from 6 through 10 {
+      &:nth-child(#{$i}) {
+        $am: $i - 11;
+        transform:
+          rotateY(-$side-angle * $am)
+          translateZ($translate-ring-z)
+          translateY($translate-ring-y)
+          rotateZ(180deg)
+          rotateX($ring-angle);
+      }
+    }
+
+    // Lower ring (faces 11–15): upright triangles offset by half a side-angle.
+    @for $i from 11 through 15 {
+      &:nth-child(#{$i}) {
+        $am: $i - 8;
+        transform:
+          rotateY($side-angle * $am + $side-angle * 0.5)
+          translateZ($translate-ring-z)
+          translateY($translate-ring-y)
+          rotateX($ring-angle);
+      }
+    }
   }
 
-  // Inverted equilateral for down-pointing faces (antiprism band + bottom cap).
-  .face.down {
-    clip-path: polygon(50% 93.3%, 100% 6.7%, 0% 6.7%);
-    padding-top: 0;
-    padding-bottom: 12%;
-    align-items: end;
-  }
-
-  // 4 groups of 5 faces. Tilt angles derive from the icosahedron's face
-  // colatitudes (37.38°, 79.19°, 100.81°, 142.62° from north pole).
-  @for $i from 0 through 4 {
-    // Top cap — 5 faces around the top vertex, azimuths 36° + 72°·i.
-    .face:nth-child(#{$i + 1}) {
-      transform:
-        rotateY(#{36deg + 72deg * $i})
-        rotateX(-52.62deg)
-        translateZ(var(--R));
-    }
-    // Antiprism down-pointing band — azimuths 0° + 72°·i.
-    .face:nth-child(#{$i + 6}) {
-      transform:
-        rotateY(#{72deg * $i})
-        rotateX(10.81deg)
-        translateZ(var(--R));
-    }
-    // Antiprism up-pointing band — azimuths 36° + 72°·i.
-    .face:nth-child(#{$i + 11}) {
-      transform:
-        rotateY(#{36deg + 72deg * $i})
-        rotateX(-10.81deg)
-        translateZ(var(--R));
-    }
-    // Bottom cap — 5 faces around the bottom vertex, azimuths 0° + 72°·i.
-    .face:nth-child(#{$i + 16}) {
-      transform:
-        rotateY(#{72deg * $i})
-        rotateX(52.62deg)
-        translateZ(var(--R));
-    }
-  }
-
+  // Tumble-and-translate roll keyframes (mirrors the CodePen sequence so the
+  // motion arc reads as a real die bounce instead of a clean spin).
   @keyframes roll-d20 {
-    0%   { transform: rotateX(-10deg) rotateY(0deg)   rotateZ(0deg); }
-    50%  { transform: rotateX(190deg) rotateY(180deg) rotateZ(20deg); }
-    100% { transform: rotateX(350deg) rotateY(360deg) rotateZ(0deg); }
+    10% { transform: rotateX(0deg)   rotateY(0deg)   rotateZ(0deg); }
+    30% { transform: rotateX(120deg) rotateY(240deg) rotateZ(0deg) translateX(40px) translateY(40px); }
+    50% { transform: rotateX(240deg) rotateY(480deg) rotateZ(0deg) translateX(-40px) translateY(-40px); }
+    70% { transform: rotateX(360deg) rotateY(720deg) rotateZ(0deg); }
+    90% { transform: rotateX(480deg) rotateY(960deg) rotateZ(0deg); }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .die { animation: none; transform: rotateX(-12deg) rotateY(28deg); }
+    .die {
+      transition: none;
+      &.rolling { animation: none; }
+    }
   }
 
   .meta-top,
