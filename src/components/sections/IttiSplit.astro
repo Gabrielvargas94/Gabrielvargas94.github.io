@@ -78,14 +78,15 @@ const s = ui.sections.ittiSplit;
   section {
     background: var(--ink);
     color: var(--cream);
-    padding: clamp(64px, 8vw, 100px) 0;
+    // Top-only: bottom gap removed so the section flushes against MeliCards.
+    padding: clamp(64px, 8vw, 100px) 0 0;
   }
 
   .head {
     text-align: center;
     max-width: 900px;
     margin: 0 auto;
-    padding: 0 clamp(16px, 4vw, 64px);
+    padding: clamp(24px, 4vw, 48px) clamp(16px, 4vw, 64px) clamp(32px, 5vw, 56px);
   }
 
   .kicker {
