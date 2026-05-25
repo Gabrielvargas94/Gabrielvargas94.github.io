@@ -1,0 +1,459 @@
+---
+// Full CV page — web rendering (not the print/PDF version).
+// Uses BaseLayout chrome + readable typography.
+import { getCollection, getEntry } from 'astro:content';
+import Pill from '../ui/Pill.astro';
+import CTAButton from '../ui/CTAButton.astro';
+import Icon from '../ui/Icon.astro';
+import { localePath, type Locale } from '../../lib/i18n';
+import { PROFILES, EDUCATION } from '../../consts/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const profile = await getEntry('profile', locale);
+if (!profile) throw new Error(`Profile not found for locale ${locale}`);
+
+const experiences = (
+  await getCollection('experience', (e) => e.data.locale === locale)
+).sort((a, b) => a.data.order - b.data.order);
+
+const certs = (
+  await getCollection('certification', (c) => c.data.locale === locale)
+).sort((a, b) => b.data.date.localeCompare(a.data.date));
+
+const labels: Record<Locale, Record<string, string>> = {
+  en: {
+    summary: 'Summary',
+    achievements: 'Selected Achievements',
+    exp: 'Experience',
+    edu: 'Education',
+    skills: 'Core Skills',
+    certs: 'Certifications & Languages',
+    langs: 'Languages',
+    present: 'Present',
+    backHome: 'Back to home',
+    download: 'Download',
+    leadership: 'Leadership & Strategy',
+    leadershipBody: 'Engineering Leadership & Team Scaling (8–60+ people), Roadmap Ownership, OKRs, Strategic Thinking, Matrix Organization Navigation, Architectural Strategy.',
+    architecture: 'Architecture & Cloud',
+    architectureBody: 'Architectural Refactoring & Design, Microservices & APIs, Microfrontends, High-Concurrency Systems, Distributed Systems, AWS, GCP, High Availability, Fault Tolerance, Scalability.',
+    crossfn: 'Cross-Functional Influence',
+    crossfnBody: 'C-Level Communication, Stakeholder Negotiation, Cross-functional Alignment, Technical Strategy Presentation.',
+    tech: 'Technologies',
+    techBody: 'React Native, React, Vue, Angular, Golang, Java, Node.js.',
+    methodology: 'Methodology & Culture',
+    methodologyBody: 'Agile / Scrum, Results-Driven Execution, AI-Assisted Development (Claude Code, GitHub Copilot, Cursor), Talent Development & Team Growth.',
+  },
+  es: {
+    summary: 'Resumen',
+    achievements: 'Logros seleccionados',
+    exp: 'Experiencia',
+    edu: 'Educación',
+    skills: 'Habilidades principales',
+    certs: 'Certificaciones e Idiomas',
+    langs: 'Idiomas',
+    present: 'Presente',
+    backHome: 'Volver al inicio',
+    download: 'Descargar',
+    leadership: 'Liderazgo y Estrategia',
+    leadershipBody: 'Liderazgo de Ingeniería y Escalado de Equipos (8–60+ personas), Ownership de Roadmap, OKRs, Pensamiento Estratégico, Navegación de Org Matricial, Estrategia Arquitectural.',
+    architecture: 'Arquitectura y Cloud',
+    architectureBody: 'Refactoring y Diseño Arquitectural, Microservicios y APIs, Microfrontends, Sistemas de Alta Concurrencia, Sistemas Distribuidos, AWS, GCP, Alta Disponibilidad, Tolerancia a Fallas, Escalabilidad.',
+    crossfn: 'Influencia Cross-Funcional',
+    crossfnBody: 'Comunicación C-Level, Negociación con Stakeholders, Alineamiento Cross-funcional, Presentación de Estrategia Técnica.',
+    tech: 'Tecnologías',
+    techBody: 'React Native, React, Vue, Angular, Golang, Java, Node.js.',
+    methodology: 'Metodología y Cultura',
+    methodologyBody: 'Agile / Scrum, Ejecución orientada a resultados, Desarrollo Asistido por IA (Claude Code, GitHub Copilot, Cursor), Desarrollo de Talento y Crecimiento de Equipos.',
+  },
+  pt: {
+    summary: 'Resumo',
+    achievements: 'Conquistas selecionadas',
+    exp: 'Experiência',
+    edu: 'Educação',
+    skills: 'Habilidades principais',
+    certs: 'Certificações e Idiomas',
+    langs: 'Idiomas',
+    present: 'Presente',
+    backHome: 'Voltar ao início',
+    download: 'Baixar',
+    leadership: 'Liderança e Estratégia',
+    leadershipBody: 'Liderança de Engenharia e Escalamento de Times (8–60+ pessoas), Ownership de Roadmap, OKRs, Pensamento Estratégico, Navegação de Org Matricial, Estratégia Arquitetural.',
+    architecture: 'Arquitetura e Cloud',
+    architectureBody: 'Refactoring e Design Arquitetural, Microsserviços e APIs, Microfrontends, Sistemas de Alta Concorrência, Sistemas Distribuídos, AWS, GCP, Alta Disponibilidade, Tolerância a Falhas, Escalabilidade.',
+    crossfn: 'Influência Cross-Funcional',
+    crossfnBody: 'Comunicação C-Level, Negociação com Stakeholders, Alinhamento Cross-funcional, Apresentação de Estratégia Técnica.',
+    tech: 'Tecnologias',
+    techBody: 'React Native, React, Vue, Angular, Golang, Java, Node.js.',
+    methodology: 'Metodologia e Cultura',
+    methodologyBody: 'Agile / Scrum, Execução orientada a resultados, Desenvolvimento Assistido por IA (Claude Code, GitHub Copilot, Cursor), Desenvolvimento de Talento e Crescimento de Times.',
+  },
+};
+
+const t = labels[locale];
+const downloadPrefix = locale === 'en' ? '' : `/${locale}`;
+const p = profile.data;
+---
+<article class="cv">
+  <header class="head">
+    <a href={localePath(locale)} class="back">
+      <Icon name="lucide:arrow-down" size={14} class="rotate" />
+      {t.backHome}
+    </a>
+
+    <Pill>{p.displayTitle}</Pill>
+
+    <h1>{p.name}</h1>
+
+    <p class="meta">
+      {p.realTitle} · {p.company} · {p.location} · {p.openTo.join(' · ')}
+    </p>
+
+    <div class="actions">
+      <CTAButton href={PROFILES.linkedin} label="LinkedIn" icon="lucide:linkedin" />
+      <a class="download" href={`${downloadPrefix}/cv.pdf`} download>
+        <Icon name="lucide:arrow-down" size={14} /> {t.download} PDF
+      </a>
+      <a class="download" href={`${downloadPrefix}/cv.json`}>
+        <Icon name="lucide:code" size={14} /> JSON Resume
+      </a>
+      <a class="download" href={`${downloadPrefix}/cv.md`}>
+        <Icon name="lucide:terminal" size={14} /> Markdown
+      </a>
+    </div>
+  </header>
+
+  <section>
+    <h2>{t.summary}</h2>
+    <p class="lead">{p.summary.trim()}</p>
+  </section>
+
+  <section>
+    <h2>{t.achievements}</h2>
+    <ul class="achievements">
+      {p.achievements.map((a) => <li>{a}</li>)}
+    </ul>
+  </section>
+
+  <section>
+    <h2>{t.exp}</h2>
+    {experiences.map((e) => (
+      <article class="job">
+        <header class="job-head">
+          <h3>{e.data.company} <span class="role">— {e.data.title}</span></h3>
+          <time class="dates" datetime={e.data.startDate}>
+            {e.data.startDate} – {e.data.endDate ?? t.present}
+            {e.data.location ? ` · ${e.data.location}` : ''}
+          </time>
+        </header>
+        <ul>
+          {e.data.bullets.map((b) => <li>{b}</li>)}
+        </ul>
+        {e.data.skills.length > 0 && (
+          <p class="skills-line">
+            {e.data.skills.map((sk) => <span class="chip">{sk}</span>)}
+          </p>
+        )}
+      </article>
+    ))}
+  </section>
+
+  <section>
+    <h2>{t.edu}</h2>
+    <p>{EDUCATION.institution} — {EDUCATION.studyType} {EDUCATION.area} ({EDUCATION.note})</p>
+  </section>
+
+  <section>
+    <h2>{t.skills}</h2>
+    <dl class="skills">
+      <dt>{t.leadership}</dt><dd>{t.leadershipBody}</dd>
+      <dt>{t.architecture}</dt><dd>{t.architectureBody}</dd>
+      <dt>{t.crossfn}</dt><dd>{t.crossfnBody}</dd>
+      <dt>{t.tech}</dt><dd>{t.techBody}</dd>
+      <dt>{t.methodology}</dt><dd>{t.methodologyBody}</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>{t.certs}</h2>
+    <ul class="certs">
+      {certs.map((c) => (
+        <li>
+          {c.data.name} — {c.data.issuer} ({c.data.date})
+          {c.data.status === 'in-progress' && <em> · in progress</em>}
+        </li>
+      ))}
+    </ul>
+    <h3 class="langs-head">{t.langs}</h3>
+    <ul class="langs">
+      <li>Spanish: Native</li>
+      <li>English: Full Professional (FCE B2)</li>
+      <li>Portuguese: Basic</li>
+    </ul>
+  </section>
+</article>
+
+<style lang="scss">
+@layer components {
+  .cv {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: clamp(80px, 10vw, 140px) clamp(16px, 4vw, 64px) 100px;
+    color: var(--ink);
+  }
+
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 56px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgb(42 33 27 / 12%);
+  }
+
+  .back {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--accent-dark);
+    }
+  }
+
+  .rotate {
+    transform: rotate(90deg);
+  }
+
+  h1 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(40px, 5.5vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+  }
+
+  .meta {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 15px;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .download {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid rgb(42 33 27 / 16%);
+    border-radius: 999px;
+    color: var(--ink-2);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    min-height: 44px;
+    transition: background 0.2s, border-color 0.2s;
+
+    &:hover {
+      background: rgb(42 33 27 / 4%);
+      border-color: rgb(42 33 27 / 28%);
+    }
+  }
+
+  section {
+    margin-top: 48px;
+  }
+
+  h2 {
+    margin: 0 0 20px;
+    font-family: var(--serif);
+    font-size: clamp(24px, 2.8vw, 32px);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  .lead {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+
+  .achievements,
+  .certs,
+  .langs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .achievements li,
+  .certs li,
+  .langs li {
+    padding-left: 22px;
+    position: relative;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-2);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 9px;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-dark);
+    }
+  }
+
+  .job {
+    margin-bottom: 36px;
+  }
+
+  .job-head {
+    margin-bottom: 12px;
+  }
+
+  h3 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: 500;
+    color: var(--ink);
+
+    .role {
+      font-weight: 400;
+      color: var(--ink-2);
+    }
+  }
+
+  .dates {
+    display: inline-block;
+    margin-top: 4px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+  }
+
+  .job ul {
+    list-style: none;
+    margin: 12px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .job li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+
+    &::before {
+      content: '·';
+      position: absolute;
+      top: 0;
+      left: 8px;
+      font-size: 20px;
+      line-height: 1.2;
+      color: var(--accent-dark);
+    }
+  }
+
+  .skills-line {
+    margin: 16px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .chip {
+    padding: 4px 10px;
+    background: var(--cream-2);
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--ink-2);
+  }
+
+  .skills {
+    display: grid;
+    grid-template-columns: minmax(180px, 220px) 1fr;
+    gap: 16px 24px;
+    margin: 0;
+  }
+
+  dt {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    padding-top: 4px;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+
+  .langs-head {
+    margin-top: 32px;
+    margin-bottom: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    font-weight: 500;
+  }
+
+  @media (width <= 720px) {
+    .skills {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    dt {
+      padding-top: 12px;
+    }
+  }
+}
+</style>

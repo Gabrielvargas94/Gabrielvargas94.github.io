@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/layout/Nav.astro';
+import Footer from '../../components/layout/Footer.astro';
+import CvFull from '../../components/cv/CvFull.astro';
+
+const locale = 'pt' as const;
+const title = 'Gabriel Vargas — CV | Head of Engineering, AI-first';
+const description = 'CV completo — Gabriel Vargas. 6+ anos escalando engenharia no Mercado Libre, BID e itti. Certificações Anthropic Claude. Aberto a remoto e realocação. Baixe PDF, JSON Resume ou Markdown.';
+---
+<BaseLayout locale={locale} title={title} description={description} path="cv">
+  <Nav locale={locale} />
+  <main id="main" tabindex="-1">
+    <CvFull locale={locale} />
+  </main>
+  <Footer locale={locale} />
+</BaseLayout>
