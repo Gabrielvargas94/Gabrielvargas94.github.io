@@ -137,14 +137,14 @@ const s = ui.sections.ittiSplit;
     grid-template-columns: 1fr 1fr;
     gap: 0;
     width: 100%;
-    overflow: hidden;
+    overflow: clip;
   }
 
   .side {
     position: relative;
     isolation: isolate;
     min-height: clamp(420px, 60vh, 600px);
-    overflow: hidden;
+    overflow: clip;
     background-color: #000000;
     display: flex;
   }

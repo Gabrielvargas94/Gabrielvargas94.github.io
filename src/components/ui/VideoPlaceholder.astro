@@ -144,7 +144,14 @@ const { src, poster, label, tint = 'var(--accent)', youtubeId } = Astro.props;
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    /* `clip` is stricter than `hidden` — disallows scroll context creation
+       AND any rendering past the box, fixing an iOS Safari bug where the
+       absolutely-positioned `.blob`/`.mesh`/`.blocks` with mix-blend-mode +
+       filter:blur could leak past the parent and add ~38px of horizontal
+       scroll on narrow viewports. `contain: paint` enforces the same at
+       the compositor level. */
+    overflow: clip;
+    contain: paint;
     background: var(--ink);
     color: var(--cream);
   }

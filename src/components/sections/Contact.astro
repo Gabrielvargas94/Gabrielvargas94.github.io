@@ -49,7 +49,7 @@ if (!profile) throw new Error(`Profile not found for locale ${locale}`);
 @layer components {
   section {
     position: relative;
-    overflow: hidden;
+    overflow: clip;
     background: var(--ink);
     color: var(--cream);
     padding: clamp(120px, 14vw, 200px) clamp(16px, 4vw, 64px);
