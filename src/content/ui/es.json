@@ -9,7 +9,6 @@
     "claudeCodeRollout": "Rollout de Claude Code",
     "sideProject": "Side Project",
     "certifications": "Certificaciones",
-    "topSkills": "Top Skills",
     "dnd": "Dungeons & Dragons",
     "spirituality": "Espiritualidad"
   },
@@ -78,16 +77,6 @@
         { "n": "C-Level", "l": "Línea directa de reporte de estrategia técnica. Influencia de roadmap en org matricial grande." }
       ],
       "body": "Engaged inicialmente como consultor full-time, luego continué como contratista flexible liderando proyectos internos — estructura que permitió engagement concurrente con Mercado Libre desde mayo 2022 en adelante."
-    },
-    "topSkills": {
-      "kicker": "Top Skills",
-      "title": "Lo que aporto a una organización de ingeniería",
-      "desc": "Destacadas por LinkedIn entre pares y líderes con los que trabajé.",
-      "items": [
-        { "icon": "lucide:sparkles", "title": "Model Context Protocol (MCP)", "desc": "Diseño de sistemas agénticos que componen tools, memoria y harness en producción." },
-        { "icon": "lucide:users", "title": "Engineering Management", "desc": "Escalando equipos de 8 a 60+ en organizaciones matriciales. Cultura de delivery de alta confianza." },
-        { "icon": "lucide:code", "title": "Arquitectura de Software", "desc": "Microservicios, microfrontends, plataformas de alta concurrencia, AWS + GCP. Rediseños que llegan a producción." }
-      ]
     },
     "aiIntro": {
       "kicker": "Ingeniería AI-First",

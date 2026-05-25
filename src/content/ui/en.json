@@ -9,7 +9,6 @@
     "claudeCodeRollout": "Claude Code Rollout",
     "sideProject": "Side Project",
     "certifications": "Certifications",
-    "topSkills": "Top Skills",
     "dnd": "Dungeons & Dragons",
     "spirituality": "Spirituality"
   },
@@ -78,16 +77,6 @@
         { "n": "C-Level", "l": "Direct technical-strategy reporting. Roadmap influence in a large matrix org." }
       ],
       "body": "Engaged initially as a full-time consultant, then continued as a flexible contractor leading internal projects — a structure that allowed concurrent engagement with Mercado Libre from May 2022 onward."
-    },
-    "topSkills": {
-      "kicker": "Top Skills",
-      "title": "What I bring to an engineering org",
-      "desc": "Highlighted by LinkedIn from peers + leaders I've worked with.",
-      "items": [
-        { "icon": "lucide:sparkles", "title": "Model Context Protocol (MCP)", "desc": "Designing agentic systems that compose tools, memory, and harness in production." },
-        { "icon": "lucide:users", "title": "Engineering Management", "desc": "Scaling teams from 8 to 60+ across matrix organizations. High-trust delivery culture." },
-        { "icon": "lucide:code", "title": "Software Architecture", "desc": "Microservices, microfrontends, high-concurrency platforms, AWS + GCP. Redesigns that ship." }
-      ]
     },
     "aiIntro": {
       "kicker": "AI-First Engineering",
