@@ -2,7 +2,7 @@
 // Runs from CI after deploy succeeds — fetches the live sitemap so we hit the
 // freshly-published URL set without needing a CI artifact handoff.
 
-const KEY = '833e73cdf4c82bb496b9b3e2c1a96cbd';
+const KEY = '65cc23ce4986414a9cd789a40c9fc810';
 const HOST = 'gabrielvargas94.github.io';
 const SITE = `https://${HOST}`;
 const KEY_LOCATION = `${SITE}/${KEY}.txt`;
