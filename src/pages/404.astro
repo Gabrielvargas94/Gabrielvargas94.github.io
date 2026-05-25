@@ -1,0 +1,118 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+
+// GH Pages serves dist/404.html for any unmatched route regardless of locale
+// prefix, so this page is bilingual EN/ES/PT in copy and links the user to
+// each locale's home instead of guessing one.
+const locale = 'en' as const;
+const title = '404 — Page not found · Gabriel Vargas';
+const description =
+  'The page you requested does not exist. Head to the portfolio home or CV instead.';
+---
+<BaseLayout
+  locale={locale}
+  title={title}
+  description={description}
+  path="404"
+  noindex
+>
+  <Nav locale={locale} />
+  <main id="main" tabindex="-1">
+    <section class="notfound" aria-labelledby="notfound-title">
+      <p class="code" aria-hidden="true">404</p>
+      <h1 id="notfound-title">Page not found</h1>
+      <p class="lede">
+        This URL doesn't exist on the site — it may have been moved, or never existed in the first place.
+      </p>
+      <ul class="lang">
+        <li><a href="/">→ Back to portfolio (English)</a></li>
+        <li><a href="/es/">→ Volver al portafolio (Español)</a></li>
+        <li><a href="/pt/">→ Voltar ao portfólio (Português)</a></li>
+      </ul>
+      <ul class="lang secondary">
+        <li><a href="/cv/">→ Resume (EN)</a></li>
+        <li><a href="/es/cv/">→ CV (ES)</a></li>
+        <li><a href="/pt/cv/">→ CV (PT)</a></li>
+      </ul>
+    </section>
+  </main>
+  <Footer locale={locale} />
+</BaseLayout>
+
+<style lang="scss">
+@layer components {
+  .notfound {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: clamp(120px, 18vw, 200px) clamp(16px, 4vw, 64px) clamp(80px, 12vw, 140px);
+    text-align: center;
+  }
+
+  .code {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: clamp(56px, 12vw, 120px);
+    font-weight: 500;
+    color: var(--ink-3);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  h1 {
+    margin: 16px 0 24px;
+    font-family: var(--serif);
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  .lede {
+    margin: 0 auto 40px;
+    max-width: 540px;
+    font-size: clamp(15px, 1.2vw, 17px);
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  .lang {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    a {
+      display: inline-block;
+      padding: 10px 16px;
+      color: var(--ink-2);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 15px;
+      min-height: 44px;
+      line-height: 24px;
+
+      &:hover {
+        background: rgb(42 33 27 / 5%);
+        color: var(--ink);
+      }
+    }
+  }
+
+  .lang.secondary {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgb(42 33 27 / 10%);
+
+    a {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--ink-3);
+    }
+  }
+}
+</style>

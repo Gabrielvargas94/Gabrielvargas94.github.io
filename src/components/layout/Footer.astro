@@ -1,6 +1,6 @@
 ---
 import { getEntry } from 'astro:content';
-import type { Locale } from '../../lib/i18n';
+import { localePath, type Locale } from '../../lib/i18n';
 import uiEn from '../../content/ui/en.json';
 import uiEs from '../../content/ui/es.json';
 import uiPt from '../../content/ui/pt.json';
@@ -17,11 +17,15 @@ if (!profile) throw new Error(`Profile not found for locale ${locale}`);
 const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
 const ui = uiByLocale[locale];
 const year = new Date().getFullYear();
+
+const homeLabel: Record<Locale, string> = { en: 'Portfolio', es: 'Portafolio', pt: 'Portfólio' };
 ---
 <footer>
   <div class="inner">
     <span>{ui.footer.copyright.replace('{year}', String(year))}</span>
     <nav aria-label="Footer">
+      <a href={localePath(locale)}>{homeLabel[locale]}</a>
+      <a href={localePath(locale, 'cv')}>{ui.nav.cv}</a>
       <a href={profile.data.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href={profile.data.github} target="_blank" rel="noopener noreferrer">GitHub</a>
       <a

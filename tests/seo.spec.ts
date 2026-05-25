@@ -15,7 +15,11 @@ for (const r of routes) {
   test(`seo: ${r.path} has correct meta + JSON-LD`, async ({ page }) => {
     await page.goto(r.path);
 
-    await expect(page).toHaveTitle(/Gabriel Vargas/);
+    // Google + Bing truncate titles at ~60 chars desktop / ~55 mobile.
+    const title = await page.title();
+    expect(title).toMatch(/Gabriel Vargas/);
+    expect(title.length).toBeGreaterThanOrEqual(30);
+    expect(title.length).toBeLessThanOrEqual(60);
 
     const desc = await page.locator('meta[name="description"]').getAttribute('content');
     // Google truncates meta descriptions at ~155-160 chars on desktop and
