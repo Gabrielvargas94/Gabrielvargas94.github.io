@@ -47,6 +47,7 @@
     "@eslint/js": "^10.0.1",
     "@fontsource/newsreader": "^5.2.10",
     "@iconify-json/lucide": "^1.2.109",
+    "@iconify-json/simple-icons": "^1.2.83",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.60.0",
     "@resvg/resvg-js": "^2.6.2",
@@ -71,11 +72,11 @@
     "typescript-eslint": "^8.59.4"
   },
   "optionalDependencies": {
-    "@rollup/rollup-win32-arm64-msvc": "^4.60.4",
-    "@rollup/rollup-win32-x64-msvc": "^4.60.4",
-    "@rollup/rollup-linux-x64-gnu": "^4.60.4",
+    "@rollup/rollup-darwin-arm64": "^4.60.4",
     "@rollup/rollup-darwin-x64": "^4.60.4",
-    "@rollup/rollup-darwin-arm64": "^4.60.4"
+    "@rollup/rollup-linux-x64-gnu": "^4.60.4",
+    "@rollup/rollup-win32-arm64-msvc": "^4.60.4",
+    "@rollup/rollup-win32-x64-msvc": "^4.60.4"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -84,8 +85,15 @@
       "sharp"
     ],
     "supportedArchitectures": {
-      "os": ["win32", "linux", "darwin"],
-      "cpu": ["x64", "arm64"]
+      "os": [
+        "win32",
+        "linux",
+        "darwin"
+      ],
+      "cpu": [
+        "x64",
+        "arm64"
+      ]
     }
   }
 }

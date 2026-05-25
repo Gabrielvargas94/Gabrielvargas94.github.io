@@ -67,13 +67,14 @@ export default defineConfig({
     }),
     mdx(),
     icon({
-      // Pre-include Lucide icons we'll use across the site. Add more as needed.
+      // Pre-include icons we use. Lucide for UI, simple-icons for filled brand glyphs.
       include: {
         lucide: [
           'linkedin', 'github', 'globe', 'chevron-down', 'arrow-down',
           'circle-dollar-sign', 'layout-dashboard', 'code', 'users',
           'sparkles', 'mic', 'terminal', 'award', 'dice-6', 'sun',
         ],
+        'simple-icons': ['linkedin', 'github'],
       },
     }),
     // Offload analytics scripts (Umami) to a web worker; cero main-thread cost.
