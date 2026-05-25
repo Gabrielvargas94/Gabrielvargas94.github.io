@@ -15,6 +15,7 @@ const { locale, title, description, path = '', ogImage, noindex = false } = Astr
 const canonical = canonicalUrl(locale, path);
 const og = ogImage ?? ogImageUrl(locale);
 const links = hreflangLinks(path);
+const feedUrl = canonicalUrl(locale, 'feed.xml');
 const keywords = [
   'Head of Engineering', 'VP Engineering', 'Director of Engineering',
   'Engineering Manager', 'Senior Engineering Manager', 'AI-first Engineering',
@@ -37,6 +38,7 @@ const ogLocale: Record<Locale, string> = {
   ? <meta name="robots" content="noindex, nofollow" />
   : <meta name="robots" content="index, follow, max-image-preview:large" />}
 <link rel="canonical" href={canonical} />
+<link rel="alternate" type="application/rss+xml" title="RSS" href={feedUrl} />
 {links.map((l) => <link rel="alternate" hreflang={l.hreflang} href={l.href} />)}
 
 <meta property="og:type" content="profile" />
