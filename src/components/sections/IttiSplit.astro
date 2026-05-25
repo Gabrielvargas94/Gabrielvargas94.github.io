@@ -19,8 +19,11 @@ const s = ui.sections.ittiSplit;
 ---
 <section id="work" aria-labelledby="itti-split-title">
   <header class="head">
-    <Pill variant="dark">{s.kicker}</Pill>
-    <h2 id="itti-split-title">{s.title}</h2>
+    <div class="head-main">
+      <Pill variant="dark">{s.kicker}</Pill>
+      <h2 id="itti-split-title">{s.title}</h2>
+    </div>
+    <span class="head-meta" aria-hidden="true">{s.metaRole}</span>
   </header>
 
   <div class="split">
@@ -82,30 +85,48 @@ const s = ui.sections.ittiSplit;
     padding: clamp(64px, 8vw, 100px) 0 0;
   }
 
+  // Header: 2-col grid (title block left, mono meta bottom-right), left-aligned.
+  // Matches the original Claude Design layout.
   .head {
-    text-align: center;
-    max-width: 900px;
+    max-width: 1320px;
     margin: 0 auto;
-    padding: clamp(24px, 4vw, 48px) clamp(16px, 4vw, 64px) clamp(32px, 5vw, 56px);
+    padding: clamp(80px, 9vw, 140px) clamp(24px, 4vw, 64px) clamp(56px, 6vw, 96px);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: end;
   }
 
-  .kicker {
-    display: inline-block;
-    margin-bottom: 12px;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent-light);
+  .head-main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
   }
 
   h2 {
     margin: 0;
     font-family: var(--serif);
-    font-size: clamp(32px, 5vw, 56px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    font-size: clamp(40px, 5.2vw, 80px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    font-weight: 400;
     color: var(--cream);
+    text-wrap: balance;
+  }
+
+  .head-meta {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(247 242 232 / 65%);
+  }
+
+  @media (width <= 720px) {
+    .head {
+      grid-template-columns: 1fr;
+    }
   }
 
   // Split: two full-bleed video sides edge-to-edge with logo overlay at seam.

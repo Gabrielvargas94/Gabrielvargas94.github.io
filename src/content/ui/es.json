@@ -24,8 +24,9 @@
   },
   "sections": {
     "ittiSplit": {
-      "kicker": "itti · Ingeniería sobre dos productos mobile",
-      "title": "Ingeniería AI-driven a través de un ecosistema completo de productos",
+      "kicker": "Actualmente",
+      "title": "Dos productos. Una sola jugada.",
+      "metaRole": "Software Engineering Manager · itti",
       "left": "Monchis",
       "right": "muv",
       "leftDesc": "Rediseño arquitectural de plataforma mobile (React Native + microservicios sobre AWS). Mejoras de estabilidad y performance que restauraron retención de usuarios y momentum del equipo — la metodología que ganó la reasignación a muv.",
