@@ -299,12 +299,15 @@ const s = ui.sections.ittiSplit;
 
     .logo {
       // Place logo at the seam between stacked sides via static rendering.
+      // -40px each side fully collapses the implicit grid row across the full
+      // mobile logo-height range (~56-93px) so the two videos sit pegadas with
+      // no residual 4-6px gap leaking through.
       position: relative;
       top: auto;
       left: auto;
       transform: none;
       width: clamp(96px, 28%, 160px);
-      margin: -28px auto;
+      margin: -40px auto;
       filter: drop-shadow(0 4px 16px rgb(0 0 0 / 50%));
     }
 

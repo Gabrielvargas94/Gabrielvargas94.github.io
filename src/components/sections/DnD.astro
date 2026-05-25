@@ -44,23 +44,42 @@ const initiativeLabel: Record<Locale, string> = {
             <stop offset="100%" stop-color="#7a3d1c" />
           </linearGradient>
         </defs>
-        <g fill="none" stroke="url(#d20-grad)" stroke-width="1.2" stroke-linejoin="round">
-          <polygon points="100,20 175,65 175,135 100,180 25,135 25,65" />
-          <polygon points="100,20 175,65 100,100" />
-          <polygon points="100,20 25,65 100,100" />
-          <polygon points="175,65 175,135 100,100" />
-          <polygon points="25,65 25,135 100,100" />
-          <polygon points="100,180 175,135 100,100" />
-          <polygon points="100,180 25,135 100,100" />
+        {/*
+          Icosahedron (true d20) projected to a 2D front-face view:
+          hexagonal silhouette + 9 interior edges triangulate the visible
+          hemisphere into 10 triangular faces. Central inverted triangle
+          carries the rolled "20"; surrounding faces show neighbour numbers
+          (a real d20 has no adjacent faces summing to 21, so 13/7/11/4/18
+          are arbitrary readable picks).
+        */}
+        <g fill="none" stroke="url(#d20-grad)" stroke-width="1.4" stroke-linejoin="round">
+          <polygon points="100,20 169,60 169,140 100,180 31,140 31,60" />
+          <polygon points="65,75 135,75 100,140" />
+          <line x1="65"  y1="75"  x2="100" y2="20" />
+          <line x1="65"  y1="75"  x2="31"  y2="60" />
+          <line x1="65"  y1="75"  x2="31"  y2="140" />
+          <line x1="135" y1="75"  x2="100" y2="20" />
+          <line x1="135" y1="75"  x2="169" y2="60" />
+          <line x1="135" y1="75"  x2="169" y2="140" />
+          <line x1="100" y1="140" x2="31"  y2="140" />
+          <line x1="100" y1="140" x2="169" y2="140" />
+          <line x1="100" y1="140" x2="100" y2="180" />
         </g>
         <text
           x="100"
-          y="112"
+          y="116"
           text-anchor="middle"
           fill="#e3a76b"
-          font-size="42"
+          font-size="32"
           class="d20-text"
         >20</text>
+        <g class="d20-face-num" fill="#e3a76b" opacity="0.55" font-size="11">
+          <text x="100" y="60"  text-anchor="middle">13</text>
+          <text x="50"  y="100" text-anchor="middle">7</text>
+          <text x="150" y="100" text-anchor="middle">11</text>
+          <text x="73"  y="162" text-anchor="middle">4</text>
+          <text x="127" y="162" text-anchor="middle">18</text>
+        </g>
       </svg>
       <span class="meta-bot">{initiativeLabel[locale]}</span>
     </div>
@@ -125,6 +144,11 @@ const initiativeLabel: Record<Locale, string> = {
   .d20-text {
     font-family: var(--serif);
     font-style: italic;
+  }
+
+  .d20-face-num {
+    font-family: var(--mono);
+    letter-spacing: 0.04em;
   }
 
   @keyframes rotate-d20 {

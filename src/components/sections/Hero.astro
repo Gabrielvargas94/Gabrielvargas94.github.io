@@ -20,17 +20,28 @@ if (!profile) throw new Error(`Profile not found for locale ${locale}`);
 
 const uiByLocale = { en: uiEn, es: uiEs, pt: uiPt } as const;
 const ui = uiByLocale[locale];
-const locMeta: Record<Locale, string> = {
-  en: 'Buenos Aires · Remote · Relocation',
-  es: 'Buenos Aires · Remoto · Reubicación',
-  pt: 'Buenos Aires · Remoto · Realocação',
+// Split into parts so the status badge can wrap to multiple lines on narrow
+// screens — rendering it as a single text node would force a horizontal
+// scrollbar at 320px (uppercase + 0.16em tracking is too wide).
+const locMetaParts: Record<Locale, readonly string[]> = {
+  en: ['Buenos Aires', 'Remote', 'Relocation'],
+  es: ['Buenos Aires', 'Remoto', 'Reubicación'],
+  pt: ['Buenos Aires', 'Remoto', 'Realocação'],
 };
+const parts = locMetaParts[locale];
 ---
 <section id="hero" aria-labelledby="hero-title">
   <div class="grain" aria-hidden="true"></div>
 
   <aside class="status" aria-hidden="true">
-    <div class="status-row">{locMeta[locale]}</div>
+    <div class="status-row">
+      {parts.map((p, i) => (
+        <>
+          {i > 0 && <span class="sep">·</span>}
+          <span>{p}</span>
+        </>
+      ))}
+    </div>
   </aside>
 
   <div class="inner">
@@ -115,9 +126,18 @@ const locMeta: Record<Locale, string> = {
   }
 
   .status-row {
-    display: inline-flex;
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
+    gap: 4px 8px;
+    max-width: 100%;
+  }
+
+  // Hide the separator when it ends up at line start after wrapping
+  // (clean visual: no dangling middle dots floating at column edge).
+  .sep {
+    color: var(--ink-3);
+    opacity: 0.6;
   }
 
   .pulse {
@@ -298,6 +318,15 @@ const locMeta: Record<Locale, string> = {
 
     .frame {
       max-width: 380px;
+    }
+  }
+
+  // Very narrow: tighten the status badge so 3 chips fit ≤380px without
+  // line-breaking awkwardly. PT's "Realocação" is the longest token.
+  @media (width <= 400px) {
+    .status {
+      font-size: 10px;
+      letter-spacing: 0.08em;
     }
   }
 }
