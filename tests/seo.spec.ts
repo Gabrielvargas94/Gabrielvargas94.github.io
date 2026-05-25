@@ -18,9 +18,11 @@ for (const r of routes) {
     await expect(page).toHaveTitle(/Gabriel Vargas/);
 
     const desc = await page.locator('meta[name="description"]').getAttribute('content');
+    // Google truncates meta descriptions at ~155-160 chars on desktop and
+    // ~120 on mobile. Keep within the SEO sweet spot so snippets aren't cut.
     expect(desc).toBeTruthy();
-    expect(desc!.length).toBeGreaterThan(80);
-    expect(desc!.length).toBeLessThan(260);
+    expect(desc!.length).toBeGreaterThanOrEqual(120);
+    expect(desc!.length).toBeLessThanOrEqual(160);
 
     await expect(page.locator('html')).toHaveAttribute('lang', r.lang);
 
