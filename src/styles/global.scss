@@ -67,8 +67,12 @@ $fonts: (
     -moz-osx-font-smoothing: grayscale;
   }
 
+  html,
   body {
-    overflow-x: hidden;
+    // `clip` is strictly clipping (no scroll context) and doesn't trap
+    // scrollIntoView on offscreen anchors the way `hidden` can. Applied to
+    // both html and body so descendant overflow can't escape past either.
+    overflow-x: clip;
   }
 
   img {

@@ -383,6 +383,17 @@ const ui = uiByLocale[locale];
     .right {
       gap: 8px;
     }
+
+    // Collapse the LinkedIn CTA to icon-only on narrow screens — its label
+    // ("Contact me on LinkedIn" / ES + PT equivalents) has no natural break
+    // point and was forcing the nav row past 430px viewports.
+    .right :global(.cta span) {
+      display: none;
+    }
+
+    .right :global(.cta) {
+      padding: 12px 14px;
+    }
   }
 
   // Very narrow: hide the brand name text (mark GV avatar remains) so the
