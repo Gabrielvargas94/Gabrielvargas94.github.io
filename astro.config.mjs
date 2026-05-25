@@ -86,7 +86,16 @@ export default defineConfig({
     // Build-time compression for HTML, CSS, JS, SVG, images.
     compress({
       CSS: true,
-      HTML: true,
+      // Preserve attribute quotes + don't reorder attributes. Bing Webmaster
+      // verifier expects the exact `<meta name="msvalidate.01" content="...">`
+      // pattern; the default minifier strips quotes and floats `content` ahead
+      // of `name`, which Bing's regex-based check fails on.
+      HTML: {
+        'html-minifier-terser': {
+          removeAttributeQuotes: false,
+          sortAttributes: false,
+        },
+      },
       Image: false, // We'll use astro:assets <Image> for hero photo; skip global pass.
       JavaScript: true,
       SVG: true,
