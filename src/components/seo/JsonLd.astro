@@ -14,6 +14,12 @@ if (!profile) throw new Error(`Profile not found for locale ${locale}`);
 const experiences = (await getCollection('experience', (e) => e.data.locale === locale))
   .sort((a, b) => a.data.order - b.data.order);
 
+// Only completed credentials show up in `hasCredential`. In-progress ones are
+// signalled in-page but stay out of structured data until earned.
+const certs = (await getCollection('certification', (c) =>
+  c.data.locale === locale && c.data.status === 'completed'
+)).sort((a, b) => b.data.date.localeCompare(a.data.date));
+
 const profileUrl = canonicalUrl(locale);
 const personId = `${profileUrl}#person`;
 
@@ -26,6 +32,18 @@ const worksFor = experiences.map((e) => ({
   startDate: e.data.startDate,
   ...(e.data.endDate ? { endDate: e.data.endDate } : {}),
   memberOf: { '@type': 'Organization', name: e.data.company },
+}));
+
+// EducationalOccupationalCredential per cert. AEO win: LLMs see explicit
+// "trained by Anthropic on Claude Code / MCP / Agent Skills" rather than
+// having to infer it from prose.
+const hasCredential = certs.map((c) => ({
+  '@type': 'EducationalOccupationalCredential',
+  name: c.data.name,
+  credentialCategory: 'certification',
+  dateCreated: c.data.date,
+  recognizedBy: { '@type': 'Organization', name: c.data.issuer },
+  ...(c.data.url ? { url: c.data.url } : {}),
 }));
 
 const graph = {
@@ -57,15 +75,24 @@ const graph = {
         addressCountry: 'AR',
       },
       sameAs: [profile.data.github],
+      // AEO target phrases — match recruiter / LLM query intent for tech
+      // management roles in LATAM + remote, AI-first transformation work.
       knowsAbout: [
-        'Engineering Leadership', 'Team Scaling', 'AI-first Engineering',
-        'Claude Code', 'Cursor', 'GitHub Copilot',
+        'Engineering Manager', 'Software Engineering Manager',
+        'Head of Engineering', 'Director of Engineering',
+        'Engineering Leadership', 'Tech Lead', 'Team Scaling',
+        'AI-first Engineering', 'AI-first Engineering Transformation',
+        'Claude Code', 'Claude Code Rollout', 'Codex', 'Cursor', 'GitHub Copilot',
+        'MCP', 'Model Context Protocol', 'Agentic Workflows', 'AI Agent Harness',
         'Architectural Refactoring', 'Microservices', 'Microfrontends',
         'React Native', 'React', 'Vue', 'Angular',
-        'AWS', 'GCP', 'Golang', 'Java', 'Node.js',
+        'AWS', 'GCP', 'Golang', 'Java', 'Node.js', 'TypeScript',
         'High-Concurrency Systems', 'Distributed Systems',
+        'Incident Response', 'Observability', 'Code Review Culture',
         'OKRs', 'Roadmap Ownership', 'C-Level Communication',
         'Matrix Organization Navigation', 'Agile', 'Scrum',
+        'Remote Engineering Leadership', 'LATAM Engineering',
+        'Fintech', 'Mobile Platforms',
       ],
       knowsLanguage: [
         { '@type': 'Language', name: 'Spanish', alternateName: 'native' },
@@ -73,16 +100,27 @@ const graph = {
         { '@type': 'Language', name: 'Portuguese', alternateName: 'basic' },
       ],
       description: profile.data.summary,
+      // `award` on Person is a free-text array. Surfaces top achievements
+      // for LLM extraction without inventing new schema types.
+      award: profile.data.achievements,
+      hasCredential,
       hasOccupation: {
         '@type': 'Occupation',
         name: profile.data.displayTitle,
+        // BLS SOC code 11-3021.00 = Computer and Information Systems Managers.
+        // Matches engineering management more accurately than 15-1252 (IC SWE).
+        occupationalCategory: '11-3021.00',
+        experienceRequirements: {
+          '@type': 'OccupationalExperienceRequirements',
+          monthsOfExperience: profile.data.yearsExperience * 12,
+        },
         occupationLocation: [
           { '@type': 'Country', name: 'Argentina' },
           { '@type': 'Country', name: 'United States' },
           { '@type': 'AdministrativeArea', name: 'Latin America' },
         ],
         skills:
-          'Engineering leadership, AI-first development, Claude Code adoption, architectural transformation',
+          'Engineering leadership, AI-first development, Claude Code adoption, architectural transformation, team scaling, incident response, matrix-org navigation',
       },
     },
   ],
