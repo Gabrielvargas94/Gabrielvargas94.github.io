@@ -91,10 +91,14 @@ const rollAriaLabel: Record<Locale, string> = {
           };
 
           const roll = (): void => {
-            die.removeAttribute('data-face');
-            // Force reflow before re-adding the class so the animation restarts
-            // even if .rolling was already present.
+            // Keep the existing data-face attribute through the roll — removing
+            // it triggers the `.die` 0.5s transition to land on identity-matrix
+            // pose (which happens to be face 6 inverted) BEFORE the animation
+            // starts, producing a visible snap. The `.rolling` animation
+            // overrides the transform anyway, so the current face stays as the
+            // animation's starting point.
             die.classList.remove('rolling');
+            // Force reflow so the animation restarts cleanly on rapid re-rolls.
             void die.offsetHeight;
             die.classList.add('rolling');
             if (timeoutId !== undefined) window.clearTimeout(timeoutId);
