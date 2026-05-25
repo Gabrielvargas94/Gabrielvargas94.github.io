@@ -17,8 +17,6 @@ const s = ui.sections.contact;
 
 const profile = await getEntry('profile', locale);
 if (!profile) throw new Error(`Profile not found for locale ${locale}`);
-
-const year = new Date().getFullYear();
 ---
 <section id="contact" aria-labelledby="contact-title">
   <div class="halo" aria-hidden="true"></div>

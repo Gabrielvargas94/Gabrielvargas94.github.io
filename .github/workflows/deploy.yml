@@ -13,6 +13,12 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+# Opt actions/* + pnpm/action-setup runtimes into Node 24 ahead of the
+# 2026-06-02 default flip — silences the Node 20 deprecation warning and
+# avoids the September removal blast radius.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 jobs:
   build:
     runs-on: ubuntu-latest
