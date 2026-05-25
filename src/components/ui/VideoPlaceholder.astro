@@ -83,14 +83,24 @@ const { src, poster, label, tint = 'var(--accent)', youtubeId } = Astro.props;
       iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
       iframe.referrerPolicy = 'strict-origin-when-cross-origin';
       // Inline styles (Astro scoped CSS doesn't reach runtime-injected nodes).
-      // 177.78% width with 200% height + scale crops YouTube chrome around edges.
+      // Cover behaviour: min-width/min-height: 100% forces the iframe to be at
+      // least as large as the container; aspect-ratio: 16/9 + width/height auto
+      // lets the browser pick the smallest 16:9 box satisfying both mins. The
+      // result is that for any container shape (wide desktop, tall mobile),
+      // the 16:9 YouTube video fills entirely with the excess cropped — same
+      // visual rule as `object-fit: cover`. scale(1.05) zooms a touch past
+      // 100% so the player's edge chrome (progress bar, branding) sits
+      // outside the visible frame.
       Object.assign(iframe.style, {
         position: 'absolute',
         top: '50%',
         left: '50%',
-        width: '177.78%',
-        height: '200%',
-        transform: 'translate(-50%, -50%) scale(1.15)',
+        minWidth: '100%',
+        minHeight: '100%',
+        width: 'auto',
+        height: 'auto',
+        aspectRatio: '16 / 9',
+        transform: 'translate(-50%, -50%) scale(1.05)',
         border: '0',
         pointerEvents: 'none',
       });
@@ -143,15 +153,19 @@ const { src, poster, label, tint = 'var(--accent)', youtubeId } = Astro.props;
     object-fit: cover;
   }
 
-  // YouTube iframe: scale to cover container, crop edges to hide chrome,
-  // disable pointer events so it behaves like a background.
+  // YouTube iframe: cover behaviour for any container aspect (wide or tall).
+  // Mirrors the inline styles applied at injection time so the SCSS rule and
+  // runtime style stay in sync.
   .yt {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 177.78%; /* 16:9 width when scaled vertically */
-    height: 200%; /* extends beyond container to crop UI/chrome */
-    transform: translate(-50%, -50%) scale(1.15);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    transform: translate(-50%, -50%) scale(1.05);
     border: 0;
     pointer-events: none;
   }
