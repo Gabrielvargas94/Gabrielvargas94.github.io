@@ -133,10 +133,10 @@
     "dnd": {
       "kicker": "Hobbies · D&D",
       "title": "Dungeons & Dragons",
-      "body": "Dungeon Master with friends. Organization, creativity, improvisation, and the long-game patience that translates back to engineering leadership. Also the seed of the D&D AI Companion side project.",
+      "body": "Dungeon Master with friends. Organization, improvisation, and empowering people's creativity — the same instincts that translate back to engineering leadership. Also the seed of the D&D AI Companion side project.",
       "pulls": [
         { "k": "Role", "v": "Dungeon Master · story-first" },
-        { "k": "Skills", "v": "Organization, improvisation, patience" },
+        { "k": "Skills", "v": "Organization, improvisation, empowering creativity" },
         { "k": "Crossover", "v": "Leadership rhythm — and the seed of a side project" }
       ]
     },

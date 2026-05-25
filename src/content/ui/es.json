@@ -133,10 +133,10 @@
     "dnd": {
       "kicker": "Hobbies · D&D",
       "title": "Dungeons & Dragons",
-      "body": "Dungeon Master con amigos. Organización, creatividad, improvisación, y la paciencia del juego largo que se traduce de vuelta al liderazgo de ingeniería. También fue la semilla del side project D&D AI Companion.",
+      "body": "Dungeon Master con amigos. Organización, improvisación, y potenciar la creatividad de la gente — los mismos instintos que se traducen al liderazgo de ingeniería. También fue la semilla del side project D&D AI Companion.",
       "pulls": [
         { "k": "Rol", "v": "Dungeon Master · story-first" },
-        { "k": "Skills", "v": "Organización, improvisación, paciencia" },
+        { "k": "Skills", "v": "Organización, improvisación, potenciar creatividad" },
         { "k": "Cross-over", "v": "Ritmo de liderazgo — y la semilla de un side project" }
       ]
     },
