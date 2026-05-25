@@ -372,7 +372,23 @@ const ui = uiByLocale[locale];
   }
 
   @media (width <= 560px) {
+    nav {
+      gap: 12px;
+    }
+
     .role {
+      display: none;
+    }
+
+    .right {
+      gap: 8px;
+    }
+  }
+
+  // Very narrow: hide the brand name text (mark GV avatar remains) so the
+  // header row (mark + burger + lang + CTA) fits 320px without horizontal scroll.
+  @media (width <= 380px) {
+    .name-block {
       display: none;
     }
   }

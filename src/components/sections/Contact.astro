@@ -94,7 +94,7 @@ const year = new Date().getFullYear();
   h2 {
     margin: 0;
     font-family: var(--serif);
-    font-size: clamp(48px, 8vw, 132px);
+    font-size: clamp(40px, 8vw, 132px);
     line-height: 0.95;
     letter-spacing: -0.035em;
     font-weight: 400;
@@ -104,6 +104,18 @@ const year = new Date().getFullYear();
     em {
       font-style: italic;
       color: var(--accent-light);
+    }
+  }
+
+  // Narrow screens: tighten section padding so the big serif headline has
+  // room to wrap without bumping the viewport edges.
+  @media (width <= 560px) {
+    section {
+      padding: clamp(96px, 14vw, 160px) clamp(16px, 4vw, 64px);
+    }
+
+    .cta-wrap {
+      margin-top: 40px;
     }
   }
 

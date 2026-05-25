@@ -90,7 +90,7 @@ const s = ui.sections.ittiSplit;
   .head {
     max-width: 1320px;
     margin: 0 auto;
-    padding: clamp(80px, 9vw, 140px) clamp(24px, 4vw, 64px) clamp(56px, 6vw, 96px);
+    padding: clamp(64px, 9vw, 140px) clamp(16px, 4vw, 64px) clamp(48px, 6vw, 96px);
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 40px;
@@ -123,7 +123,8 @@ const s = ui.sections.ittiSplit;
     color: rgb(247 242 232 / 65%);
   }
 
-  @media (width <= 720px) {
+  // Tablet: collapse the head before the meta cramps the large h2.
+  @media (width <= 880px) {
     .head {
       grid-template-columns: 1fr;
     }
@@ -285,7 +286,9 @@ const s = ui.sections.ittiSplit;
     }
 
     .side {
-      min-height: clamp(360px, 56vh, 480px);
+      // Lower floor so two stacked videos don't dominate short viewports
+      // (e.g. iPhone SE 568px tall).
+      min-height: clamp(320px, 52vh, 460px);
     }
 
     .side:nth-of-type(1) .overlay,
