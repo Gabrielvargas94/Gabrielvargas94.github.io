@@ -15,7 +15,8 @@ Trilingual (EN/ES/PT) portfolio + CV that doubles as an AEO/GEO-optimized public
 - **SCSS + cascade layers + zero `!important`.** Enforced by `stylelint`.
 - **No emails in artifacts.** Build test fails on email pattern in `dist/`.
 - **Conventional commits.** `feat(scope):`, `fix(scope):`, `refactor(scope):`, `chore:`, `docs:`, `test(scope):`.
-- **Run before committing:** `npx astro check && npm run lint:css`.
+- **Run before committing:** `pnpm run typecheck && pnpm run lint`.
+- **Package manager: pnpm** (≥10). Never use `npm` — `package-lock.json` is gone, lockfile is `pnpm-lock.yaml`.
 
 ## Never
 
@@ -28,13 +29,13 @@ Trilingual (EN/ES/PT) portfolio + CV that doubles as an AEO/GEO-optimized public
 ## Useful commands
 
 ```bash
-npm run dev               # local dev
-npm run build             # full pipeline (HTML + cv.{md,json,pdf} + llms.txt + OG)
-npm run typecheck         # astro check
-npm run lint:css          # stylelint
-npm run test              # a11y + seo + artifacts + i18n
-npm run validate:cv       # JSON Resume schema check vs jsonresume.org
-npm run inspect:jsonld    # parse live JSON-LD on a URL
+pnpm run dev               # local dev
+pnpm run build             # full pipeline (HTML + cv.{md,json,pdf} + llms.txt + OG)
+pnpm run typecheck         # astro check
+pnpm run lint:css          # stylelint
+pnpm run test              # a11y + seo + artifacts + i18n
+pnpm run validate:cv       # JSON Resume schema check vs jsonresume.org
+pnpm run inspect:jsonld    # parse live JSON-LD on a URL
 ```
 
 ## File map (most important)

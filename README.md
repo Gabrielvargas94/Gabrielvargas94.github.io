@@ -42,16 +42,16 @@ A single-purpose site that doubles as a CV. Designed so that:
 
 ```bash
 nvm use                              # picks Node from .nvmrc
-npm install
-npx playwright install chromium      # one-time
+pnpm install
+pnpm exec playwright install chromium      # one-time
 
-npm run dev                          # http://localhost:4321
-npm run build                        # HTML + cv.{md,json,pdf} + llms.* + OG + sitemap + robots
-npm run typecheck                    # astro check
-npm run lint:css                     # stylelint on **/*.scss
-npm run test                         # a11y + seo + artifacts + i18n suites
-npm run validate:cv                  # JSON Resume schema check against jsonresume.org
-npm run inspect:jsonld <url>         # parse + summarize live JSON-LD blocks
+pnpm run dev                          # http://localhost:4321
+pnpm run build                        # HTML + cv.{md,json,pdf} + llms.* + OG + sitemap + robots
+pnpm run typecheck                    # astro check
+pnpm run lint:css                     # stylelint on **/*.scss
+pnpm run test                         # a11y + seo + artifacts + i18n suites
+pnpm run validate:cv                  # JSON Resume schema check against jsonresume.org
+pnpm run inspect:jsonld <url>         # parse + summarize live JSON-LD blocks
 ```
 
 ## Public artifacts

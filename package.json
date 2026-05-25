@@ -3,6 +3,11 @@
   "type": "module",
   "version": "0.0.1",
   "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=10"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -10,7 +15,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "typecheck": "astro check",
-    "lint": "npm run lint:js && npm run lint:css",
+    "lint": "pnpm run lint:js && pnpm run lint:css",
     "lint:js": "eslint .",
     "lint:js:fix": "eslint . --fix",
     "lint:css": "stylelint \"src/**/*.scss\"",
@@ -23,7 +28,7 @@
     "test:i18n": "playwright test tests/i18n.spec.ts",
     "test:lhci": "lhci autorun",
     "test:links": "linkinator dist --silent --skip 'linkedin.com|github.com'",
-    "test": "npm run test:a11y && npm run test:seo && npm run test:artifacts && npm run test:i18n",
+    "test": "pnpm run test:a11y && pnpm run test:seo && pnpm run test:artifacts && pnpm run test:i18n",
     "validate:cv": "node scripts/validate-cv-json.mjs",
     "inspect:jsonld": "node scripts/inspect-jsonld.mjs"
   },
@@ -64,5 +69,23 @@
     "stylelint-config-standard-scss": "^17.0.0",
     "typescript": "~5.9",
     "typescript-eslint": "^8.59.4"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-win32-arm64-msvc": "^4.60.4",
+    "@rollup/rollup-win32-x64-msvc": "^4.60.4",
+    "@rollup/rollup-linux-x64-gnu": "^4.60.4",
+    "@rollup/rollup-darwin-x64": "^4.60.4",
+    "@rollup/rollup-darwin-arm64": "^4.60.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild",
+      "sharp"
+    ],
+    "supportedArchitectures": {
+      "os": ["win32", "linux", "darwin"],
+      "cpu": ["x64", "arm64"]
+    }
   }
 }

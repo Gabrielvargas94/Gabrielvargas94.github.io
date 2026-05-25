@@ -40,15 +40,15 @@ PDF) + `llms.txt` for AI crawlers.
 ## Local dev commands
 
 ```bash
-npm install
-npx playwright install chromium    # one-time
-npm run dev                        # http://localhost:4321
-npm run build                      # full pipeline: HTML + cv.* + llms.* + OG
-npm run typecheck                  # astro check
-npm run lint:css                   # stylelint
-npm run test                       # a11y + seo + artifacts + i18n
-npm run validate:cv                # JSON Resume schema check
-npm run inspect:jsonld <url>       # parse live JSON-LD blocks
+pnpm install
+pnpm exec playwright install chromium    # one-time
+pnpm run dev                        # http://localhost:4321
+pnpm run build                      # full pipeline: HTML + cv.* + llms.* + OG
+pnpm run typecheck                  # astro check
+pnpm run lint:css                   # stylelint
+pnpm run test                       # a11y + seo + artifacts + i18n
+pnpm run validate:cv                # JSON Resume schema check
+pnpm run inspect:jsonld <url>       # parse live JSON-LD blocks
 ```
 
 ## Branch + commit policy
@@ -82,7 +82,7 @@ npm run inspect:jsonld <url>       # parse live JSON-LD blocks
 2. Add UI strings to `src/content/ui/{en,es,pt}.json` under `sections.<name>`.
 3. Create `src/components/sections/<Name>.astro` following the cascade-layer + Pill kicker pattern.
 4. Wire into `src/pages/index.astro`, `src/pages/es/index.astro`, `src/pages/pt/index.astro`.
-5. Run `npm run typecheck && npm run lint:css && npm run test` before committing.
+5. Run `pnpm run typecheck && pnpm run lint:css && pnpm run test` before committing.
 
 ## How to add a new locale (future)
 
@@ -90,7 +90,7 @@ npm run inspect:jsonld <url>       # parse live JSON-LD blocks
 2. Update `astro.config.mjs` `i18n.locales` and `@astrojs/sitemap` config.
 3. Mirror `src/content/{profile,experience,certifications,projects,ui}/<locale>/` from EN.
 4. Add page at `src/pages/<locale>/index.astro`.
-5. Regenerate artifacts (`npm run build`).
+5. Regenerate artifacts (`pnpm run build`).
 
 ## Where things live
 
@@ -107,10 +107,10 @@ npm run inspect:jsonld <url>       # parse live JSON-LD blocks
 
 Every push to `main` triggers `.github/workflows/deploy.yml`:
 
-1. `npm ci` + `npx playwright install chromium --with-deps`
+1. `npm ci` + `pnpm exec playwright install chromium --with-deps`
 2. `astro check` (typecheck)
 3. `stylelint` (CSS lint)
-4. `npm run build` (HTML + all artifacts)
+4. `pnpm run build` (HTML + all artifacts)
 5. Playwright a11y/seo/artifacts/i18n suites
 6. Lighthouse CI (warn-only, mobile)
 7. Deploy to GitHub Pages

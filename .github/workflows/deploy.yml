@@ -18,30 +18,54 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-      - run: npm ci
-      - run: npx playwright install chromium --with-deps
-      - run: npm run typecheck
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install chromium --with-deps
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
       - name: Lint CSS
-        run: npm run lint:css
+        run: pnpm run lint:css
+
+      - name: Lint JS
+        run: pnpm run lint:js
+
       - name: Build site + all artifacts
-        run: npm run build
+        run: pnpm run build
         env:
           PUBLIC_UMAMI_ID: ${{ secrets.UMAMI_WEBSITE_ID }}
+
       - name: A11y tests
-        run: npm run test:a11y
+        run: pnpm run test:a11y
+
       - name: SEO tests
-        run: npm run test:seo
+        run: pnpm run test:seo
+
       - name: Artifacts tests
-        run: npm run test:artifacts
+        run: pnpm run test:artifacts
+
       - name: i18n tests
-        run: npm run test:i18n
+        run: pnpm run test:i18n
+
       - name: Lighthouse CI
-        run: npm run test:lhci
+        run: pnpm run test:lhci
         continue-on-error: true
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
