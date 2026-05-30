@@ -25,7 +25,6 @@ const homeLabel: Record<Locale, string> = { en: 'Portfolio', es: 'Portafolio', p
     <span>{ui.footer.copyright.replace('{year}', String(year))}</span>
     <nav aria-label="Footer">
       <a href={localePath(locale)}>{homeLabel[locale]}</a>
-      <a href={localePath(locale, 'cv')}>{ui.nav.cv}</a>
       <a href={profile.data.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href={profile.data.github} target="_blank" rel="noopener noreferrer">GitHub</a>
       <a
