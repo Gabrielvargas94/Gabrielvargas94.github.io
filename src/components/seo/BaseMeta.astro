@@ -1,6 +1,6 @@
 ---
-import { canonicalUrl, hreflangLinks, ogImageUrl } from '../../lib/seo';
-import type { Locale } from '../../lib/i18n';
+import { canonicalUrl, hreflangLinks, ogImageUrl, SITE } from '../../lib/seo';
+import { DEFAULT_LOCALE, type Locale } from '../../lib/i18n';
 
 interface Props {
   locale: Locale;
@@ -15,7 +15,12 @@ const { locale, title, description, path = '', ogImage, noindex = false } = Astr
 const canonical = canonicalUrl(locale, path);
 const og = ogImage ?? ogImageUrl(locale);
 const links = hreflangLinks(path);
-const feedUrl = canonicalUrl(locale, 'feed.xml');
+// Build feed URL manually — `canonicalUrl()` would append the trailing slash
+// (trailingSlash: 'always') turning it into `/feed.xml/` which 404s on
+// GitHub Pages. RSS readers + Google's structured-data parser need the
+// file path bare (no slash).
+const feedPrefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`;
+const feedUrl = `${SITE}${feedPrefix}/feed.xml`;
 const keywords = [
   'Head of Engineering', 'VP Engineering', 'Director of Engineering',
   'Engineering Manager', 'Senior Engineering Manager', 'AI-first Engineering',
